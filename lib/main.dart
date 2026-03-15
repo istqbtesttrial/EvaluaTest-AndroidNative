@@ -16,7 +16,7 @@ class EvaluaTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const seed = Color(0xFF2563EB);
+    const seed = Color(0xFFFF385C);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -24,11 +24,18 @@ class EvaluaTestApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: seed),
-        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        scaffoldBackgroundColor: const Color(0xFFF7F7F7),
         textTheme: const TextTheme(
-          headlineMedium: TextStyle(fontWeight: FontWeight.w800),
-          headlineSmall: TextStyle(fontWeight: FontWeight.w800),
+          headlineMedium: TextStyle(
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.6,
+          ),
+          headlineSmall: TextStyle(
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.4,
+          ),
           titleLarge: TextStyle(fontWeight: FontWeight.w700),
+          titleMedium: TextStyle(fontWeight: FontWeight.w700),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
@@ -38,16 +45,16 @@ class EvaluaTestApp extends StatelessWidget {
             vertical: 18,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: const BorderSide(color: Color(0xFFEBEBEB)),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: const BorderSide(color: Color(0xFFEBEBEB)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: seed, width: 1.5),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: const BorderSide(color: seed, width: 1.4),
           ),
         ),
       ),
@@ -84,9 +91,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
     return FutureBuilder<BootstrapData>(
       future: _future,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const SplashLoadingScreen();
-        }
+        if (!snapshot.hasData) return const SplashLoadingScreen();
         return EvaluaTestHome(data: snapshot.data!);
       },
     );
@@ -99,7 +104,6 @@ class BootstrapData {
     required this.prefs,
     required this.history,
   });
-
   final QuestionCatalog catalog;
   final SharedPreferences prefs;
   final StatsStore history;
@@ -109,7 +113,6 @@ enum AppStage { login, dashboard, exam, results }
 
 class EvaluaTestHome extends StatefulWidget {
   const EvaluaTestHome({super.key, required this.data});
-
   final BootstrapData data;
 
   @override
@@ -140,9 +143,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     if (savedName != null && savedName.isNotEmpty) {
       _displayName = savedName;
       _usernameController.text = savedName;
-      if (_rememberMe) {
-        _stage = AppStage.dashboard;
-      }
+      if (_rememberMe) _stage = AppStage.dashboard;
     }
   }
 
@@ -163,14 +164,12 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
       setState(() => _loginError = 'Entre ton login et ton mot de passe.');
       return;
     }
-
     await widget.data.prefs.setBool('remember_me', _rememberMe);
     if (_rememberMe) {
       await widget.data.prefs.setString('display_name', username);
     } else {
       await widget.data.prefs.remove('display_name');
     }
-
     setState(() {
       _displayName = username;
       _loginError = null;
@@ -197,17 +196,14 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
       questions: questions,
       answers: List<int?>.filled(questions.length, null),
     );
-
     _pageNotifier.value = 0;
     _pageController.jumpToPage(0);
     _timer?.cancel();
-
     setState(() {
       _session = session;
       _remaining = const Duration(minutes: 75);
       _stage = AppStage.exam;
     });
-
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
       if (_remaining.inSeconds <= 1) {
@@ -229,7 +225,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     _pageNotifier.value = index;
     _pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 220),
+      duration: const Duration(milliseconds: 240),
       curve: Curves.easeOutCubic,
     );
   }
@@ -239,7 +235,6 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     if (session == null) return;
     _timer?.cancel();
     session.completedAt = DateTime.now();
-
     final entry = SessionRecord(
       timestamp: DateTime.now(),
       score: session.score,
@@ -248,7 +243,6 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     );
     _stats = _stats.add(entry);
     await _stats.save(widget.data.prefs);
-
     setState(() => _stage = AppStage.results);
   }
 
@@ -261,7 +255,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
           passwordController: _passwordController,
           rememberMe: _rememberMe,
           loginError: _loginError,
-          onRememberChanged: (value) => setState(() => _rememberMe = value),
+          onRememberChanged: (v) => setState(() => _rememberMe = v),
           onLogin: _login,
           stats: _stats,
         );
@@ -300,26 +294,17 @@ class SplashLoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: const Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(color: Colors.white),
-              SizedBox(height: 18),
-              Text(
-                'Préparation de l’expérience native…',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.home_work_outlined, size: 44, color: Color(0xFFFF385C)),
+            SizedBox(height: 16),
+            CircularProgressIndicator(color: Color(0xFFFF385C)),
+            SizedBox(height: 16),
+            Text('Préparation de l’expérience…'),
+          ],
         ),
       ),
     );
@@ -349,121 +334,128 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF172554), Color(0xFF2563EB)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(24),
-            children: [
-              const SizedBox(height: 12),
-              const Text(
-                'EvaluaTest',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.w900,
-                ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+          children: [
+            const Text(
+              'EvaluaTest',
+              style: TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -0.8,
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Version Flutter native. Plus premium, plus stable, plus crédible sur téléphone réel.',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 28),
-              GlassCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const PremiumPill(label: 'Connexion premium'),
-                    const SizedBox(height: 14),
-                    const Text(
-                      'Connexion',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Une expérience d’examen plus calme, plus nette, plus premium.',
+              style: TextStyle(color: Color(0xFF6A6A6A), height: 1.45),
+            ),
+            const SizedBox(height: 24),
+            SearchPill(
+              icon: Icons.school_outlined,
+              title: 'Foundation Level',
+              subtitle: '40 questions • 75 minutes • mobile native',
+              actionLabel: 'Entrer',
+            ),
+            const SizedBox(height: 18),
+            SoftCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Connexion',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Simple, propre, rassurante — sans surcharge visuelle.',
+                    style: TextStyle(color: Color(0xFF6A6A6A)),
+                  ),
+                  const SizedBox(height: 18),
+                  TextField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Login',
+                      prefixIcon: Icon(Icons.person_outline),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    onSubmitted: (_) => onLogin(),
+                    decoration: const InputDecoration(
+                      labelText: 'Mot de passe',
+                      prefixIcon: Icon(Icons.lock_outline),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: rememberMe,
+                        onChanged: (v) => onRememberChanged(v ?? false),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Base simple pour l’instant, mais solide et agréable à utiliser.',
-                    ),
-                    const SizedBox(height: 18),
-                    TextField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Login',
-                        prefixIcon: Icon(Icons.person_outline),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      onSubmitted: (_) => onLogin(),
-                      decoration: const InputDecoration(
-                        labelText: 'Mot de passe',
-                        prefixIcon: Icon(Icons.lock_outline),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Switch(value: rememberMe, onChanged: onRememberChanged),
-                        const SizedBox(width: 8),
-                        const Expanded(child: Text('Rester connecté')),
-                      ],
-                    ),
-                    if (loginError != null) ...[
-                      const SizedBox(height: 8),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFEF2F2),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Text(
-                          loginError!,
-                          style: const TextStyle(color: Color(0xFF991B1B)),
-                        ),
-                      ),
+                      const Text('Rester connecté'),
                     ],
-                    const SizedBox(height: 18),
-                    FilledButton.icon(
-                      onPressed: onLogin,
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(58),
+                  ),
+                  if (loginError != null) ...[
+                    const SizedBox(height: 8),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF1F2),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      icon: const Icon(Icons.arrow_forward_rounded),
-                      label: const Text('Entrer dans l’espace élève'),
+                      child: Text(
+                        loginError!,
+                        style: const TextStyle(color: Color(0xFFB42318)),
+                      ),
                     ),
                   ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  StatChip(label: 'Sessions', value: '${stats.attempts}'),
-                  StatChip(
-                    label: 'Meilleur score',
-                    value: stats.bestScoreLabel,
+                  const SizedBox(height: 14),
+                  FilledButton(
+                    onPressed: onLogin,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF385C),
+                      minimumSize: const Size.fromHeight(56),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    child: const Text('Entrer dans l’espace élève'),
                   ),
-                  StatChip(label: 'Temps moyen', value: stats.averageTimeLabel),
                 ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                Expanded(
+                  child: TinyMetric(
+                    title: 'Sessions',
+                    value: '${stats.attempts}',
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TinyMetric(
+                    title: 'Meilleur score',
+                    value: stats.bestScoreLabel,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TinyMetric(
+                    title: 'Temps moyen',
+                    value: stats.averageTimeLabel,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -489,128 +481,132 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+        children: [
+          Row(
+            children: [
+              const CircleAvatar(
+                radius: 22,
+                backgroundColor: Color(0xFFFFF1F2),
+                child: Icon(Icons.school_outlined, color: Color(0xFFFF385C)),
               ),
-              child: SafeArea(
-                bottom: false,
+              const SizedBox(width: 12),
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Salut $displayName',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Tu as maintenant une base Android native avec historique local et stats persistées.',
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.9),
-                                  height: 1.4,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton.filledTonal(
-                          onPressed: onLogout,
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.white.withValues(
-                              alpha: 0.14,
-                            ),
-                          ),
-                          icon: const Icon(Icons.logout, color: Colors.white),
-                        ),
-                      ],
+                    Text(
+                      'Salut $displayName',
+                      style: const TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: -0.7,
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: [
-                        HeroMetric(
-                          label: 'Dernier score',
-                          value: stats.lastScoreLabel,
-                          icon: Icons.flag_outlined,
-                        ),
-                        HeroMetric(
-                          label: 'Meilleur score',
-                          value: stats.bestScoreLabel,
-                          icon: Icons.emoji_events_outlined,
-                        ),
-                        HeroMetric(
-                          label: 'Tentatives',
-                          value: '${stats.attempts}',
-                          icon: Icons.history_outlined,
-                        ),
-                        HeroMetric(
-                          label: 'Temps moyen',
-                          value: stats.averageTimeLabel,
-                          icon: Icons.timer_outlined,
-                        ),
-                      ],
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Prêt pour une session propre et fluide ?',
+                      style: TextStyle(color: Color(0xFF6A6A6A)),
                     ),
                   ],
                 ),
               ),
+              IconButton(
+                onPressed: onLogout,
+                icon: const Icon(Icons.logout_rounded),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          SearchPill(
+            icon: Icons.play_circle_outline,
+            title: 'Examen blanc Foundation Level',
+            subtitle: 'Lancer une session complète maintenant',
+            actionLabel: 'Go',
+            onTap: onStartExam,
+          ),
+          const SizedBox(height: 18),
+          const SectionTitle(
+            title: 'Tableau de bord',
+            subtitle: 'Des infos simples, utiles, sans bruit.',
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 146,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children:
+                  [
+                        DashboardCard(
+                          title: 'Dernier score',
+                          value: stats.lastScoreLabel,
+                          icon: Icons.history,
+                        ),
+                        DashboardCard(
+                          title: 'Meilleur score',
+                          value: stats.bestScoreLabel,
+                          icon: Icons.workspace_premium_outlined,
+                        ),
+                        DashboardCard(
+                          title: 'Tentatives',
+                          value: '${stats.attempts}',
+                          icon: Icons.repeat_rounded,
+                        ),
+                        DashboardCard(
+                          title: 'Temps moyen',
+                          value: stats.averageTimeLabel,
+                          icon: Icons.timer_outlined,
+                        ),
+                      ]
+                      .map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: e,
+                        ),
+                      )
+                      .toList(),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverList.list(
-              children: [
-                GradientActionCard(onStartExam: onStartExam),
-                const SizedBox(height: 20),
-                SectionTitle(
-                  title: 'Historique récent',
-                  subtitle: stats.records.isEmpty
-                      ? 'Aucune session enregistrée pour le moment.'
-                      : 'Tes dernières sessions sont sauvegardées localement.',
-                ),
-                const SizedBox(height: 12),
-                if (stats.records.isEmpty)
-                  const EmptyHistoryCard()
-                else
-                  ...stats.records
-                      .take(5)
-                      .map((record) => HistoryCard(record: record)),
-                const SizedBox(height: 20),
-                SectionTitle(
-                  title: 'Base de contenu',
-                  subtitle:
-                      '${catalog.totalQuestions} questions réparties sur ${catalog.chapters.length} chapitres.',
-                ),
-                const SizedBox(height: 12),
-                ...catalog.chapters.map(
-                  (chapter) => ChapterPreviewCard(chapter: chapter),
-                ),
-              ],
-            ),
+          const SizedBox(height: 18),
+          const SectionTitle(
+            title: 'Historique récent',
+            subtitle: 'Les dernières sessions sauvegardées localement.',
           ),
+          const SizedBox(height: 12),
+          if (stats.records.isEmpty)
+            const SoftCard(
+              child: Text(
+                'Aucune session encore. Lance un premier examen pour remplir cet espace.',
+              ),
+            )
+          else
+            ...stats.records.take(5).map((r) => HistoryCard(record: r)),
+          const SizedBox(height: 18),
+          SectionTitle(
+            title: 'Base de questions',
+            subtitle:
+                '${catalog.totalQuestions} questions disponibles sur ${catalog.chapters.length} chapitres.',
+          ),
+          const SizedBox(height: 12),
+          ...catalog.chapters.map((c) => ChapterPreviewCard(chapter: c)),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 72,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            BottomNavChip(
+              icon: Icons.home_rounded,
+              label: 'Accueil',
+              active: true,
+            ),
+            BottomNavChip(icon: Icons.quiz_outlined, label: 'Examens'),
+            BottomNavChip(icon: Icons.insights_outlined, label: 'Stats'),
+          ],
+        ),
       ),
     );
   }
@@ -653,18 +649,16 @@ class ExamScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Mode examen',
-                              style: TextStyle(
-                                color: Color(0xFF475569),
-                                fontWeight: FontWeight.w600,
-                              ),
+                              'Session en cours',
+                              style: TextStyle(color: Color(0xFF6A6A6A)),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               '${session.answeredCount}/${session.questions.length} répondues',
                               style: const TextStyle(
                                 fontSize: 24,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: -0.6,
                               ),
                             ),
                           ],
@@ -673,43 +667,47 @@ class ExamScreen extends StatelessWidget {
                       TimerChip(value: formatDuration(remaining)),
                     ],
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 12),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(999),
                     child: LinearProgressIndicator(
                       value: session.answeredCount / session.questions.length,
-                      minHeight: 10,
-                      backgroundColor: const Color(0xFFE2E8F0),
+                      minHeight: 9,
+                      backgroundColor: const Color(0xFFEBEBEB),
+                      valueColor: const AlwaysStoppedAnimation(
+                        Color(0xFFFF385C),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 12),
                   SizedBox(
-                    height: 42,
+                    height: 40,
                     child: ValueListenableBuilder<int>(
                       valueListenable: pageNotifier,
-                      builder: (context, currentPage, _) {
+                      builder: (context, current, _) {
                         return ListView.separated(
                           scrollDirection: Axis.horizontal,
+                          itemCount: session.questions.length,
+                          separatorBuilder: (_, _) => const SizedBox(width: 8),
                           itemBuilder: (context, index) {
+                            final active = current == index;
                             final answered = session.answers[index] != null;
-                            final active = currentPage == index;
-                            return InkWell(
+                            return GestureDetector(
                               onTap: () => onGoToPage(index),
-                              borderRadius: BorderRadius.circular(999),
                               child: Container(
                                 width: 38,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: active
-                                      ? const Color(0xFF2563EB)
+                                      ? const Color(0xFFFF385C)
                                       : answered
-                                      ? const Color(0xFFDBEAFE)
+                                      ? const Color(0xFFFFF1F2)
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(999),
                                   border: Border.all(
                                     color: active
-                                        ? const Color(0xFF2563EB)
-                                        : const Color(0xFFE2E8F0),
+                                        ? const Color(0xFFFF385C)
+                                        : const Color(0xFFEBEBEB),
                                   ),
                                 ),
                                 child: Text(
@@ -718,14 +716,12 @@ class ExamScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                     color: active
                                         ? Colors.white
-                                        : const Color(0xFF0F172A),
+                                        : Colors.black87,
                                   ),
                                 ),
                               ),
                             );
                           },
-                          separatorBuilder: (_, _) => const SizedBox(width: 8),
-                          itemCount: session.questions.length,
                         );
                       },
                     ),
@@ -736,10 +732,10 @@ class ExamScreen extends StatelessWidget {
             Expanded(
               child: PageView.builder(
                 controller: pageController,
-                onPageChanged: (value) => pageNotifier.value = value,
+                onPageChanged: (v) => pageNotifier.value = v,
                 itemCount: session.questions.length,
                 itemBuilder: (context, index) {
-                  final question = session.questions[index];
+                  final q = session.questions[index];
                   final selected = session.answers[index];
                   final last = index == session.questions.length - 1;
                   return ListView(
@@ -750,36 +746,35 @@ class ExamScreen extends StatelessWidget {
                           PremiumPill(label: 'Question ${index + 1}'),
                           const Spacer(),
                           Text(
-                            question.chapterTitle,
+                            q.chapterTitle,
                             style: const TextStyle(
-                              color: Color(0xFF64748B),
+                              color: Color(0xFF6A6A6A),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      GlassCard(
+                      const SizedBox(height: 14),
+                      SoftCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              question.enonce,
+                              q.enonce,
                               style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                height: 1.45,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                                height: 1.42,
+                                letterSpacing: -0.4,
                               ),
                             ),
-                            const SizedBox(height: 22),
-                            ...List.generate(question.choices.length, (
-                              choiceIndex,
-                            ) {
+                            const SizedBox(height: 20),
+                            ...List.generate(q.choices.length, (choiceIndex) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: ChoiceTile(
                                   label: optionLetter(choiceIndex),
-                                  text: question.choices[choiceIndex],
+                                  text: q.choices[choiceIndex],
                                   selected: selected == choiceIndex,
                                   onTap: () => onAnswer(index, choiceIndex),
                                 ),
@@ -788,7 +783,7 @@ class ExamScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
                           if (index > 0)
@@ -808,7 +803,11 @@ class ExamScreen extends StatelessWidget {
                                   ? onSubmit
                                   : () => onGoToPage(index + 1),
                               style: FilledButton.styleFrom(
+                                backgroundColor: const Color(0xFFFF385C),
                                 minimumSize: const Size.fromHeight(52),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
                               ),
                               child: Text(
                                 last ? 'Valider l’examen' : 'Suivant',
@@ -818,7 +817,7 @@ class ExamScreen extends StatelessWidget {
                         ],
                       ),
                       if (last) ...[
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 14),
                         SubmitSummaryCard(session: session),
                       ],
                     ],
@@ -849,198 +848,156 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final score = session.score;
-    final total = session.questions.length;
-    final percent = ((score / total) * 100).round();
+    final percent = ((session.score / session.questions.length) * 100).round();
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(22),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x14000000),
+                  blurRadius: 24,
+                  offset: Offset(0, 10),
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const PremiumPill(label: 'Résultats'),
+                const SizedBox(height: 14),
+                Text(
+                  '$percent%',
+                  style: const TextStyle(
+                    fontSize: 46,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  '${session.score}/${session.questions.length} bonnes réponses',
+                  style: const TextStyle(color: Color(0xFF6A6A6A)),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: TinyMetric(
+                  title: 'Meilleur score',
+                  value: stats.bestScoreLabel,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TinyMetric(
+                  title: 'Dernier score',
+                  value: stats.lastScoreLabel,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TinyMetric(
+                  title: 'Temps',
+                  value: formatDuration(session.timeSpent),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          const SectionTitle(
+            title: 'Correction',
+            subtitle: 'Lecture claire, compacte, utile.',
+          ),
+          const SizedBox(height: 12),
+          ...List.generate(session.questions.length, (index) {
+            final q = session.questions[index];
+            final answer = session.answers[index];
+            final ok = answer == q.correctIndex;
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFFEBEBEB)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const PremiumPill(label: 'Résultats'),
-                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      PremiumPill(label: 'Q${index + 1}'),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          q.chapterTitle,
+                          style: const TextStyle(
+                            color: Color(0xFF6A6A6A),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        ok ? Icons.check_circle : Icons.cancel,
+                        color: ok
+                            ? const Color(0xFF1A7F37)
+                            : const Color(0xFFD92D20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   Text(
-                    '$percent%',
+                    q.enonce,
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 44,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
+                      height: 1.4,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '$score / $total bonnes réponses',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.92),
-                      fontSize: 16,
+                    'Ta réponse : ${answer == null ? 'Non répondue' : q.choices[answer]}',
+                    style: const TextStyle(color: Color(0xFF6A6A6A)),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Bonne réponse : ${q.choices[q.correctIndex]}',
+                    style: const TextStyle(
+                      color: Color(0xFF1A7F37),
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                HeroMetric(
-                  label: 'Meilleur score',
-                  value: stats.bestScoreLabel,
-                  icon: Icons.workspace_premium_outlined,
-                ),
-                HeroMetric(
-                  label: 'Dernier score',
-                  value: stats.lastScoreLabel,
-                  icon: Icons.history_toggle_off,
-                ),
-                HeroMetric(
-                  label: 'Temps utilisé',
-                  value: formatDuration(session.timeSpent),
-                  icon: Icons.timer_outlined,
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const SectionTitle(
-              title: 'Correction rapide',
-              subtitle: 'Lecture propre et immédiate question par question.',
-            ),
-            const SizedBox(height: 12),
-            ...List.generate(total, (index) {
-              final q = session.questions[index];
-              final answer = session.answers[index];
-              final ok = answer == q.correctIndex;
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.all(18),
-                decoration: softCard,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        PremiumPill(label: 'Q${index + 1}'),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            q.chapterTitle,
-                            style: const TextStyle(
-                              color: Color(0xFF64748B),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          ok ? Icons.check_circle : Icons.cancel,
-                          color: ok
-                              ? const Color(0xFF16A34A)
-                              : const Color(0xFFDC2626),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      q.enonce,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Ta réponse : ${answer == null ? 'Non répondue' : q.choices[answer]}',
-                      style: const TextStyle(color: Color(0xFF475569)),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Bonne réponse : ${q.choices[q.correctIndex]}',
-                      style: const TextStyle(
-                        color: Color(0xFF16A34A),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            const SizedBox(height: 8),
-            FilledButton.icon(
-              onPressed: onRestart,
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(54),
+            );
+          }),
+          const SizedBox(height: 8),
+          FilledButton(
+            onPressed: onRestart,
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFFFF385C),
+              minimumSize: const Size.fromHeight(54),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
               ),
-              icon: const Icon(Icons.replay_rounded),
-              label: const Text('Relancer un examen'),
             ),
-            const SizedBox(height: 10),
-            OutlinedButton(
-              onPressed: onBackToDashboard,
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(54),
-              ),
-              child: const Text('Retour au dashboard'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class GradientActionCard extends StatelessWidget {
-  const GradientActionCard({super.key, required this.onStartExam});
-  final VoidCallback onStartExam;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF1E293B), Color(0xFF2563EB)],
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Examen blanc Foundation Level',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            ),
+            child: const Text('Relancer un examen'),
           ),
           const SizedBox(height: 10),
-          Text(
-            '40 questions • 75 minutes • navigation fluide • historique local sauvegardé',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.9),
-              height: 1.4,
+          OutlinedButton(
+            onPressed: onBackToDashboard,
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size.fromHeight(54),
             ),
-          ),
-          const SizedBox(height: 18),
-          FilledButton.icon(
-            onPressed: onStartExam,
-            style: FilledButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: const Color(0xFF0F172A),
-              minimumSize: const Size.fromHeight(56),
-            ),
-            icon: const Icon(Icons.play_arrow_rounded),
-            label: const Text('Commencer l’examen'),
+            child: const Text('Retour au dashboard'),
           ),
         ],
       ),
@@ -1048,26 +1005,213 @@ class GradientActionCard extends StatelessWidget {
   }
 }
 
-class GlassCard extends StatelessWidget {
-  const GlassCard({super.key, required this.child});
+class SearchPill extends StatelessWidget {
+  const SearchPill({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.actionLabel,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final String actionLabel;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(999),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x16000000),
+            blurRadius: 24,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFF1F2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: const Color(0xFFFF385C)),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Color(0xFF6A6A6A),
+                    fontSize: 12.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFFFF385C),
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              actionLabel,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (onTap == null) return child;
+    return GestureDetector(onTap: onTap, child: child);
+  }
+}
+
+class SoftCard extends StatelessWidget {
+  const SoftCard({super.key, required this.child});
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(22),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.96),
-        borderRadius: BorderRadius.circular(28),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x220F172A),
-            blurRadius: 30,
-            offset: Offset(0, 18),
+            color: Color(0x12000000),
+            blurRadius: 22,
+            offset: Offset(0, 8),
           ),
         ],
       ),
       child: child,
+    );
+  }
+}
+
+class TinyMetric extends StatelessWidget {
+  const TinyMetric({super.key, required this.title, required this.value});
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w800)),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 12, color: Color(0xFF6A6A6A)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DashboardCard extends StatelessWidget {
+  const DashboardCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.icon,
+  });
+  final String title;
+  final String value;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 164,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: const Color(0xFFFF385C)),
+          const Spacer(),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 23,
+              fontWeight: FontWeight.w900,
+              letterSpacing: -0.4,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(title, style: const TextStyle(color: Color(0xFF6A6A6A))),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomNavChip extends StatelessWidget {
+  const BottomNavChip({
+    super.key,
+    required this.icon,
+    required this.label,
+    this.active = false,
+  });
+  final IconData icon;
+  final String label;
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = active ? const Color(0xFFFF385C) : const Color(0xFF6A6A6A);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: color,
+            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -1081,103 +1225,15 @@ class PremiumPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF),
+        color: const Color(0xFFFFF1F2),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
         label,
         style: const TextStyle(
-          color: Color(0xFF1D4ED8),
+          color: Color(0xFFFF385C),
           fontWeight: FontWeight.w700,
         ),
-      ),
-    );
-  }
-}
-
-class HeroMetric extends StatelessWidget {
-  const HeroMetric({
-    super.key,
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-  final String label;
-  final String value;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: const Color(0xFF2563EB)),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-          ),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(color: Color(0xFF475569))),
-        ],
-      ),
-    );
-  }
-}
-
-class StatChip extends StatelessWidget {
-  const StatChip({super.key, required this.label, required this.value});
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.82)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class EmptyHistoryCard extends StatelessWidget {
-  const EmptyHistoryCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: softCard,
-      child: const Text(
-        'Dès que tu termines un premier examen, le dashboard affichera dernier score, meilleur score, temps moyen et historique récent.',
       ),
     );
   }
@@ -1192,23 +1248,27 @@ class HistoryCard extends StatelessWidget {
     final percent = ((record.score / record.totalQuestions) * 100).round();
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(18),
-      decoration: softCard,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
+      ),
       child: Row(
         children: [
           Container(
-            width: 54,
-            height: 54,
+            width: 52,
+            height: 52,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: const Color(0xFFDBEAFE),
-              borderRadius: BorderRadius.circular(18),
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFF1F2),
+              shape: BoxShape.circle,
             ),
             child: Text(
               '$percent%',
               style: const TextStyle(
+                color: Color(0xFFFF385C),
                 fontWeight: FontWeight.w800,
-                color: Color(0xFF1D4ED8),
               ),
             ),
           ),
@@ -1224,7 +1284,7 @@ class HistoryCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '${record.friendlyDate} • ${formatDuration(Duration(seconds: record.durationSeconds))}',
-                  style: const TextStyle(color: Color(0xFF475569)),
+                  style: const TextStyle(color: Color(0xFF6A6A6A)),
                 ),
               ],
             ),
@@ -1247,12 +1307,16 @@ class SectionTitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+            letterSpacing: -0.5,
+          ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         Text(
           subtitle,
-          style: const TextStyle(color: Color(0xFF475569), height: 1.4),
+          style: const TextStyle(color: Color(0xFF6A6A6A), height: 1.4),
         ),
       ],
     );
@@ -1268,7 +1332,11 @@ class ChapterPreviewCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(18),
-      decoration: softCard,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1279,7 +1347,7 @@ class ChapterPreviewCard extends StatelessWidget {
               Text(
                 '${chapter.questionCount} questions',
                 style: const TextStyle(
-                  color: Color(0xFF64748B),
+                  color: Color(0xFF6A6A6A),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1295,7 +1363,7 @@ class ChapterPreviewCard extends StatelessWidget {
             chapter.sampleQuestion,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Color(0xFF475569), height: 1.45),
+            style: const TextStyle(color: Color(0xFF6A6A6A), height: 1.4),
           ),
         ],
       ),
@@ -1311,6 +1379,7 @@ class ChoiceTile extends StatelessWidget {
     required this.selected,
     required this.onTap,
   });
+
   final String label;
   final String text;
   final bool selected;
@@ -1319,20 +1388,20 @@ class ChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? const Color(0xFFEFF6FF) : Colors.white,
-      borderRadius: BorderRadius.circular(20),
+      color: selected ? const Color(0xFFFFF1F2) : Colors.white,
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: selected
-                  ? const Color(0xFF2563EB)
-                  : const Color(0xFFE2E8F0),
-              width: selected ? 1.6 : 1,
+                  ? const Color(0xFFFF385C)
+                  : const Color(0xFFEBEBEB),
+              width: selected ? 1.5 : 1,
             ),
           ),
           child: Row(
@@ -1344,15 +1413,15 @@ class ChoiceTile extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: selected
-                      ? const Color(0xFF2563EB)
-                      : const Color(0xFFF1F5F9),
+                      ? const Color(0xFFFF385C)
+                      : const Color(0xFFF7F7F7),
                   shape: BoxShape.circle,
                 ),
                 child: Text(
                   label,
                   style: TextStyle(
                     fontWeight: FontWeight.w800,
-                    color: selected ? Colors.white : const Color(0xFF0F172A),
+                    color: selected ? Colors.white : Colors.black87,
                   ),
                 ),
               ),
@@ -1375,18 +1444,19 @@ class TimerChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFEF3C7),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.timer_outlined, color: Color(0xFF92400E)),
+          const Icon(Icons.timer_outlined, color: Color(0xFFFF385C), size: 18),
           const SizedBox(width: 8),
           Text(
             value,
             style: const TextStyle(
-              color: Color(0xFF92400E),
+              color: Color(0xFF111111),
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -1405,25 +1475,22 @@ class SubmitSummaryCard extends StatelessWidget {
     final unanswered = session.questions.length - session.answeredCount;
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: const BoxDecoration(
-        color: Color(0xFF0F172A),
-        borderRadius: BorderRadius.all(Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Résumé avant validation',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontSize: 18,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           ),
           const SizedBox(height: 10),
           Text(
             'Répondues : ${session.answeredCount} • Non répondues : $unanswered',
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.88)),
+            style: const TextStyle(color: Color(0xFF6A6A6A)),
           ),
         ],
       ),
@@ -1627,11 +1694,3 @@ String formatDuration(Duration duration) {
   final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
   return '$hours:$minutes:$seconds';
 }
-
-final BoxDecoration softCard = BoxDecoration(
-  color: Colors.white,
-  borderRadius: BorderRadius.circular(24),
-  boxShadow: const [
-    BoxShadow(color: Color(0x120F172A), blurRadius: 28, offset: Offset(0, 14)),
-  ],
-);
