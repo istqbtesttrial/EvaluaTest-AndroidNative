@@ -1232,7 +1232,9 @@ class SearchPill extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            width: 52,
+            height: 52,
+            alignment: Alignment.center,
             decoration: const BoxDecoration(
               color: Color(0xFF3B82F6),
               shape: BoxShape.circle,
@@ -1249,7 +1251,14 @@ class SearchPill extends StatelessWidget {
       ),
     );
     if (onTap == null) return child;
-    return GestureDetector(onTap: onTap, child: child);
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: child,
+      ),
+    );
   }
 }
 
