@@ -1,0 +1,140 @@
+{
+  "chapterId": 6,
+  "title": "Chapitre 6",
+  "enonceFormat": "markdown",
+  "questions": [
+    {
+      "questionId": "6-1",
+      "enonce": "Lequel des énoncés suivants est un exemple d’outil qui prend en charge les tests statiques ?",
+      "choices": [
+        "Un outil qui aide à suivre les résultats des revues",
+        "Un outil de suivi des défauts",
+        "Un outil d’automatisation de tests",
+        "Un outil qui aide à concevoir des cas de test pour les tests de sécurité"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "6-2",
+      "enonce": "Lequel des énoncés suivants est un avantage de l’automatisation des tests ?",
+      "choices": [
+        "L’exécution des tests est plus rapide",
+        "Les tests manuels deviennent obsolètes",
+        "Le retour sur investissement (ROI) est simple à déterminer",
+        "L’implémentation des tests est plus rapide"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "6-3",
+      "enonce": "Quel est l’objectif principal d’un outil d’exécution de tests (test execution tool) ?",
+      "choices": [
+        "Il exécute des scripts de test automatisés pour tester l’objet de test",
+        "Il enregistre automatiquement les défauts dans le système de suivi des défauts",
+        "Il analyse le code pour déterminer s’il y a des violations de normes de codage",
+        "Il gère les cas de test, les défauts et la traçabilité des exigences"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "6-4",
+      "enonce": "Lequel des énoncés suivants constitue un risque lié à l’automatisation des tests ?",
+      "choices": [
+        "Utiliser un outil d’automatisation qui ne sera plus pris en charge à l’avenir",
+        "Développer l’automatisation pour des zones de test manuel particulièrement pénibles",
+        "Faire appel à des testeurs techniques pour mettre en place l’automatisation",
+        "Développer un reporting automatisé"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "6-5",
+      "enonce": "Quelle activité de test un outil de préparation de données prend-il en charge ?",
+      "choices": [
+        "Le suivi et le contrôle du test",
+        "L’analyse des tests",
+        "La conception et l’implémentation des tests",
+        "La clôture des tests"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "6-6",
+      "enonce": "Lequel des énoncés identifie correctement un risque potentiel de l’automatisation des tests ?",
+      "choices": [
+        "Elle peut introduire des régressions inconnues en production",
+        "Les efforts nécessaires à la maintenance du testware peuvent ne pas être correctement alloués",
+        "Les outils et testware associés peuvent ne pas être suffisamment fiables",
+        "Elle peut réduire le temps dédié aux tests manuels"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "6-7",
+      "enonceFormat": "markdown",
+      "enonce": "Étant donné les descriptions suivantes :\n1. Supporter le suivi du flux de travail\n2. Faciliter la communication\n3. Machines virtuelles\n4. Soutenir les revues\n\nEt les catégories d’outils suivantes :\nA. Outils de test statique\nB. Outils de support de la scalabilité et de la standardisation du déploiement\nC. Outils DevOps\nD. Outils de collaboration\n\nLequel des appariements suivants décrit LE MIEUX ces descriptions et catégories ?",
+      "choices": [
+        "1A, 2B, 3C, 4D",
+        "1B, 2D, 3C, 4A",
+        "1C, 2D, 3B, 4A",
+        "1D, 2C, 3A, 4B"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "6-8",
+      "enonce": "Lequel des énoncés suivants est le PLUS susceptible d’être un avantage de l’automatisation des tests ?",
+      "choices": [
+        "Il fournit des mesures de couverture trop complexes pour que l’humain puisse les déduire",
+        "Il partage la responsabilité du test avec le fournisseur de l’outil",
+        "Il élimine la nécessité d’une réflexion critique lors de l’analyse des résultats",
+        "Il génère des cas de test à partir d’une analyse du code"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "6-9",
+      "enonce": "Les outils de quelle catégorie aident à organiser les cas de test, les défauts détectés et la gestion de configuration ?",
+      "choices": [
+        "Les outils d’exécution et de couverture",
+        "Les outils de conception et d’implémentation des tests",
+        "Les outils de gestion des défauts",
+        "Les outils de gestion de test"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "6-10",
+      "enonce": "Quel est l’un des avantages potentiels de l’utilisation d’un outil d’automatisation des tests ?",
+      "choices": [
+        "La qualité des défauts s’améliorera",
+        "Accès facilité aux statistiques sur la progression des tests",
+        "L’espace disque n’est pas nécessaire pour suivre les versions des artefacts de test",
+        "Moins de trafic réseau généré"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "6-11",
+      "enonce": "Lequel des énoncés suivants est LE PLUS susceptible d’être un avantage de l’automatisation des tests ?",
+      "choices": [
+        "La possibilité de générer des cas de test sans accès à la base de tests",
+        "La réalisation d’une couverture accrue via une évaluation plus objective",
+        "La hausse du temps d’exécution des tests grâce à une puissance de calcul supérieure",
+        "La réduction des erreurs humaines grâce à une plus grande cohérence et répétabilité"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "6-12",
+      "enonce": "Quelle est une fonction clé d’un outil de gestion de tests ?",
+      "choices": [
+        "Facilite la gestion et le contrôle des activités de test",
+        "Génère des données de test basées sur des critères de gestion de tests",
+        "Génère des spécifications de test détaillées basées sur le plan de test",
+        "Analyse et applique les normes de codage et de test"
+      ],
+      "correctIndex": 0
+    }
+  ]
+}

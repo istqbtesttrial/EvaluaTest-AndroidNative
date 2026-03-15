@@ -1,0 +1,953 @@
+{
+  "chapterId": 4,
+  "title": "Chapitre 4",
+  "enonceFormat": "markdown",
+  "questions": [
+    {
+      "questionId": "4-1",
+      "enonce": "Quelle technique de test utilise les spécifications des exigences comme base de test ?",
+      "choices": [
+        "Basée sur la structure",
+        "Boîte noire (Black-box)",
+        "Boîte blanche (White-box)",
+        "Exploratoire"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-2",
+      "enonce": "Si vous testez un module de code, comment déterminez-vous le niveau de couverture des branches atteint ?",
+      "choices": [
+        "En prenant le nombre de branches testées et en le divisant par le nombre total d’instructions exécutables du module",
+        "En prenant le nombre de branches testées et en le divisant par le nombre total de branches dans le module",
+        "En prenant le nombre de branches testées et en le divisant par le nombre total de lignes de code dans le module",
+        "En prenant le nombre de branches testées et en le divisant par le nombre total de cas de test exécutés pour le module"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-3",
+      "enonce": "Si vous avez un bloc de code avec une simple instruction IF, combien de tests sont nécessaires pour obtenir 100 % de couverture des branches ?",
+      "choices": [
+        "1",
+        "2",
+        "5",
+        "Inconnu avec ces informations"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-4",
+      "enonce": "Quelle est une bonne raison d’utiliser des tests basés sur l’expérience ?",
+      "choices": [
+        "Vous pouvez trouver des défauts qui pourraient être manqués par des techniques plus formelles",
+        "Vous pouvez tester des défauts que seuls des utilisateurs expérimentés rencontreraient",
+        "Vous pouvez orienter les efforts du développeur vers les zones que les utilisateurs sont plus susceptibles d’utiliser",
+        "Cela est fortement outillé et peut être automatisé"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-5",
+      "enonce": "Qu’est-ce que l’estimation d’erreur (error guessing) ?",
+      "choices": [
+        "Une technique de test pour deviner où un développeur a probablement fait une erreur",
+        "Une technique pour évaluer les métriques de défauts",
+        "Une technique de développement pour vérifier que tous les chemins d’erreur sont codés",
+        "Une technique de planification pour anticiper les écarts probables d’échéancier dus aux défauts"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-6",
+      "enonce": "Lorsque vous utilisez la technique des 3 C’s pour rédiger des User Stories, quel livrable est créé pour la partie Confirmation ?",
+      "choices": [
+        "La stratégie de test",
+        "Les critères d’acceptation",
+        "Les critères d’entrée",
+        "Les critères de sortie"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-7",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez une machine qui corrige des copies d’examen et attribue des notes. Les résultats sont : de 1 à 49 = F, de 50 à 59 = D-, de 60 à 69 = D, de 70 à 79 = C, de 80 à 89 = B, de 90 à 100 = A.\nSi vous appliquez la partition d’équivalence, combien de cas de test sont nécessaires pour obtenir la couverture de test minimale ?",
+      "choices": [
+        "6",
+        "8",
+        "10",
+        "12"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-8",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un thermostat pour un système de chauffage/climatisation. Les spécifications sont :\n\n- En dessous de 70°, mettre en marche le chauffage\n- Au-dessus de 75°, mettre en marche la climatisation\n- Entre 70° et 75° inclus, mettre en marche seulement le ventilateur\n\nQuelle est la liste de valeurs de température minimale pour obtenir 100% de couverture en analyse des valeurs limites à deux valeurs ?",
+      "choices": [
+        "70, 75",
+        "65, 72, 80",
+        "69, 70, 75, 76",
+        "70, 71, 74, 75, 76"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-9",
+      "enonceFormat": "markdown",
+      "enonce": "Vous avez les conditions et résultats suivants :\n\n| Conditions                         | Résultats                  |\n| ---------------------------------- | -------------------------- |\n| Argent comptant valide             | Rejeter l’argent comptant  |\n| Carte de crédit valide             | Rejeter la carte           |\n| Carte de débit valide              | Message d’erreur           |\n| Code PIN valide                    | Rendre l’argent comptant   |\n| La banque accepte (la transaction) | Rembourser la carte        |\n| Sélection valide                   | Vendre l’article           |\n| Article en stock                   |                            |\n\nEn utilisant la technique du tableau de décision, combien de cas de test minimum sont nécessaires pour couvrir ces conditions ?",
+      "choices": [
+        "7",
+        "13",
+        "15",
+        "18"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-10",
+      "enonce": "Vous avez la spécification suivante :\nUn utilisateur doit se connecter au système avec un nom d’utilisateur et un mot de passe valides. S’il échoue trois fois à entrer la combinaison correcte, il reçoit une erreur et doit attendre 10 minutes avant de réessayer. Le test se termine lorsque l’utilisateur se connecte avec succès.\nCombien de cas de test sont nécessaires pour obtenir 100% de couverture par transition d’états ?",
+      "choices": [
+        "1",
+        "2",
+        "4",
+        "5"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-11",
+      "enonce": "Vous créez des cas de test pour la User Story suivante (ATDD) :\n\nEn tant que propriétaire d’hôtel,\nJe veux réserver toutes les chambres à un étage avant de passer à l’étage suivant,\nAfin de maximiser l’efficacité du personnel d’entretien.\n\nVous avez identifié les partitions suivantes pour l’occupation d’un étage :\n\n- 0\n- 1 – étage complet\n- surréservation\n\nVous voulez également vous assurer que le logiciel est utilisable par le personnel et qu’il détermine rapidement les étages disponibles.\n\nQuel ordre de priorité devez-vous adopter pour les tests ?",
+      "choices": [
+        "0, 1–étage complet, surréservation, utilisabilité, performance",
+        "Performance, 1–étage complet, utilisabilité, surréservation, 0",
+        "Utilisabilité, performance, surréservation, 0, 1–étage complet",
+        "Surréservation, 0, 1–étage complet, performance, utilisabilité"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-12",
+      "enonce": "Si les cas de test sont dérivés en regardant le code, quel type de technique de conception de test est utilisé ?",
+      "choices": [
+        "Boîte noire (Black-box)",
+        "Boîte blanche (White-box)",
+        "Basée sur la spécification",
+        "Basée sur le comportement"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-13",
+      "enonce": "Comment détermine-t-on la couverture des instructions (statement coverage) ?",
+      "choices": [
+        "Nombre de points de décision divisé par le nombre de cas de test",
+        "Nombre de branches testées divisé par le nombre total d’instructions exécutables",
+        "Nombre de chemins de test potentiels divisé par le nombre total de points fonctionnels",
+        "Nombre d’instructions exécutées divisé par le nombre total d’instructions exécutables"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-14",
+      "enonce": "Vous travaillez sur un projet avec des délais très serrés. Le code est en cours de développement mais n’est pas encore exécutable. Quel type de test pourriez-vous appliquer pour trouver des défauts dès maintenant ?",
+      "choices": [
+        "Boîte noire",
+        "Boîte blanche",
+        "Basé sur l’expérience",
+        "Basé sur des facteurs (factor-based)"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-15",
+      "enonce": "Si vous utilisez l’estimation d’erreur (error guessing) pour cibler vos tests, quel type de test effectuez-vous ?",
+      "choices": [
+        "Basé sur la spécification",
+        "Basé sur la structure",
+        "Basé sur l’expérience",
+        "Basé sur des références"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-16",
+      "enonce": "Lorsque des tests exploratoires sont menés avec du time-boxing et des test charters, comment appelle-t-on cela ?",
+      "choices": [
+        "Des tests basés sur l’échéancier (schedule-based)",
+        "Des tests en session (session-based)",
+        "Des tests basés sur les risques (risk-based)",
+        "Un \"formal chartering\""
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-17",
+      "enonce": "Vous rédigez des critères d’acceptation pour une User Story. Vous listez toutes les entrées possibles du code et les sorties attendues correspondantes. Quel format utilisez-vous ?",
+      "choices": [
+        "Un diagramme I-P-O (Input-Process-Output)",
+        "Basé sur l’acceptation",
+        "Orienté règles",
+        "Basé sur le comportement"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-18",
+      "enonce": "Vous testez une application bancaire qui permet de retirer 20, 100 ou 500 dollars en une transaction. Les valeurs sont choisies depuis un menu déroulant et aucune autre valeur ne peut être saisie. Combien de partitions d’équivalence faut-il tester pour obtenir une couverture à 100 % ?",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-19",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un système de pesée qui calcule les coûts d’expédition pour un distributeur régional de pièces auto. Pour des raisons réglementaires, le poids ne peut dépasser 100 livres. Vous voulez inclure l’analyse des valeurs limites (2 valeurs) dans votre conception de test en boîte noire.\n\nVoici les tranches de poids (tableau transposé) :\n\n| **Poids**              | **Frais d’expédition** |\n|------------------------|------------------------|\n| **0 à 10 livres**      | 5,00 $                |\n| **11 à 25 livres**     | 7,50 $                |\n| **26 à 50 livres**     | 12,00 $               |\n| **51 à 100 livres**    | 17,00 $               |\n\nCombien de tests devez-vous exécuter pour obtenir 100 % de couverture par analyse de valeurs limites à deux valeurs ?",
+      "choices": [
+        "4",
+        "8",
+        "10",
+        "12"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-20",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un processus e-commerce qui comporte les états et transitions suivants :\n1. Login (invalide) → Login\n2. Login → Recherche\n3. Recherche → Recherche\n4. Recherche → Panier\n5. Panier → Recherche\n6. Panier → Paiement (Checkout)\n7. Paiement → Recherche\n8. Paiement → Déconnexion\n\nDans un diagramme de transitions d’états, combien de transitions doivent être affichées ?",
+      "choices": [
+        "4",
+        "6",
+        "8",
+        "16"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-21",
+      "enonceFormat": "markdown",
+      "enonce": "Vous avez la User Story suivante (ATDD) :\n\nEn tant que propriétaire d’hôtel,\nJe veux réserver toutes les chambres à un étage avant de passer à l’étage suivant,\nAfin de maximiser l’efficacité du personnel d’entretien.\n\nVous avez appliqué l’analyse des valeurs limites et identifié les partitions :\n\n- 0\n- 1 – étage complet\n- surréservation\n\nVous voulez aussi vérifier l’utilisabilité et la performance.\nVous avez conçu les cas de test suivants :\n1) Tester avec 1 occupant.\n2) Tester avec l’étage complet et vérifier que l’étage suivant devient disponible.\n3) Tester avec 0 occupants et vérifier que l’étage n’est dispo que si les étages inférieurs sont complets.\n4) Tester l’utilisabilité (personnel).\n5) Tester la performance (80% occupé).\n\nQu’est-ce qui manque ?",
+      "choices": [
+        "Un test avec un étage partiellement occupé mais pas complètement",
+        "Un test de performance",
+        "Un test pour essayer d’attribuer un occupant à un étage déjà complet",
+        "Un test d’utilisabilité"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-22",
+      "enonce": "Laquelle des propositions suivantes décrit une caractéristique des techniques de test basées sur l’expérience ?",
+      "choices": [
+        "Les cas de test sont créés à partir d’informations de conception détaillées",
+        "Les éléments testés dans la section du code de l’interface sont utilisés pour mesurer la couverture",
+        "Les techniques s’appuient fortement sur la connaissance qu’ont les testeurs du logiciel et du domaine métier",
+        "Les cas de test sont utilisés pour identifier les écarts vis-à-vis des exigences"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-23",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un formulaire de recherche d’appartement simplifié avec deux critères :\n\n- l’étage (trois options : rez-de-chaussée, premier étage, deuxième ou étage supérieur)\n- le type de jardin (trois options : pas de jardin, petit jardin, grand jardin)\n\nSeuls les appartements du rez-de-chaussée ont un jardin. Le formulaire a une validation intégrée qui empêche l’utilisation de critères de recherche invalides.\nChaque test comporte deux valeurs d’entrée : l’étage et le type de jardin. Vous voulez appliquer la partition d’équivalence (EP) pour couvrir chaque étage et chaque type de jardin.\n\nQuel est le nombre minimal de cas de test pour obtenir 100 % de couverture EP ?",
+      "choices": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-24",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un système qui calcule la note finale pour un étudiant selon les règles suivantes:\n\n- 0–50 points : échec\n- 51–60 : passable\n- 61–70 : satisfaisant\n- 71–80 : bien\n- 81–90 : très bien\n- 91–100 : excellent\n\nVous disposez des cas de test suivants:\n\n| FinalResult | FinalGrade   |\n| ----------- | ------------ |\n| TC1 : 91   | excellent    |\n| TC2 : 50   | échec        |\n| TC3 : 81   | très bien    |\n| TC4 : 60   | passable     |\n| TC5 : 70   | satisfaisant |\n| TC6 : 80   | bien         |\n\nQuel est le pourcentage de couverture BVA (2 valeurs) pour FinalResult obtenu avec ces cas de test ?",
+      "choices": [
+        "50%",
+        "60%",
+        "33.3%",
+        "100%"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-25",
+      "enonce": "Votre suite de tests a atteint une couverture de 100% des instructions. Quelle est la conséquence de ce fait ?",
+      "choices": [
+        "Chaque instruction du code ,y compris toutes les decisions, a été exécutée au moins une fois",
+        "Toute suite de tests contenant plus de cas de test que la vôtre atteindra également 100% de couverture des instructions",
+        "Chaque chemin dans le code a été exécuté au moins une fois",
+        "Chaque combinaison de valeurs d’entrée a été testée au moins une fois"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-26",
+      "enonce": "Lequel des énoncés suivants n’est PAS vrai pour les tests en boîte blanche ?",
+      "choices": [
+        "Lors des tests en boîte blanche, la totalité de l’implémentation logicielle est prise en compte",
+        "Les métriques de couverture en boîte blanche peuvent aider à identifier des tests supplémentaires pour augmenter la couverture du code",
+        "Les techniques de test en boîte blanche peuvent être utilisées dans les tests statiques",
+        "Les tests en boîte blanche peuvent aider à identifier des lacunes dans l’implémentation des exigences"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-27",
+      "enonce": "Laquelle des options suivantes décrit le mieux le concept de l’estimation d’erreurs (error guessing) ?",
+      "choices": [
+        "Elle implique d’utiliser votre connaissance et votre expérience des défauts trouvés dans le passé et des erreurs typiques de développement",
+        "Elle consiste à exploiter votre propre expérience en tant qu’ancien développeur",
+        "Elle exige d’imaginer que vous êtes l’utilisateur du logiciel et de deviner les erreurs que l’utilisateur pourrait commettre",
+        "Elle vous oblige à recréer rapidement la tâche de développement afin d’identifier les types d’erreurs qu’un développeur pourrait faire"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-28",
+      "enonce": "Vous travaillez sur un projet dont la livraison est retardée. L’exécution des tests a commencé tard, mais vous possédez une bonne connaissance du domaine et de bonnes compétences analytiques. La liste complète des exigences n’a pas encore été communiquée, mais la direction demande déjà des résultats de test.\nQuelle technique de test convient le mieux dans cette situation ?",
+      "choices": [
+        "Tests basés sur checklists",
+        "Estimation d’erreurs (error guessing)",
+        "Tests exploratoires",
+        "Tests de branche"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-29",
+      "enonce": "Laquelle des propositions suivantes décrit LE MIEU la manière de documenter les critères d’acceptation ?",
+      "choices": [
+        "Réaliser des rétrospectives pour déterminer les besoins réels des parties prenantes pour une User Story donnée",
+        "Utiliser le format given/when/then pour décrire un exemple de condition de test liée à une User Story donnée",
+        "Utiliser la communication verbale pour réduire les risques de malentendus concernant les critères d’acceptation",
+        "Documenter les risques liés à une User Story dans un plan de test afin de faciliter le test basé sur les risques"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-30",
+      "enonceFormat": "markdown",
+      "enonce": "Considérez la User Story suivante :\n\nEn tant qu’Éditeur,\nJe veux réviser le contenu avant qu’il ne soit publié,\nafin de m’assurer que la grammaire est correcte.\n\nEt ses critères d’acceptation :\n\n- L’utilisateur peut se connecter avec le rôle \"Éditeur\"\n- L’éditeur peut visualiser les pages de contenu existantes\n- L’éditeur peut modifier le contenu de la page\n- L’éditeur peut ajouter des commentaires de balisage\n- L’éditeur peut enregistrer les modifications\n- L’éditeur peut réattribuer au rôle \"propriétaire du contenu\" pour effectuer des mises à jour\n\nLequel des éléments suivants est le MEILLEUR exemple de test ATDD pour cette User Story ?",
+      "choices": [
+        "Tester si l’éditeur peut enregistrer le document après avoir modifié la page",
+        "Tester si le propriétaire du contenu peut se connecter et mettre à jour le contenu",
+        "Tester si l’éditeur peut programmer la publication du contenu modifié",
+        "Tester si l’éditeur peut réattribuer un autre éditeur pour faire des mises à jour"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-31",
+      "enonceFormat": "markdown",
+      "enonce": "Un système de stockage de vin utilise un dispositif de contrôle qui mesure la température de la cave (T, en °C, arrondie), et alerte si elle s’écarte de 12, selon :\n• si T=12 : \"température optimale\"\n• si T<12 : \"température trop basse\"\n• si T>12 : \"température trop élevée\"\nVous voulez utiliser l’analyse des valeurs limites en 3 points (3-point BVA). Un test en entrée est la température (°C) fournie par l’appareil.\nQuel est l’ensemble MINIMAL d’entrées de test pour couvrir 100 % de la couverture visée ?",
+      "choices": [
+        "11, 12, 13",
+        "10, 12, 14",
+        "10, 11, 12, 13, 14",
+        "10, 11, 13, 14"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-32",
+      "enonce": "Laquelle des affirmations suivantes concernant le test des branches est CORRECTE ?",
+      "choices": [
+        "Si un programme ne comporte que des branches inconditionnelles, on peut atteindre 100% de couverture des branches sans exécuter de cas de test",
+        "Si tous les branches inconditionnelles du code sont exercées, alors 100% de couverture des branches est atteint",
+        "Si on atteint 100% de couverture des instructions, on atteint aussi 100% de couverture des branches",
+        "Si on atteint 100% de couverture des branches, tous les résultats de décision de chaque décision dans le code sont exercés"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-33",
+      "enonce": "Vous testez une application mobile permettant aux clients de gérer leurs comptes bancaires. Vous exécutez une suite de tests consistant à évaluer chaque écran et chaque champ, en vous référant à une liste générale de bonnes pratiques d’interface utilisateur (UI) dérivées d’un ouvrage populaire, visant à maximiser l’ergonomie, la facilité d’utilisation et l’accessibilité.\nParmi les options suivantes, laquelle catégorise LE MIEUX la technique de test utilisée ?",
+      "choices": [
+        "Boîte noire",
+        "Exploratoire",
+        "Basée sur une checklist",
+        "Estimation d’erreur"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-34",
+      "enonce": "Comment l’approche collaborative d’écriture de User Stories est-elle décrite LE MIEUX ?",
+      "choices": [
+        "Les User Stories sont créées par les testeurs et les développeurs, puis validées par les représentants métier",
+        "Les User Stories sont créées par les représentants métier, les développeurs et les testeurs ensemble",
+        "Les User Stories sont créées par les représentants métier et vérifiées par les développeurs et testeurs",
+        "Les User Stories sont créées de sorte qu’elles soient indépendantes, négociables, apportant de la valeur, estimables, petites et testables"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-35",
+      "enonce": "Laquelle des affirmations suivantes décrit LE MIEUX la différence entre le test par tableau de décision et le test par branches ?",
+      "choices": [
+        "En test par tableau de décision, les cas de test sont dérivés depuis les instructions de décision dans le code. En test par branches, on se base sur la connaissance du flux de contrôle de l’objet de test.",
+        "En test par tableau de décision, les cas de test sont dérivés depuis la spécification décrivant la logique métier. En test par branches, les cas de test sont basés sur l’anticipation de défauts potentiels dans le code source.",
+        "En test par tableau de décision, les cas de test sont dérivés d’une connaissance du flux de contrôle. En test par branches, les cas de test viennent de la spécification décrivant la logique métier.",
+        "En test par tableau de décision, les cas de test sont indépendants de l’implémentation logicielle. En test par branches, on ne peut créer les cas de test qu’après la conception ou l’implémentation du code."
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-36",
+      "enonce": "Les clients de la chaîne de lavage TestWash ont des cartes sur lesquelles est mémorisé le nombre de lavages déjà achetés. La valeur initiale est 0. Lorsqu’un client passe au lavage, le système incrémente la carte de +1, ce qui représente le numéro du lavage actuel. En fonction de ce numéro, le système détermine la remise à appliquer.\nPour chaque 10e lavage, le système accorde 10% de remise, et pour chaque 20e lavage, il accorde 40% supplémentaire (soit 50% de remise au total).\nLequel des ensembles de données (valeurs correspondant au numéro du lavage actuel) obtient la meilleure couverture par partition d’équivalence ?",
+      "choices": [
+        "19, 20, 30",
+        "11, 12, 20",
+        "1, 10, 50",
+        "10, 29, 30, 31"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-37",
+      "enonce": "Vous testez un formulaire qui vérifie la longueur d’un mot de passe saisi. La longueur correcte est entre 6 et 12 caractères inclus. Sinon, il est rejeté. Au départ, la longueur du mot de passe est 0. Vous appliquez l’analyse de valeurs limites à deux valeurs (2VBVA), puis l’équipe décide de passer à 3VBVA.\nQuelles longueurs de mot de passe devez-vous ajouter pour passer de la couverture 2VBVA à la couverture 3VBVA ?",
+      "choices": [
+        "4, 5, 13, 14",
+        "7, 11",
+        "1, 5, 13",
+        "1, 4, 7, 11, 14"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-38",
+      "enonce": "Vous exécutez deux cas de test, T1 et T2, sur le même code. T1 a atteint 40% de couverture des instructions et T2 a atteint 65%. Laquelle des affirmations suivantes est nécessairement vraie ?",
+      "choices": [
+        "La suite de tests T1+T2 atteint 105% de couverture des instructions",
+        "Il existe au moins une instruction qui a été exécutée à la fois par T1 et par T2",
+        "Au moins 5% des instructions dans le code ne sont pas exécutables",
+        "La suite T1+T2 atteint une couverture complète des branches"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-39",
+      "enonce": "Soit BCov = (X / Y) * 100% pour la couverture des branches. Que représentent X et Y ?",
+      "choices": [
+        "X = nombre d’issues de décision exercées, Y = total des issues de décision dans le code",
+        "X = nombre de branches conditionnelles exercées, Y = nombre total de branches dans le code",
+        "X = nombre de branches exercées, Y = nombre total de branches dans le code",
+        "X = nombre de branches conditionnelles exercées, Y = nombre total d’issues de décision dans le code"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-40",
+      "enonce": "Lequel des éléments suivants conviendrait LE MIEUX comme point dans une checklist pour un test basé sur checklist ?",
+      "choices": [
+        "« Le développeur a fait une erreur lors de l’implémentation du code »",
+        "« La couverture des instructions dépasse 85% »",
+        "« Le programme fonctionne correctement d’un point de vue fonctionnel et non fonctionnel »",
+        "« Les messages d’erreur sont rédigés dans un langage que l’utilisateur peut comprendre »"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-41",
+      "enonceFormat": "markdown",
+      "enonce": "Considérez les critères d’acceptation d’une User Story rédigés ainsi :\n\nÉtant donné que l’utilisateur est connecté et sur la page d’accueil,\nQuand l’utilisateur clique sur le bouton \"Ajouter un article\",\nAlors le formulaire \"Créer un article\" doit apparaître,\nEt l’utilisateur doit pouvoir saisir un nom et un prix pour le nouvel article.\n\nSous quel format sont rédigés ces critères d’acceptation ?",
+      "choices": [
+        "Basé sur les règles",
+        "Orienté scénario",
+        "Orienté produit",
+        "Orienté processus"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-42",
+      "enonce": "Votre équipe analyse la User Story suivante afin d’en définir les critères d’acceptation :\n\nEn tant que client enregistré, je veux voir mes commandes précédentes sur le site de la société, afin de suivre mes achats.\n\nLequel des cas de test ci-dessous ne relève PAS de cette User Story ?",
+      "choices": [
+        "Entrée : le client se connecte et clique sur « voir l’historique des commandes »\nSortie attendue : le système affiche la liste de toutes les commandes précédentes, avec date, numéro de commande, coût total",
+        "Entrée : le client clique sur une commande de la liste\nSortie attendue : le système affiche les articles, leur prix et quantité",
+        "Entrée : le client clique sur « Tri ascendant » dans l’historique\nSortie attendue : le système affiche l’historique par numéro de commande dans l’ordre croissant",
+        "Entrée : un client non enregistré s’inscrit avec une adresse e-mail inexistante\nSortie attendue : le système accepte l’inscription et crée le compte"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-43",
+      "enonce": "Quelle est la PRINCIPALE différence entre les techniques de test boîte noire et celles basées sur l’expérience ?",
+      "choices": [
+        "L’objet de test",
+        "Le niveau de test où la technique est utilisée",
+        "La base de test",
+        "Le modèle de développement (SDLC) où la technique peut être utilisée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-44",
+      "enonce": "Vous testez un validateur de code PIN qui accepte les PIN valides et rejette les PIN invalides. Un PIN est une suite de chiffres. Un PIN est valide s’il contient 4 chiffres et au moins deux sont différents. Lequel des ensembles de données couvre toutes les partitions d’équivalence pour ce scénario ?",
+      "choices": [
+        "112, 1111, 1234, 123456",
+        "1, 123, 1111, 1234",
+        "12, 112, 1112, 11112",
+        "1, 111, 1111, 11111"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-45",
+      "enonceFormat": "markdown",
+      "enonce": "Un développeur doit implémenter la règle suivante :\nEntrée : valeur (entier)\nSI (valeur ≤ 100 OU valeur ≥ 200) ALORS \"valeur incorrecte\"\nSINON \"valeur correcte\".\nVous concevez les cas de test via l’analyse des valeurs limites (2VBVA). Quel ensemble d’entrées de test obtient la meilleure couverture ?",
+      "choices": [
+        "100, 150, 200, 201",
+        "99, 100, 200, 201",
+        "98, 99, 100, 101",
+        "101, 150, 199, 200"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-46",
+      "enonce": "Comment les tests en boîte blanche peuvent-ils être utiles pour soutenir les tests en boîte noire ?",
+      "choices": [
+        "Les mesures de couverture en boîte blanche peuvent aider les testeurs à évaluer la couverture du code atteinte par les tests boîte noire",
+        "L’analyse de la couverture en boîte blanche peut aider à identifier des fragments de code inaccessibles",
+        "La couverture par branches englobe les techniques boîte noire, donc 100% branches = 100% de toute technique boîte noire",
+        "Les techniques boîte blanche peuvent fournir des éléments de couverture pour les techniques boîte noire"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-47",
+      "enonceFormat": "markdown",
+      "enonce": "Examinez la liste suivante :\n\n- Entrée correcte non acceptée\n- Entrée incorrecte acceptée\n- Format de sortie erroné\n- Division par zéro\n\nQuelle technique de test le testeur utilise-t-il probablement lorsqu’il emploie cette liste ?",
+      "choices": [
+        "Tests exploratoires",
+        "Attaque par défauts (fault attack)",
+        "Tests basés sur une checklist",
+        "Analyse des valeurs limites"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-48",
+      "enonce": "Laquelle des propositions suivantes décrit LE MIEUX comment l’utilisation de tests basés sur une checklist peut augmenter la couverture ?",
+      "choices": [
+        "Les items de la checklist peuvent être définis à un niveau de détail suffisamment fin pour que le testeur implémente et exécute des cas de test détaillés basés sur ces items",
+        "Les checklists peuvent être automatisées, donc chaque exécution de test automatisé couvre les items de la checklist, entraînant une couverture supplémentaire",
+        "Chaque item de checklist doit être testé séparément et indépendamment, ainsi ces éléments couvrent différentes zones du logiciel",
+        "Deux testeurs concevant et exécutant des tests à partir des mêmes items de checklist à haut niveau testeront probablement le logiciel de manières légèrement différentes"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-49",
+      "enonce": "Lequel des exemples suivants illustre LE MIEUX un critère d’acceptation orienté scénario ?",
+      "choices": [
+        "L’application doit permettre aux utilisateurs de supprimer leur compte et toutes leurs données associées sur demande",
+        "Lorsqu’un client ajoute un article à son panier et procède au paiement, il doit être invité à se connecter ou à créer un compte s’il n’en a pas déjà un",
+        "IF (contain(product(23).Name, cart.products())) THEN return FALSE",
+        "Le site doit respecter la norme 508 ICT pour l’accessibilité"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-50",
+      "enonceFormat": "markdown",
+      "enonce": "Vous utilisez ATDD pour concevoir des tests à partir de cette User Story :\n\nEn tant qu’utilisateur Régulier ou Spécial, je veux utiliser ma carte d’étage électronique pour accéder à des étages spécifiques.\n\nCritères d’acceptation :\n\n- AC1 : Les utilisateurs Réguliers ont accès aux étages 1 à 3\n- AC2 : L’étage 4 est accessible uniquement aux utilisateurs Spéciaux\n- AC3 : Les utilisateurs Spéciaux ont tous les droits d’accès des utilisateurs Réguliers\n\nQuel cas de test est le plus raisonnable pour tester AC3 ?",
+      "choices": [
+        "Vérifier qu’un utilisateur Régulier peut accéder aux étages 1 et 3",
+        "Vérifier qu’un utilisateur Régulier ne peut pas accéder à l’étage 4",
+        "Vérifier qu’un utilisateur Spécial peut accéder à un étage 5",
+        "Vérifier qu’un utilisateur Spécial peut accéder aux étages 1, 2 et 3"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-51",
+      "enonceFormat": "markdown",
+      "enonce": "Quelle est la PRINCIPALE différence entre les techniques de test boîte noire et celles basées sur l’expérience ?",
+      "choices": [
+        "L’objet de test",
+        "Le niveau de test où la technique est utilisée",
+        "La base de test",
+        "Le modèle de développement (SDLC) où la technique peut être utilisée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-52",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un validateur de code PIN qui accepte les PIN valides et rejette les PIN invalides. Un PIN est une suite de chiffres. Un PIN est valide s’il contient 4 chiffres et au moins deux sont différents.\n\nLequel des ensembles de données couvre toutes les partitions d’équivalence pour ce scénario ?",
+      "choices": [
+        "112, 1111, 1234, 123456",
+        "1, 123, 1111, 1234",
+        "12, 112, 1112, 11112",
+        "1, 111, 1111, 11111"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-53",
+      "enonceFormat": "markdown",
+      "enonce": "Un développeur doit implémenter la règle suivante :\n\nEntrée : valeur (entier)\nSI (valeur ≤ 100 OU valeur ≥ 200) ALORS \"valeur incorrecte\"\nSINON \"valeur correcte\".\nVous concevez les cas de test via l’analyse des valeurs limites (2VBVA). Quel ensemble d’entrées de test atteint la meilleure couverture ?",
+      "choices": [
+        "100, 150, 200, 201",
+        "99, 100, 200, 201",
+        "98, 99, 100, 101",
+        "101, 150, 199, 200"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-54",
+      "enonceFormat": "markdown",
+      "enonce": "Comment les tests boîte blanche peuvent-ils aider à soutenir les tests en boîte noire ?",
+      "choices": [
+        "Les mesures de couverture en boîte blanche peuvent aider les testeurs à évaluer la couverture du code atteinte par les tests boîte noire",
+        "L’analyse de la couverture en boîte blanche peut révéler des fragments de code inaccessibles",
+        "La couverture par branches englobe les techniques boîte noire, donc 100% branches = 100% de toute technique boîte noire",
+        "Les techniques boîte blanche peuvent fournir des éléments de couverture pour les techniques boîte noire"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-55",
+      "enonceFormat": "markdown",
+      "enonce": "Considérez la liste :\n\n- Entrée correcte non acceptée\n- Entrée incorrecte acceptée\n- Format de sortie erroné\n- Division par zéro\n\nQuelle technique de test est probablement utilisée lorsqu’un testeur emploie cette liste ?",
+      "choices": [
+        "Tests exploratoires",
+        "Attaque par défauts (fault attack)",
+        "Tests basés sur une checklist",
+        "Analyse des valeurs limites"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-56",
+      "enonceFormat": "markdown",
+      "enonce": "Comment l’utilisation de tests basés sur une checklist peut-elle accroître la couverture ?\n\n- Les éléments de la checklist peuvent être définis de façon assez détaillée pour que le testeur conçoive et exécute des cas de test précis\n- Les checklists sont automatisables, donc chaque exécution automatisée entraîne plus de couverture\n- Chaque élément de checklist doit être testé indépendamment, et ces éléments couvrent divers domaines du logiciel\n- Si deux testeurs conçoivent et exécutent des tests à partir des mêmes items de checklist à haut niveau, ils testeront souvent différemment",
+      "choices": [
+        "Les éléments de la checklist peuvent être définis de façon assez détaillée pour que le testeur conçoive et exécute des cas de test précis",
+        "Les checklists sont automatisables, donc chaque exécution automatisée entraîne plus de couverture",
+        "Chaque élément de checklist doit être testé indépendamment, et ces éléments couvrent divers domaines du logiciel",
+        "Si deux testeurs conçoivent et exécutent des tests à partir des mêmes items de checklist à haut niveau, ils testeront souvent différemment"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-57",
+      "enonceFormat": "markdown",
+      "enonce": "Lequel des exemples suivants illustre le MIEUX un critère d’acceptation orienté scénario ?",
+      "choices": [
+        "L’application doit permettre aux utilisateurs de supprimer leur compte et leurs données",
+        "Lorsqu’un client ajoute un article à son panier et passe au paiement, il doit être invité à se connecter ou à créer un compte s’il n’en a pas déjà un",
+        "IF (contain(product(23).Name, cart.products())) THEN return FALSE",
+        "Le site doit respecter la norme 508 ICT pour l’accessibilité"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-58",
+      "enonceFormat": "markdown",
+      "enonce": "Vous utilisez ATDD pour concevoir des tests à partir de la User Story :\n\nEn tant qu’utilisateur Régulier ou Spécial, je veux utiliser ma carte d’étage électronique pour accéder à certains étages.\n\nCritères d’acceptation :\n\n- AC1 : Les utilisateurs Réguliers ont accès aux étages 1–3\n- AC2 : L’étage 4 est seulement accessible aux utilisateurs Spéciaux\n- AC3 : Les utilisateurs Spéciaux ont tous les droits des utilisateurs Réguliers\n\nQuel cas de test est le plus pertinent pour tester AC3 ?",
+      "choices": [
+        "Vérifier qu’un utilisateur Régulier peut accéder aux étages 1 et 3",
+        "Vérifier qu’un utilisateur Régulier ne peut pas accéder à l’étage 4",
+        "Vérifier qu’un utilisateur Spécial peut accéder à un étage 5",
+        "Vérifier qu’un utilisateur Spécial peut accéder aux étages 1, 2 et 3"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-59",
+      "enonceFormat": "markdown",
+      "enonce": "Vous exécutez des tests système sur une application e-commerce avec la règle suivante :\n\n« Si le total des achats dépasse 100 $, le client bénéficie d’une remise de 5% sur les achats ultérieurs. Sinon, pas de remise. »\n\nQuelles techniques de test seront LES PLUS utiles pour concevoir des cas de test à partir de cette exigence ?",
+      "choices": [
+        "Techniques boîte blanche (white-box)",
+        "Techniques boîte noire (black-box)",
+        "Techniques basées sur l’expérience",
+        "Techniques basées sur les risques"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-60",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez un système de régulation de température pour une chambre froide horticole. La température, arrondie au degré Celsius, est l’entrée. Si la température est entre 0 et 2 inclus, le système affiche « température OK ». En dessous de 0 : « température trop basse ». Au-dessus de 2 : « température trop élevée ».\n\nAvec une analyse des valeurs limites à deux valeurs (2VBVA), quel ensemble d’entrées apporte la meilleure couverture de limites ?",
+      "choices": [
+        "-1, 3",
+        "0, 2",
+        "-1, 0, 2, 3",
+        "-2, 0, 2, 4"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-61",
+      "enonceFormat": "markdown",
+      "enonce": "Votre suite de tests S pour un programme P atteint 100% de couverture des instructions. Elle se compose de trois tests, chacun obtenant 50% de couverture.\n\nLaquelle des affirmations suivantes est CORRECTE ?",
+      "choices": [
+        "Exécuter S provoquera toutes les pannes possibles de P",
+        "S atteint 100% de couverture des branches pour P",
+        "Chaque instruction exécutable de P contenant un défaut a été exécutée au moins une fois",
+        "Si on retire l’un des tests, les deux autres obtiendront encore 100% de couverture des instructions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-62",
+      "enonceFormat": "markdown",
+      "enonce": "Pourquoi les tests en boîte blanche facilitent-ils la détection de défauts même si la spécification est vague, obsolète ou incomplète ?",
+      "choices": [
+        "Parce que les cas de test sont conçus à partir de la structure de l’objet de test plutôt que de la spécification",
+        "Parce que pour chaque technique en boîte blanche, la couverture est bien définie et facilement mesurable",
+        "Parce que les techniques en boîte blanche sont très efficaces pour détecter les omissions dans les exigences",
+        "Parce que les techniques en boîte blanche peuvent être utilisées à la fois en tests statiques et dynamiques"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-63",
+      "enonceFormat": "markdown",
+      "enonce": "Laquelle des options suivantes n’est PAS anticipée par le testeur lors de l’application de l’estimation d’erreurs (error guessing) ?",
+      "choices": [
+        "Le développeur a mal compris la formule décrite dans la User Story pour calculer les intérêts",
+        "Le développeur a écrit « FA = A*(1+IR^N) » au lieu de « FA = A*(1+IR)^N »",
+        "Le développeur a raté la formation sur la nouvelle loi relative aux taux composés",
+        "La précision du calcul des intérêts n’est pas assez élevée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-64",
+      "enonceFormat": "markdown",
+      "enonce": "Laquelle des affirmations suivantes est vraie à propos des tests exploratoires ?",
+      "choices": [
+        "Les cas de test sont conçus avant le début de la session exploratoire",
+        "Le testeur peut exécuter des tests, mais pas concevoir de tests",
+        "Les résultats des tests exploratoires sont de bons prédicteurs du nombre de défauts restants",
+        "Pendant les tests exploratoires, le testeur peut utiliser des techniques boîte noire"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-65",
+      "enonceFormat": "markdown",
+      "enonce": "Quelle pratique collaborative dans l’écriture de User Stories permet à l’équipe d’avoir une compréhension commune de ce qui doit être livré ?",
+      "choices": [
+        "Le planning poker, pour que l’équipe s’aligne sur l’effort nécessaire à implémenter une User Story",
+        "Les revues, pour détecter incohérences et contradictions dans une User Story",
+        "La planification d’itération, pour prioriser les User Stories ayant le plus de valeur métier",
+        "La conversation, pour que les membres de l’équipe comprennent comment le logiciel sera utilisé"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-66",
+      "enonceFormat": "markdown",
+      "enonce": "Vous commencez la conception de tests pour la User Story suivante :\n\nEn tant que client,\nJe veux filtrer les résultats de recherche par fourchette de prix,\nafin de trouver plus facilement des produits dans mon budget.\n\nCritères d’acceptation :\n\n1) Le filtre doit fonctionner pour toutes les versions 3.0 et supérieures\n2) Le filtre doit permettre au client de définir un prix minimum et maximum\n3) Les résultats de recherche doivent se mettre à jour dynamiquement au fur et à mesure du réglage du filtre\n\nEn précondition, il n’y a que deux produits en stock : A à 100 $ et B à 110 $.\n\nLequel des cas de test ci-dessous illustre LE MIEUX un test pour cette User Story ?",
+      "choices": [
+        "Entrer la page, définir le filtre 90–100, résultat : A seulement. Puis max = 110, résultat : A et B",
+        "Entrer la page. Résultat : min et max par défaut sont 100 et 110. Ajouter un produit C à 120 $. Rafraîchir la page. Résultat : max = 120",
+        "Entrer la page, définir le filtre 90–115, résultat : A et B. Changer la devise USD → EUR. Résultat : filtrage converti en EUR",
+        "Entrer la page sur trois navigateurs : Edge, Chrome, Opera. Filtre 90–110, résultat : A et B avec la même mise en page"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-67",
+      "enonceFormat": "markdown",
+      "enonce": "---\n\nOn vous donne le pseudocode suivant pour passer commande d’un hamburger.  \n> **Remarque** : si vous ajoutez ou supprimez des éléments au hamburger de base, alors ce n’est plus le hamburger de base.\n\n```\nStart\nSelect basic burger\nIf customer adds items\n    While items to be added\n        Ask customer which item\n        Add item\n    End while\nEndif\nIf customer deletes items\n    While items to be deleted\n        Ask customer which item\n        Delete item\n    End while\nEndif\nIf customer wants fries\n    Add fries to order\nEndif\nComplete order\nEnd\n```\n\n**Question** : Lequel des tableaux de décision suivants (a, b, c ou d) correspond correctement à ce pseudocode ?\n\n---\n\n## Propositions de tableaux de décision\n\n### A.\n| **Test n°**             | **1** | **2** | **3** | **4** | **5** | **6** |\n|-------------------------|-------|-------|-------|-------|-------|-------|\n| **Conditions**          |       |       |       |       |       |       |\n| Ajouter des articles    | T     | T     | F     | F     | F     | F     |\n| Supprimer des articles  | F     | F     | T     | T     | F     | F     |\n| Ajouter des frites      | T     | F     | T     | F     | T     | F     |\n| **Résultats**           |       |       |       |       |       |       |\n| Hamburger de base       | X     | X     |       | X     | X     | X     |\n| Hamburger – articles    |       |       | X     | X     |       |       |\n| Articles ajoutés        | X     | X     |       |       |       |       |\n| Frites                  | X     |       | X     |       | X     |       |\n\n---\n\n### B.\n| **Test n°**             | **1** | **2** | **3** | **4** | **5** | **6** | **7** | **8** |\n|-------------------------|-------|-------|-------|-------|-------|-------|-------|-------|\n| **Conditions**          |       |       |       |       |       |       |       |       |\n| Ajouter des articles    | T     | T     | T     | T     | F     | F     | F     | F     |\n| Supprimer des articles  | T     | T     | F     | F     | T     | T     | F     | F     |\n| Ajouter des frites      | T     | F     | T     | F     | T     | F     | T     | F     |\n| **Résultats**           |       |       |       |       |       |       |       |       |\n| Hamburger de base       |       |       |       |       |       |       | X     | X     |\n| Articles supprimés      | X     | X     |       |       | X     | X     |       |       |\n| Articles ajoutés        | X     | X     | X     | X     |       |       |       |       |\n| Frites                  | X     | X     | X     | X     | X     | X     | X     | X     |\n\n---\n\n### C.\n| **Test n°**             | **1** | **2** | **3** | **4** | **5** | **6** | **7** | **8** |\n|-------------------------|-------|-------|-------|-------|-------|-------|-------|-------|\n| **Conditions**          |       |       |       |       |       |       |       |       |\n| Ajouter des articles    | T     | T     | T     | T     | F     | F     | F     | F     |\n| Supprimer des articles  | F     | F     | F     | F     | T     | T     | T     | T     |\n| Ajouter des frites      | T     | F     | T     | F     | T     | F     | T     | F     |\n| **Résultats**           |       |       |       |       |       |       |       |       |\n| Hamburger de base       | X     | X     | X     | X     | X     |       |       |       |\n| Hamburger – articles    |       |       |       |       | X     | X     | X     | X     |\n| Articles ajoutés        | X     | X     | X     | X     |       |       |       |       |\n| Frites                  | X     |       | X     |       | X     |       | X     |       |\n\n---\n\n### D.\n| **Test n°**             | **1** | **2** | **3** | **4** | **5** | **6** | **7** | **8** |\n|-------------------------|-------|-------|-------|-------|-------|-------|-------|-------|\n| **Conditions**          |       |       |       |       |       |       |       |       |\n| Ajouter des articles    | T     | T     | T     | T     | F     | F     | F     | F     |\n| Supprimer des articles  | T     | T     | F     | F     | T     | T     | F     | F     |\n| Ajouter des frites      | T     | F     | T     | F     | T     | F     | T     | F     |\n| **Résultats**           |       |       |       |       |       |       |       |       |\n| Hamburger de base       | X     | X     | X     | X     |       |       | X     | X     |\n| Hamburger – articles    |       |       |       |       | X     | X     |       |       |\n| Articles ajoutés        | X     | X     | X     | X     |       |       |       |       |\n| Frites                  | X     | X     | X     | X     | X     | X     | X     | X     |\n\n",
+      "choices": [
+        "le tableau A",
+        "le tableau B",
+        "le tableau C",
+        "le tableau D"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-7",
+      "enonceFormat": "markdown",
+      "enonce": "Vous testez une machine qui corrige des copies d’examen et attribue des notes. Les résultats sont :\n\n- de 1 à 49 = F\n- de 50 à 59 = E\n- de 60 à 69 = D\n- de 70 à 79 = C\n- de 80 à 89 = B\n- de 90 à 100 = A\n\nSi vous appliquez la partition d’équivalence, combien de cas de test sont nécessaires pour obtenir la couverture de test minimale ?",
+      "choices": [
+        "6",
+        "8",
+        "10",
+        "12"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-69",
+      "enonce": "Vous testez une application web qui permet à une personne d’utiliser ses points de fidélité pour réserver des vols et des hôtels. Laquelle des listes suivantes de transitions doit être testée, en supposant que le test se termine lorsqu’un état de réservation est atteint ?",
+      "choices": [
+        "Points > Réservation",
+        "Connexion > Points, Points > Vol, Points > Hôtel",
+        "Connexion > Connexion, Connexion > Points, Connexion > Vol, Connexion > Hôtel, Points > Vol, Points > Hôtel",
+        "Connexion > Connexion, Connexion > Points, Connexion > Vol, Connexion > Hôtel, Vol > Hôtel, Hôtel > Vol, Vol > Connexion, Hôtel > Connexion"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-70",
+      "enonce": "Si vous utilisez les résultats des tests pour en apprendre davantage sur le logiciel et créez ensuite des tests supplémentaires basés sur ces résultats, quel type de test effectuez-vous ?",
+      "choices": [
+        "Test exploratoire",
+        "Test basé sur la décision",
+        "Test basé sur checklist",
+        "Test basé sur le flux de contrôle"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-71",
+      "enonce": "Quelle technique de test boîte noire doit être utilisée pour vérifier les différentes réponses du système, en fonction de ses conditions actuelles ou de son historique précédent ?",
+      "choices": [
+        "Tests basés sur les cas d’utilisation",
+        "Tests basés sur les tables de décision",
+        "Tests de transition d’états",
+        "Partitionnement en classes d’équivalence"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-72",
+      "enonceFormat": "markdown",
+      "enonce": "---\n\nLe tableau de décision ci-dessous contient les règles pour déterminer le risque d’athérosclérose.\n\n|                | **Regle 1** | **Regle 2** | **Regle 3** | **Regle 4** | **Regle 5** |\n|----------------|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|\n| **Conditions** |\n| **Cholestérol (mg/dl)** | ≤ 124 | ≤ 124 | 125 – 200 | 125 – 200 | ≥ 201 |\n| **Tension artérielle (mm Hg)** | ≤ 140 | > 140 | ≤ 140 | > 140 | – |\n| **Actions**    |\n| **Niveau de risque** | Très faible | Faible | Moyen | Élevé | Très élevé |\n\nVous avez conçu les cas de test suivants, avec les données d’entrée :\n\n- **TC1** : Cholestérol = 125 mg/dl, Tension = 141 mm Hg  \n- **TC2** : Cholestérol = 200 mg/dl, Tension = 139 mm Hg  \n- **TC3** : Cholestérol = 124 mg/dl, Tension = 201 mm Hg  \n- **TC4** : Cholestérol = 201 mg/dl, Tension = 140 mm Hg  \n- **TC5** : Cholestérol = 199 mg/dl, Tension = 201 mm Hg  \n\nQuelle est la couverture du tableau de décision atteinte par ces cas de test ?\n\n---",
+      "choices": [
+        "40%",
+        "60%",
+        "80%",
+        "100%"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-73",
+      "enonce": "Une exigence fonctionnelle stipule que les valeurs de pression doivent toujours être positives et rester dans une plage comprise entre 100 et 200 livres pour un réservoir particulier (100 et 200 inclus).\nParmi les ensembles suivants, lequel est le minimum qui permettrait d’obtenir une couverture en utilisant la technique de partition d’équivalence ?",
+      "choices": [
+        "Série de tests avec pressions réglées à 98, 110 et 201 livres",
+        "Série de tests avec pressions réglées à 98, 100 et 200 livres",
+        "Série de tests avec pressions réglées à 100, 110 et 200 livres",
+        "Série de tests avec pressions réglées à -1, 0, 175 et 297 livres"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-74",
+      "enonce": "Lorsque des tests sont créés pour atteindre la couverture des instructions (statement coverage), qu’exercent-ils ?",
+      "choices": [
+        "Uniquement les décisions dans le code",
+        "Uniquement les boucles dans le code",
+        "Uniquement les instructions exécutables dans le code",
+        "Toutes les lignes du code, y compris les instructions exécutables et les commentaires"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-75",
+      "enonce": "Laquelle des techniques suivantes peut être utilisée pour développer des user stories en collaboration avec les développeurs et le métier ?",
+      "choices": [
+        "DevOps",
+        "CI/CD",
+        "Brainstorming",
+        "Partition d’équivalence"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-76",
+      "enonce": "Laquelle des options suivantes est une approche méthodique de l’erreur guessing ?",
+      "choices": [
+        "Créer une liste de défaillances et défauts possibles et concevoir des tests pour chacun",
+        "Demander aux développeurs où sont les erreurs probables et discuter des tests à effectuer",
+        "Examiner le code pour déterminer les zones complexes et les cibler avec des tests",
+        "Identifier toutes les décisions du code et concevoir des tests pour chacune"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "4-77",
+      "enonce": "Comment la couverture de branches est-elle déterminée ?",
+      "choices": [
+        "En divisant le nombre de branches du code testées par le nombre total de branches du code",
+        "En divisant le nombre de branches du code sur un chemin testé par le nombre total de chemins",
+        "En divisant le nombre d’instructions dans le code par le nombre de branches testées",
+        "En comptant le nombre de branches du code testées"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "4-78",
+      "enonce": "Vous utilisez l’analyse des valeurs limites pour déterminer vos données de test. Quelles valeurs utiliser pour tester une routine qui exige un entier (x) strictement supérieur à zéro et inférieur à 100, afin d’obtenir une couverture minimale de 100 % avec la technique des deux points (BVA) ?",
+      "choices": [
+        "0, 100",
+        "-1, 1, 99, 101",
+        "0, 1, 99, 100",
+        "-1, 0, 1, 99, 100, 101"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-79",
+      "enonce": "Si des cas de test sont écrits au format given/when/then, quel type de développement piloté par les tests est utilisé ?",
+      "choices": [
+        "Test-Driven Development (TDD)",
+        "Acceptance Test-Driven Development (ATDD)",
+        "Business-Driven Development",
+        "Behavior-Driven Development (BDD)"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-80",
+      "enonce": "Les tests exploratoires sont une technique de test basée sur l’expérience :",
+      "choices": [
+        "Où un développeur et un testeur travaillent ensemble sur le même poste : pendant que le développeur écrit activement du code, le testeur explore le code pour trouver des défauts",
+        "Qui peut être organisée en sessions guidées par des chartes de test décrivant des objectifs de test qui orienteront l’exploration des testeurs",
+        "Où une équipe de testeurs explore toutes les techniques de test possibles afin de déterminer la combinaison la plus appropriée de ces techniques à appliquer pour un projet de test",
+        "Qui vise à trouver des défauts en concevant des tests qui exercent toutes les combinaisons possibles de valeurs d’entrée et de préconditions"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-81",
+      "enonce": "Laquelle des affirmations suivantes à propos des tests basés sur des checklists est VRAIE ?",
+      "choices": [
+        "Les tests basés sur des checklists sont une technique de gestion de réunion de revue qui peut être appliquée dans les revues où l’utilisation de checklists est obligatoire, comme c’est souvent le cas dans les revues formelles",
+        "Les tests basés sur des checklists sont une technique de revue qui peut être utilisée dans un processus de revue formelle où les réviseurs, lors de la revue individuelle, tentent de détecter des problèmes dans le produit de travail en se basant sur une checklist",
+        "Dans les tests basés sur des checklists, l’utilisation de checklists avec un haut niveau de détail est plus susceptible de produire des cas de test plus faciles à reproduire que ceux utilisant des checklists à faible niveau de détail",
+        "Les checklists utilisées dans les tests basés sur des checklists doivent être revues périodiquement afin d’être mises à jour, car avec le temps, les cas de test conçus avec la même checklist peuvent devenir moins efficaces pour trouver des défauts"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "4-82",
+      "enonce": "Laquelle des affirmations suivantes est VRAIE ?",
+      "choices": [
+        "Les tests d’acceptation utilisateur sont généralement automatisés et visent à vérifier les critères d’acceptation des user stories",
+        "Les critères d’acceptation pour les user stories peuvent inclure des détails sur les définitions de données, par exemple en décrivant le format, les valeurs autorisées et les valeurs par défaut pour un élément de données",
+        "Les critères d’acceptation pour les user stories doivent se concentrer sur les scénarios positifs, tandis que les scénarios négatifs doivent être exclus",
+        "Les tests dérivés des critères d’acceptation pour les user stories ne sont inclus dans aucun des quatre quadrants de test"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "4-83",
+      "enonce": "Une exigence spécifie qu’un certain identifiant (ID) doit comporter entre 5 et 10 caractères, ne contenir que des caractères alphanumériques, et que son premier caractère doit être une lettre. En tant que testeur, vous souhaitez appliquer une partition d’équivalence unidimensionnelle pour tester cet ID. Cela signifie que vous devez appliquer la partition d’équivalence individuellement : à la longueur de l’ID, au type de caractères contenus dans l’ID, et au type du premier caractère de l’ID. Quel est le nombre de partitions à couvrir ?",
+      "choices": [
+        "7",
+        "6",
+        "5",
+        "3"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

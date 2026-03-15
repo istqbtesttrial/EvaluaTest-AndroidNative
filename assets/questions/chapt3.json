@@ -1,0 +1,389 @@
+{
+  "chapterId": 3,
+  "title": "Chapitre 3",
+  "enonceFormat": "markdown",
+  "questions": [
+    {
+      "questionId": "3-1",
+      "enonce": "Dans le cadre d’une revue formelle, quel rôle est normalement responsable de documenter tous les points ouverts ?",
+      "choices": [
+        "Le facilitateur",
+        "L’auteur",
+        "Le scribe",
+        "Le manager"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-2",
+      "enonce": "Quelle est la raison principale de solliciter tôt et fréquemment le retour des parties prenantes au sujet d’un produit en cours de développement ?",
+      "choices": [
+        "Pour qu’elles se sentent impliquées",
+        "Pour s’assurer que leur vision du produit sera respectée",
+        "Pour organiser plus de réunions",
+        "Pour qu’elles agissent en tant que testeurs"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-3",
+      "enonce": "Lequel des avantages suivants est associé à l’analyse statique ?",
+      "choices": [
+        "Des défauts peuvent être identifiés alors qu’ils n’auraient peut-être pas été détectés par des tests dynamiques",
+        "L’identification précoce des défauts nécessite moins de documentation",
+        "L’exécution précoce du code donne une indication de la qualité du code",
+        "Les outils sont inutiles car les revues remplacent l’exécution du code"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "3-4",
+      "enonce": "Pour une revue formelle, à quel moment du processus définit-on les critères de sortie ?",
+      "choices": [
+        "Lors de la planification",
+        "Lors de l’initiation de la revue",
+        "Pendant la revue individuelle",
+        "Lors de la correction et du reporting"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "3-5",
+      "enonce": "Votre organisation a décidé de mettre en place DevOps. Les équipes d'exploitation craignent des problèmes de performance persistants en production. Comment DevOps et CI/CD peuvent-ils aider à résoudre ce problème ?",
+      "choices": [
+        "Ils ne résoudront rien – le problème doit être traité dès la conception",
+        "Des tests de performance peuvent être intégrés à la pipeline CI/CD pour être exécutés de manière incrémentale et répétée tout au long du développement",
+        "Les tests de performance seront la priorité des tests d’intégration système, après la livraison du code dans l’environnement de test",
+        "Des experts en performance mèneront ces tests dans un environnement isolé construit via Infrastructure as Code"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-6",
+      "enonce": "Laquelle des techniques suivantes est une forme de test statique ?",
+      "choices": [
+        "Error guessing (deviner les erreurs)",
+        "Tests de régression automatisés",
+        "Fournir des entrées et examiner les sorties résultantes",
+        "La revue de code"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-7",
+      "enonce": "Vous participez souvent à des revues d’exigences. Malheureusement, vous recevez généralement le document à revoir la veille de la réunion, ce qui vous empêche de faire une analyse approfondie et vous oblige à faire beaucoup d’heures supplémentaires. Quel facteur de succès pour les revues manque à ce processus ?",
+      "choices": [
+        "Le soutien de la direction pour l’ensemble du processus de revue",
+        "Examiner seulement de petits segments à la fois",
+        "Une formation à la bonne conduite des réunions",
+        "Laisser un temps suffisant pour mener la revue"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-8",
+      "enonce": "Quelle est la principale différence entre les tests statiques et les tests dynamiques ?",
+      "choices": [
+        "Les tests statiques sont réalisés par les développeurs ; les tests dynamiques par les testeurs",
+        "Les tests manuels sont utilisés pour les tests dynamiques ; les tests automatisés pour les tests statiques",
+        "Les tests statiques doivent être exécutés avant les tests dynamiques",
+        "Les tests dynamiques exigent d’exécuter le logiciel, alors que les tests statiques n’exécutent pas le code"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-9",
+      "enonce": "Si une session de revue est dirigée par l’auteur du produit d’activités, de quel type de revue s’agit-il ?",
+      "choices": [
+        "Une revue ad hoc",
+        "Un walkthrough",
+        "Une inspection",
+        "Un audit"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-10",
+      "enonce": "Lequel des énoncés suivants n’est PAS un avantage des tests statiques ?",
+      "choices": [
+        "Une gestion des défauts moins coûteuse grâce à la facilité de détecter des défauts plus tard dans le SDLC",
+        "La correction des défauts détectés lors des tests statiques est généralement beaucoup moins coûteuse que la correction de ceux détectés lors de tests dynamiques",
+        "Identifier des défauts de codage qui n’auraient peut-être pas été trouvés en effectuant uniquement des tests dynamiques",
+        "Détecter des lacunes et des incohérences dans les exigences"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "3-11",
+      "enonce": "Lequel des énoncés suivants est un avantage d’un retour d’information (feedback) précoce et fréquent ?",
+      "choices": [
+        "Il améliore le processus de test pour les projets futurs",
+        "Il oblige les clients à prioriser leurs exigences en fonction des risques convenus",
+        "Il fournit une mesure de la qualité des changements",
+        "Il aide à éviter les malentendus sur les exigences"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-12",
+      "enonce": "Les revues utilisées dans votre organisation présentent les caractéristiques suivantes :\n\n| Caractéristique                                           |\n| --------------------------------------------------------- |\n| Rôle du scribe                                            |\n| L’objectif principal est d’évaluer la qualité             |\n| La réunion est dirigée par l’auteur du produit d’activités  |\n| Une préparation individuelle                              |\n| Un rapport de revue est produit                           |\n\nLequel des types de revue suivants est le plus susceptible d’être utilisé ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "Revue informelle",
+        "Walkthrough",
+        "Revue technique",
+        "Inspection"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-13",
+      "enonce": "Lequel des énoncés suivants n’est PAS un facteur qui contribue à la réussite des revues ?",
+      "choices": [
+        "Les participants doivent consacrer suffisamment de temps à la revue",
+        "Fractionner de grands produits d’activités en petites parties afin de réduire l’intensité de l’effort requis",
+        "Les participants doivent éviter les comportements qui pourraient indiquer de la lassitude, de l’exaspération ou de l’hostilité envers les autres",
+        "Les défaillances constatées doivent être reconnues, appréciées et traitées objectivement"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-14",
+      "enonce": "Voici une liste de produits de travail réalisés dans le cadre du SDLC :\n\n| Numéro | Produit de travail                              |\n| ------ | ----------------------------------------------- |\n| 1      | Exigences métier                                |\n| 2      | Le planning                                     |\n| 3      | Le budget de test                               |\n| 4      | Du code exécutable tiers                        |\n| 5      | Des User Stories et leurs critères d’acceptation |\n\nLesquels peuvent être revus ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "1 et 4 peuvent être révisés",
+        "1, 2, 3 et 4 peuvent être révisés",
+        "1, 2, 3 et 5 peuvent être révisés",
+        "3, 4, 5 peuvent être révisés"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-15",
+      "enonce": "Décidez lesquelles des affirmations suivantes (i-v) sont vraies pour les tests statiques.\n\n| Numéro | Affirmation                                                                                   |\n| ------ | --------------------------------------------------------------------------------------------- |\n| i      | Les comportements externes anormaux sont plus faciles à identifier avec ce test               |\n| ii     | Les divergences par rapport à une norme de codage sont plus faciles à déceler avec ce test       |\n| iii    | Il identifie des défaillances causées par des défauts lors de l’exécution du logiciel           |\n| iv     | Son objectif est d’identifier les défauts le plus tôt possible                                  |\n| v      | Des lacunes dans la couverture de exigences de sécurité critiques sont plus faciles à trouver et à corriger |\n",
+      "enonceFormat": "markdown",
+      "choices": [
+        "i, iv, v sont vrais pour les tests statiques",
+        "i, iii, iv sont vrais pour les tests statiques",
+        "ii, iii sont vrais pour les tests statiques",
+        "ii, iv, v sont vrais pour les tests statiques"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-16",
+      "enonce": "Laquelle des affirmations suivantes à propos des revues formelles est VRAIE ?",
+      "choices": [
+        "Certaines revues ne nécessitent pas plus d’un rôle",
+        "Le processus de revue comporte plusieurs activités",
+        "La documentation à revoir n’est pas distribuée avant la réunion de revue, hormis le produit d’activités pour certains types de revues",
+        "Les défauts trouvés lors de la revue ne sont pas signalés car ils ne sont pas détectés par des tests dynamiques"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-17",
+      "enonce": "Quelle tâche la direction peut-elle assumer lors d’une revue formelle ?",
+      "choices": [
+        "Prendre la responsabilité globale de la revue",
+        "Décider de ce qui doit être revu",
+        "Veiller au bon déroulement des réunions de revue et jouer le rôle de médiateur si nécessaire",
+        "Enregistrer les informations relatives à la revue, telles que les décisions de revue"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-18",
+      "enonce": "Lequel des exemples suivants illustre un défaut pouvant être détecté par un test statique mais PAS par un test dynamique ?",
+      "choices": [
+        "Manque d’ergonomie offert par l’interface utilisateur",
+        "Un code qui n’a aucun chemin d’accès permettant de l’exécuter",
+        "Des temps de réponse médiocres pour la majorité des utilisateurs attendus",
+        "Des fonctionnalités requises qui ne sont pas implémentées dans le code"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-19",
+      "enonce": "Lequel des énoncés suivants est un avantage d’un retour d’information précoce et fréquent ?",
+      "choices": [
+        "Les managers savent quels développeurs sont moins productifs",
+        "Il permet aux chefs de projet de hiérarchiser leurs interactions avec les parties prenantes",
+        "Il facilite la communication précoce des problèmes potentiels de qualité",
+        "Les utilisateurs finaux comprennent mieux pourquoi la livraison du produit d’activités est retardée"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-20",
+      "enonce": "Considérez les descriptions de tâches suivantes :\n\n| Numéro | Description                                                                  |\n| ------ | ---------------------------------------------------------------------------- |\n| 1      | Les caractéristiques de qualité à évaluer et les critères de sortie sont sélectionnés |\n| 2      | Tout le monde a accès au produit d’activités                                 |\n| 3      | Les anomalies sont identifiées dans le produit d’activités                   |\n| 4      | Les anomalies sont discutées                                                 |\n\nEt les activités de revue suivantes :\n\n| Lettre | Activité                 |\n| ------ | ------------------------ |\n| A      | Revue individuelle       |\n| B      | Initiation de la revue   |\n| C      | Planification            |\n| D      | Communication et analyse |\n\nLaquelle des correspondances suivantes décrit LE MIEUX l’association entre ces descriptions de tâches et les activités ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "1B, 2C, 3D, 4A",
+        "1B, 2D, 3C, 4A",
+        "1C, 2A, 3B, 4D",
+        "1C, 2B, 3A, 4D"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-21",
+      "enonce": "Considérez les rôles suivants dans les revues :\n\n| Numéro | Rôle                                    |\n| ------ | --------------------------------------- |\n| 1      | Scribe                                  |\n| 2      | Responsable de la revue (review leader) |\n| 3      | Facilitateur                            |\n| 4      | Manager                                 |\n\nEt les responsabilités suivantes dans les revues :\n\n| Lettre | Responsabilité                                                                                 |\n| ------ | --------------------------------------------------------------------------------------------- |\n| A      | S’assure du déroulement efficace des réunions de revue et de la mise en place d’un climat serein |\n| B      | Note les informations de revue, telles que les décisions et les nouvelles anomalies             |\n| C      | Décide de ce qui doit être revu et fournit des ressources (personnel, temps)                  |\n| D      | Prend la responsabilité globale de la revue, par exemple organiser quand et où la revue aura lieu |\n\nLequel des appariements suivants décrit LE MIEUX l’association entre les rôles et leurs responsabilités ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "1A, 2B, 3D, 4C",
+        "1A, 2C, 3B, 4D",
+        "1B, 2D, 3A, 4C",
+        "1B, 2D, 3C, 4A"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-22",
+      "enonce": "Étant donné les exemples de défauts suivants :\n\n| Numéro | Défaut                                                                                          |\n| ------ | ----------------------------------------------------------------------------------------------- |\n| i      | Deux parties différentes de la spécification de conception sont en désaccord en raison de la complexité du design |\n| ii     | Un temps de réponse est trop long, ce qui fait perdre patience aux utilisateurs                  |\n| iii    | Un chemin dans le code ne peut pas être atteint pendant l’exécution                               |\n| iv     | Une variable est déclarée mais jamais utilisée dans le programme                                |\n| v      | La quantité de mémoire nécessaire au programme pour générer un rapport est trop élevée            |\n\nLequel des appariements suivants identifie au MIEUX les défauts que des tests statiques (plutôt que dynamiques) pourraient trouver ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "ii, v",
+        "iii, v",
+        "i, ii, iv",
+        "i, iii, iv"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-23",
+      "enonce": "Lequel des énoncés suivants est un avantage d’un retour précoce et fréquent des parties prenantes ?",
+      "choices": [
+        "Les changements d’exigences sont compris et implémentés plus tôt",
+        "Il s’assure que les acteurs métier comprennent les besoins des utilisateurs",
+        "Il permet au product owner de modifier ses exigences aussi souvent qu’il le souhaite",
+        "Il informe les utilisateurs finaux des exigences qui ne seront pas implémentées avant la livraison"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "3-24",
+      "enonce": "Étant donné les types de revue suivants :\n\n| Numéro | Type de revue       |\n| ------ | ------------------- |\n| 1      | Revue technique     |\n| 2      | Revue informelle    |\n| 3      | Inspection          |\n| 4      | Walkthrough         |\n\nEt les descriptions suivantes :\n\n| Lettre | Description                                                                                      |\n| ------ | ------------------------------------------------------------------------------------------------ |\n| A      | Inclut des objectifs tels que le consensus, la génération d’idées et la motivation de l’auteur à s’améliorer |\n| B      | Inclut des objectifs tels que la formation des relecteurs, le consensus, la génération d’idées et la détection de défauts potentiels |\n| C      | L’objectif principal est la détection de défauts potentiels et elle nécessite la collecte de métriques pour soutenir l’amélioration du processus |\n| D      | L’objectif principal est la détection de défauts potentiels et elle ne génère aucune sortie documentée formelle |\n\nLequel des appariements suivants décrit LE MIEUX la correspondance entre les types de revue et leurs descriptions ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "1A, 2B, 3C, 4D",
+        "1A, 2D, 3C, 4B",
+        "1B, 2C, 3D, 4A",
+        "1C, 2D, 3A, 4B"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-25",
+      "enonce": "Lequel des facteurs suivants contribue à la réussite d’une revue ?",
+      "choices": [
+        "Veiller à ce que la direction participe en tant que relecteurs",
+        "Fractionner un gros produit d’activités en plus petites parties",
+        "Utiliser l’évaluation des relecteurs comme objectif",
+        "Planifier la revue pour un seul document à la fois"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-26",
+      "enonce": "Lequel des éléments suivants NE PEUT PAS être examiné par des tests statiques ?",
+      "choices": [
+        "Un contrat",
+        "Un plan de test",
+        "Du code chiffré",
+        "Un test charter"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-27",
+      "enonce": "Laquelle des affirmations suivantes à propos de la valeur des tests statiques est CORRECTE ?",
+      "choices": [
+        "Les types de défauts trouvés par les tests statiques sont identiques à ceux trouvés par les tests dynamiques",
+        "Les tests dynamiques peuvent détecter tous les types de défauts qui peuvent être trouvés par les tests statiques, ainsi que quelques types supplémentaires",
+        "Les tests dynamiques peuvent identifier certains des défauts détectés par les tests statiques, mais pas tous",
+        "Les tests statiques peuvent identifier les mêmes types de défauts que les tests dynamiques, et en plus certains types supplémentaires"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-28",
+      "enonce": "Étant donné les descriptions suivantes d’activités de revue :\n\n| Numéro | Description d'activité                                          |\n| ------ | --------------------------------------------------------------- |\n| 1      | Les anomalies détectées sont débattues, et des décisions sont prises concernant leur statut, leur responsable et toute étape ultérieure nécessaire |\n| 2      | Les problèmes sont enregistrés, et toute mise à jour requise est traitée avant l’acceptation du produit d’activités |\n| 3      | Les relecteurs utilisent des techniques pour suggérer des améliorations ou poser des questions sur le produit d’activités et pour repérer des anomalies |\n| 4      | L’objectif de la revue et son calendrier sont fixés pour assurer une revue ciblée et efficace |\n| 5      | Les participants ont accès à l’élément à revoir |\n\nLaquelle des séquences suivantes est la BONNE dans le processus de revue pour décrire les activités correspondant à ces descriptions ?",
+      "enonceFormat": "markdown",
+      "choices": [
+        "4 – 3 – 5 – 2 – 1",
+        "4 – 5 – 3 – 1 – 2",
+        "5 – 4 – 1 – 3 – 2",
+        "5 – 4 – 3 – 2 – 1"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-29",
+      "enonce": "Lequel des éléments suivants est un avantage d’un retour précoce des parties prenantes ?",
+      "choices": [
+        "Il peut être recueilli tôt puis utilisé pour apporter des changements après la mise en production afin de rendre le produit plus convivial",
+        "Il permet au chef de projet d’avoir une meilleure vision des changements nécessaires pour la prochaine version",
+        "Les développeurs comprennent mieux ce qu’ils construisent",
+        "Les testeurs comprennent mieux les exigences liées à l’automatisation des tests"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "questionId": "3-30",
+      "enonce": "Quel participant dans le processus de revue est responsable de veiller au bon déroulement des réunions de revue et à ce que tous puissent s’exprimer librement ?",
+      "choices": [
+        "Le manager",
+        "Le modérateur",
+        "Le président (Chairperson)",
+        "Le responsable de la revue"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-31",
+      "enonce": "Vous venez d’achever une rétrospective à la fin d’un sprint. Un développeur a soulevé un problème : les rapports de défauts ne contiennent pas d’informations sur la configuration, les données et le système utilisés lorsque l’échec s’est produit. Quand cela arrive, ils rejettent le rapport, et le testeur doit le mettre à jour et le renvoyer. Cela peut prendre trois ou quatre itérations pour avoir toutes les informations. L’équipe de test prend ce retour et améliorera les détails inclus dans les rapports de défauts.\nCeci est un exemple de quel type de bénéfice du test ?",
+      "choices": [
+        "Efficacité / efficience accrue des tests",
+        "Renforcement d’équipe et apprentissage",
+        "Amélioration de la qualité de la base de test",
+        "Amélioration de la qualité des cas de test"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "questionId": "3-32",
+      "enonce": "Quelle est une manière raisonnable de contrôler et de minimiser le coût des tests et du développement ?",
+      "choices": [
+        "Mener des revues formelles pour détecter les défauts le plus tôt possible",
+        "Effectuer une analyse d’utilisabilité avant la conception de l’interface utilisateur",
+        "Automatiser la détection d’erreurs au début des tests d’acceptation",
+        "Recruter du personnel de test externalisé à bas coût pour les tests système"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "questionId": "3-33",
+      "enonce": "Lequel des éléments suivants devriez-vous examiner à l’aide de tests statiques ?",
+      "choices": [
+        "Fuite mémoire pendant l’exécution",
+        "Performance d’un module sous charge",
+        "Sortie interactive d’un débogueur",
+        "Plan de test"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "questionId": "3-34",
+      "enonce": "Lors de quelle activité du processus de revue les caractéristiques de qualité sont-elles sélectionnées pour l’évaluation ?",
+      "choices": [
+        "Initialisation",
+        "Planification",
+        "Analyse",
+        "Correction"
+      ],
+      "correctIndex": 3
+    }
+  ]
+}

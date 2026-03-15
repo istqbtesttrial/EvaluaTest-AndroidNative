@@ -1,0 +1,875 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Chapitre 1",
+      "questions": [
+        {
+          "questionId": 101,
+          "enonce": "Lequel des énoncés suivants décrit un objectif de test valide ?",
+          "choices": [
+            "Prouver qu'il n'y a pas de défauts non corrigés dans le système testé.",
+            "Prouver qu'il n'y aura pas de défaillance après la mise en production du système.",
+            "Réduire le niveau de risque d'une qualité logicielle insuffisante.",
+            "Vérifier qu'il n'existe pas de combinaisons d'entrées non testées."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 102,
+          "enonce": "Laquelle des options suivantes donne un exemple d'activités de test qui contribuent au succès ?",
+          "choices": [
+            "L'implication des testeurs dans les différentes activités du cycle de vie du développement logiciel (SDLC) aide à détecter des défauts dans les produits d’activités.",
+            "Les testeurs essaient de ne pas déranger les développeurs pendant qu'ils codent, afin que les développeurs écrivent un meilleur code.",
+            "Les testeurs qui collaborent avec les utilisateurs finaux contribuent à améliorer la qualité des rapports de défauts lors des tests d’intégration des composants et des tests systèmes.",
+            "Les testeurs certifiés concevront de bien meilleurs cas de test que les testeurs non certifiés."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 103,
+          "enonce": "Vous avez été affecté en tant que testeur à une équipe qui produit un nouveau système de manière incrémentale. Vous avez remarqué qu'aucune modification n'a été apportée aux cas de test de régression existants depuis plusieurs itérations et qu'aucun nouveau défaut de régression n'a été identifié. Votre responsable est satisfait, mais vous ne l'êtes pas. Quel principe de test explique votre scepticisme ?",
+          "choices": [
+            "Usure des tests.",
+            "L'illusion de l'absence de défaut.",
+            "Regroupement des défauts.",
+            "Le test exhaustif est impossible."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 104,
+          "enonce": "Vous travaillez dans une équipe qui développe une application mobile pour la commande de nourriture. Dans l'itération actuelle, l'équipe a décidé d'implémenter la fonctionnalité de paiement. Laquelle des activités suivantes fait partie de l'analyse des tests ?",
+          "choices": [
+            "Estimer que les tests d'intégration avec le service de paiement prendront 8 personnes-jours.",
+            "Décider que l'équipe doit tester s'il est possible de partager correctement le paiement entre plusieurs utilisateurs.",
+            "Utiliser l'analyse des valeurs limites pour dériver les données de test pour les cas de test qui vérifient le traitement correct des paiements pour le montant minimum à payer.",
+            "Analyser l'écart entre le résultat réel et le résultat attendu après l'exécution d'un cas de test vérifiant le processus de paiement par carte de crédit, et signaler un défaut."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 105,
+          "enonce": "Lequel des facteurs suivants a une influence SIGNIFICATIVE sur l'approche de test ?\ni. Le Cycle de Vie du Développement Logiciel (SDLC).\nii. Le nombre de défauts détectés dans des projets précédents.\niii. Les risques produits identifiés.\niv. Les nouvelles exigences réglementaires imposant des tests formels de type \"boîte blanche\".\nv. La configuration de l'environnement de test.",
+          "choices": [
+            "i, ii ont une influence significative ;",
+            "i, iii, iv ont une influence significative ;",
+            "ii, iv, v ont une influence significative ;",
+            "iii, v ont une influence significative ;"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 106,
+          "enonce": "Parmi les compétences suivantes (i-v), lesquelles sont les PLUS importantes pour un testeur ?\ni. Connaissance du domaine.\nii. Créer une vision du produit.\niii. Avoir un bon esprit d'équipe.\niv. Planifier et organiser le travail de l'équipe.\nv. Pensée critique.",
+          "choices": [
+            "ii et iv sont importantes ; i, iii et v ne le sont pas.",
+            "i, iii et v sont importantes ; ii et iv ne le sont pas.",
+            "i, ii et v sont importantes ; iii et iv ne le sont pas.",
+            "iii et iv sont importantes ; i, ii et v ne le sont pas."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 107,
+          "enonce": "Comment l'approche équipe intégrée est-elle présente dans les interactions entre les testeurs et les représentants métier ?",
+          "choices": [
+            "Les représentants métier décident des approches d'automatisation des tests.",
+            "Les testeurs aident les représentants métier à définir la stratégie de test.",
+            "Les représentants métier ne font pas partie de l'approche équipe intégrée.",
+            "Les testeurs aident les représentants métier à créer des tests d'acceptation appropriés."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 108,
+          "enonce": "Considérons la règle suivante : \"à chaque activité du cycle de vie de développement du logiciel (SDLC) correspond une activité de test\". Dans quels modèles de cycle de vie de développement du logiciel cette règle s'applique-t-elle ?",
+          "choices": [
+            "Uniquement dans les modèles de développement séquentiel.",
+            "Uniquement dans le modèle de développement itératif.",
+            "Uniquement dans les modèles de développement itératif et incrémental.",
+            "Dans les modèles de développement séquentiel, incrémental et itératif."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 109,
+          "enonce": "Parmi les affirmations suivantes, laquelle décrit le mieux l'approche ATDD (développement piloté par les tests d'acceptation) ?",
+          "choices": [
+            "Dans le cadre de l'ATDD, les critères d'acceptation sont généralement créés sur la base du format given/when/then (Etant donné que/Lorsque/Alors).",
+            "Dans le cadre de l'ATDD, les cas de test sont principalement créés lors des tests de composants et sont orientés vers le code.",
+            "Dans le cadre de l'ATDD, des tests sont créés sur la base de critères d'acceptation afin d'orienter le développement du logiciel correspondant.",
+            "Dans l'ATDD, les tests sont basés sur le comportement souhaité du logiciel, ce qui facilite leur compréhension par les membres de l'équipe."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 110,
+          "enonce": "Lequel des exemples suivants n'est PAS un exemple de l'approche \"shift left\" ?",
+          "choices": [
+            "Revoir les exigences utilisateurs avant qu'elles ne soient formellement acceptées par les parties prenantes.",
+            "Écrire un test de composant avant d'écrire le code correspondant.",
+            "Exécuter un test d'efficacité des performances pour un composant pendant le test des composants.",
+            "Rédiger un script de test avant la mise en place du processus de gestion de la configuration."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 111,
+          "enonce": "Parmi les arguments ci-dessous, lesquels utiliseriez-vous pour convaincre votre responsable d'organiser des rétrospectives à la fin de chaque release ?",
+          "choices": [
+            "Les rétrospectives sont très populaires de nos jours et les clients apprécieraient que nous les ajoutions à nos processus.",
+            "L'organisation de rétrospectives permettra à l'organisation d'économiser de l'argent car, sans elles, les représentants des utilisateurs finaux ne fournissent pas de retour d'information immédiat sur le produit.",
+            "Les faiblesses du processus identifiées au cours de la rétrospective peuvent être analysées et servir de liste de choses à faire pour l'amélioration continue de l'organisation.",
+            "Les rétrospectives s'appuient sur cinq valeurs, dont le courage et le respect, qui sont essentielles pour maintenir une amélioration continue au sein de l'organisation."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 112,
+          "enonce": "Quels types de défaillances (1-4) correspondent le mieux aux niveaux de test (A-D) ?\n1. Défaillances dans le comportement du système lorsqu'il s'écarte des besoins métier de l'utilisateur.\n2. Défaillance de communication entre les composants.\n3. Défaillance dans la logique d’un module.\n4. Défaillances dues à l’implémentation incorrecte de règles métier.\nA. Test des composants.\nB. Tests d'intégration de composants.\nC. Tests système.\nD. Tests d'acceptation.",
+          "choices": [
+            "1D, 2B, 3A, 4C",
+            "1D, 2B, 3C, 4A",
+            "1B, 2A, 3D, 4C",
+            "1C, 2B, 3A, 4D"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 113,
+          "enonce": "Lequel des éléments suivants n'est PAS un avantage des tests statiques ?",
+          "choices": [
+            "Une gestion des défauts moins coûteuse grâce à la facilité de détecter des défauts à un stade plus avancé du cycle de développement du logiciel (SDLC).",
+            "La correction des défauts détectés lors des tests statiques est généralement beaucoup moins coûteuse que la correction des défauts détectés lors des tests dynamiques.",
+            "Trouver des défauts de codage qui n'auraient peut-être pas été détectés en effectuant uniquement des tests dynamiques.",
+            "Détecter des lacunes et des incohérences dans les exigences"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 114,
+          "enonce": "Lequel des éléments suivants est un avantage d'un feedback précoce et fréquent ?",
+          "choices": [
+            "Il améliore le processus de test pour les projets futurs.",
+            "Il oblige les clients à prioriser leurs exigences en fonction des risques convenus.",
+            "Cela fournit une mesure de la qualité des changements.",
+            "Cela permet d'éviter des malentendus sur les exigences."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 115,
+          "enonce": "Les revues utilisées dans votre organisation présentent les caractéristiques suivantes :\n• Il y a le rôle de scribe.\n• L'objectif principal est d'évaluer la qualité.\n• La réunion est dirigée par l'auteur du produit d’activités.\n• Il y a une préparation individuelle.\n• Un rapport de revue est produit.\nParmi les types de revue suivants, lequel est le plus susceptible d'être utilisé ?",
+          "choices": [
+            "Revue informelle",
+            "Relecture technique",
+            "Revue technique",
+            "Inspection"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 116,
+          "enonce": "Laquelle de ces affirmations n'est PAS un facteur qui contribue à la réussite des revues ?",
+          "choices": [
+            "Les participants doivent consacrer suffisamment de temps pour la revue",
+            "Diviser les grands produits d’activités en petites parties afin de réduire l'intensité de l'effort requis",
+            "Les participants doivent éviter les comportements qui pourraient indiquer de l'ennui, de l'exaspération ou de l'hostilité à l'égard des autres participants.",
+            "Les défaillances constatées doivent être reconnues, appréciées et traitées objectivement."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 117,
+          "enonce": "Lequel des éléments suivants est une caractéristique des techniques de test basées sur l'expérience ?",
+          "choices": [
+            "Les cas de test sont créés sur la base d'informations détaillées sur la conception.",
+            "Les éléments testés dans la section du code de l'interface sont utilisés pour mesurer la couverture.",
+            "Les techniques s'appuient fortement sur la connaissance qu'ont les testeurs du logiciel et du domaine métier.",
+            "Les cas de test sont utilisés pour identifier les écarts par rapport aux exigences."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 118,
+          "enonce": "Vous testez un formulaire de recherche d'appartement simplifié qui ne comporte que deux critères de recherche :\n• l'étage (avec trois options possibles : rez-de-chaussée, premier étage, deuxième étage ou étage supérieur)\n• le type de jardin (avec trois options possibles : pas de jardin ; petit jardin ; grand jardin)\nSeuls les appartements situés au rez-de-chaussée disposent d'un jardin. Le formulaire est doté d'un mécanisme de validation intégré qui ne vous permettra pas d'utiliser les critères de recherche qui ne respectent pas cette règle.\nChaque test comporte deux valeurs d'entrée : l'étage et le type de jardin. Vous souhaitez appliquer la technique des partitions d'équivalence (EP) pour couvrir chaque étage et chaque type de jardin dans vos tests.\nQuel est le nombre minimal de cas de test permettant d'obtenir une couverture EP de 100 % ?",
+          "choices": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 119,
+          "enonce": "Votre suite de tests atteint une couverture de 100% des instructions. Quelle est la conséquence de ce fait ?",
+          "choices": [
+            "Chacune des instructions de décision du code a été évaluée au moins une fois.",
+            "Toute suite de tests contenant plus de cas de tests que votre suite de tests atteindra également une couverture de 100 % des instructions.",
+            "Chaque chemin dans le code doit être exécuté au moins une fois.",
+            "Chaque combinaison de valeurs d'entrée doit être testée."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 120,
+          "enonce": "Lequel des points suivants n'est PAS vrai pour les tests boîte blanche ?",
+          "choices": [
+            "Lors des tests boîte blanche, l'ensemble de l'implémentation du logiciel est pris en compte.",
+            "Les métriques de couverture en boîte blanche peuvent aider à identifier des tests supplémentaires pour augmenter la couverture du code.",
+            "Les techniques de test en boîte blanche peuvent être utilisées dans les tests statiques.",
+            "Les tests boîte blanche peuvent aider à identifier les lacunes dans l’implémentation des exigences."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 121,
+          "enonce": "Lequel des énoncés suivants décrit le mieux le concept de l’estimation d'erreurs ?",
+          "choices": [
+            "L'estimation d’erreurs implique l'utilisation de votre connaissance et de votre expérience des défauts trouvés dans le passé et des erreurs typiques commises par les développeurs.",
+            "L'estimation d’erreurs consiste à utiliser votre expérience personnelle en développement et les erreurs que vous avez commises en tant que développeur.",
+            "L’estimation d’erreurs nécessite que vous imaginiez que vous êtes l'utilisateur de l'objet de test et deviniez les erreurs que l'utilisateur pourrait commettre en interagissant avec l'objet de test.",
+            "L’estimation d'erreurs vous oblige à reproduire rapidement la tâche de développement afin d'identifier les types d'erreurs qu'un développeur pourrait commettre."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 122,
+          "enonce": "Dans votre projet, la livraison d'une toute nouvelle application a été retardée et l'exécution des tests a commencé tardivement, mais vous avez une connaissance très détaillée du domaine et de bonnes compétences analytiques. La liste complète des exigences n'a pas encore été communiquée à l'équipe, mais la direction demande que certains résultats de tests soient présentés.\nQuelle est la technique de test la mieux adaptée à cette situation ?",
+          "choices": [
+            "Tests basés sur des checklists",
+            "Estimation d'erreur",
+            "Tests exploratoires.",
+            "Test de branche."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 123,
+          "enonce": "Lequel des énoncés suivants décrit LE MIEUX la manière dont les critères d'acceptation peuvent être documentés ?",
+          "choices": [
+            "Effectuer des rétrospectives pour déterminer les besoins réels des parties prenantes concernant une User Story donnée.",
+            "Utiliser le format \"étant donné/lorsque/alors\" pour décrire un exemple de condition de test liée à une User Story donnée.",
+            "Utiliser la communication verbale pour réduire le risque d'incompréhension des critères d'acceptation par les autres.",
+            "Documenter les risques liés à une User Story donnée dans un plan de test pour faciliter le test basé sur les risques d'une User Story donnée."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 124,
+          "enonce": "Considérons la user story suivante :\nEn tant que Éditeur\nJe veux réviser le contenu avant qu'il ne soit publié,\nafin de m'assurer que la grammaire est correcte.\net ses critères d'acceptation :\n• L'utilisateur peut se connecter au système de gestion de contenu avec le rôle \"Éditeur\".\n• L'éditeur peut visualiser les pages de contenu existantes.\n• L'éditeur peut modifier le contenu de la page.\n• L'éditeur peut ajouter des commentaires de balisage.\n• L'éditeur peut enregistrer les modifications.\n• L’éditeur peut réattribuer rôle de \"propriétaire du contenu\" pour effectuer des mises à jour.\nLequel des éléments suivants est le MEILLEUR exemple de test ATDD pour cette User Story ?",
+          "choices": [
+            "Tester si l'éditeur peut enregistrer le document après avoir modifié le contenu de la page.",
+            "Tester si le propriétaire du contenu peut se connecter et faire des mises à jour du contenu.",
+            "Tester si l'éditeur peut programmer la publication du contenu modifié.",
+            "Tester si l'éditeur peut réattribuer à un autre éditeur pour faire des mises à jour."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 125,
+          "enonce": "Comment les testeurs apportent-ils une valeur ajoutée à la planification des itérations et des releases ?",
+          "choices": [
+            "Les testeurs déterminent la priorité des User Stories à développer.",
+            "Les testeurs se concentrent uniquement sur les aspects fonctionnels du système à tester",
+            "Les testeurs participent à l'identification et à l'évaluation détaillées des risques liés aux User Stories.",
+            "Les testeurs garantissent la livraison de logiciel de haute qualité grâce à la conception précoce des tests lors de la planification de la release."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 126,
+          "enonce": "Votre équipe utilise la technique d'estimation en trois points pour estimer l'effort de test d'une nouvelle fonctionnalité à haut risque. Les estimations suivantes ont été réalisées :\n• Estimation la plus optimiste : 2 personnes-heures\n• Estimation la plus probable : 11 personnes-heures\n• Estimation la plus pessimiste : 14 personnes-heures\nQuelle est l'estimation finale ?",
+          "choices": [
+            "9 personnes-heures",
+            "14 personnes-heures",
+            "11 personnes-heures",
+            "10 personnes-heures"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 127,
+          "enonce": "Considérez les catégories de tests (1-4) et les quadrants de tests agiles (A-D) suivants :\n1. Tests d'utilisabilité.\n2. Tests des composants.\n3. Tests fonctionnels.\n4. Tests de fiabilité.\nA. Quadrant de tests agiles Q1 : orienté vers la technologie, soutien à l'équipe de développement.\nB. Quadrant de tests agiles Q2 : orienté vers le métier, soutien à l'équipe de développement.\nC. Quadrant de tests agiles Q3 : orienté vers le métier, critique du produit.\nD. Quadrant de test agile Q4 : orienté vers la technologie, critique du produit.\nComment les catégories de test suivantes s'intègrent-elles dans les quadrants de test agile ?",
+          "choices": [
+            "1C, 2A, 3B, 4D",
+            "1D, 2A, 3C, 4B",
+            "1C, 2B, 3D, 4A",
+            "1D, 2B, 3C, 4A"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 128,
+          "enonce": "Une analyse des risques a permis d'identifier et d'évaluer le risque suivant :\n• Risque : le temps de réponse est trop long pour générer un rapport\n• Probabilité du risque : moyenne ; impact du risque : élevé\n• Réponse au risque :\n  o une équipe de test indépendante effectue des tests de performance pendant les tests système.\n  o un échantillon sélectionné d'utilisateurs finaux effectue des tests d'acceptation alpha et bêta avant la mise sur le marché.\nQuelle mesure est proposée pour répondre à cette analyse de risque ?",
+          "choices": [
+            "Acceptation du risque.",
+            "Plan de contingence.",
+            "Atténuation du risque.",
+            "Transfert du risque."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 129,
+          "enonce": "Quel produit d’activité peut être utilisé par une équipe agile pour montrer la quantité de travail qui a été accomplie et la quantité de travail totale restante pour une itération donnée ?",
+          "choices": [
+            "Critères d'acceptation.",
+            "Rapport de défaut.",
+            "Rapport de complétude de test.",
+            "Burndown chart."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 130,
+          "enonce": "Vous devez mettre à jour l'un des scripts de test automatisés pour qu'il corresponde à une nouvelle exigence. Quel processus indique que vous créez une nouvelle version du script de test dans le référentiel de test ?",
+          "choices": [
+            "Gestion de la traçabilité.",
+            "Tests de maintenance.",
+            "Gestion de la configuration.",
+            "Ingénierie des exigences."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 131,
+          "enonce": "Vous avez reçu le rapport de défaut suivant de la part des développeurs, indiquant que l'anomalie décrite dans ce rapport de défaut n'est pas reproductible.\n\nL'application se bloque\n3 mai 2023 – Eric Olivier - Rejeté\nL'application se bloque après avoir saisi \"Entrée du test : $ä\" dans le champ Nom de l'écran de création d'un nouvel utilisateur. J'ai essayé de me déconnecter, de me connecter avec le compte test_admin01, même problème. J'ai essayé avec d'autres comptes test_admin, même problème.\nAucun message d'erreur n'a été reçu ; le log (voir ci-joint) contient une notification d'erreur fatale.\nD'après le cas de test TC-1305, l'application devrait accepter les données fournies et créer l'utilisateur. Cette fonctionnalité est liée à REQ-0012, qui est une nouvelle exigence métier critique.\nQuelles sont les informations critiques qui manquent dans ce rapport de test et qui auraient été utiles aux développeurs ?",
+          "choices": [
+            "Résultat attendu et résultat réel.",
+            "Référence et statut du défaut.",
+            "Environnement de test et éléments de test.",
+            "Priorité et sévérité."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 132,
+          "enonce": "Quelle activité de test un outil de préparation des données prend-il en charge ?",
+          "choices": [
+            "Surveillance et contrôle du test.",
+            "Analyse et conception des tests.",
+            "Implémentation et exécution des tests.",
+            "Clôture des tests."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 133,
+          "enonce": "Quel est le point qui identifie correctement un risque potentiel de l'automatisation des tests ?",
+          "choices": [
+            "Elle peut introduire des régressions inconnues dans la production.",
+            "Les efforts nécessaires à la maintenance des logiciels de test peuvent ne pas être correctement alloués.",
+            "Les outils de test et les testware associés peuvent ne pas être suffisamment fiables.",
+            "Elle peut réduire le temps alloué aux tests manuels."
+          ],
+          "correctIndex": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Chapitre 2",
+      "questions": [
+        {
+          "questionId": 201,
+          "enonce": "Vous avez été chargé d'analyser et de corriger les causes de défaillances d'un nouveau système qui doit être mis sur le marché.\nQuelle activité exercez-vous ?",
+          "choices": [
+            "Débogage.",
+            "Test logiciel.",
+            "Élucidation des exigences.",
+            "Gestion des défauts."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 202,
+          "enonce": "Dans de nombreux organismes de développement de logiciels, le service de test est appelé service d'assurance qualité. Cette phrase est-elle correcte ou non et pourquoi ?",
+          "choices": [
+            "C'est exact. Les termes \"test\" et \"assurance qualité\" signifient exactement la même chose.",
+            "C'est exact. Ces noms peuvent être utilisés de manière interchangeable car les tests et l'assurance qualité concentrent leurs activités sur les mêmes questions de qualité.",
+            "Ce n'est pas correct. Le test est quelque chose de plus ; le test comprend toutes les activités relatives à la qualité. L'AQ se concentre sur les processus liés à la qualité.",
+            "Ce n'est pas correct. L'AQ est axée sur les processus liés à la qualité, tandis que les tests visent à démontrer qu'un composant ou un système est adapté à l'usage auquel il est destiné et à détecter les défauts."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 203,
+          "enonce": "La sonnerie d'un téléphone dans un bureau voisin distrait un programmeur, ce qui l'amène à mal programmer la logique qui vérifie la limite supérieure d'une variable d'entrée. Plus tard, lors des tests système, un testeur remarque que ce champ de saisie accepte des valeurs d'entrée non valides.\nLequel des éléments suivants décrit correctement une borne supérieure mal codée ?",
+          "choices": [
+            "La cause racine.",
+            "Une défaillance.",
+            "Une erreur.",
+            "Un défaut."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 204,
+          "enonce": "Lequel des exemples suivants est le MEILLEUR exemple de la façon dont la traçabilité soutient les tests ?",
+          "choices": [
+            "L'analyse d'impact d'un changement fournit des informations sur l'achèvement des tests.",
+            "L'analyse de la traçabilité entre les cas de test et les résultats des tests fournira des informations sur le niveau estimé de risque résiduel.",
+            "L'analyse de l'impact d'un changement permet de sélectionner les bons cas de test pour les tests de régression.",
+            "L'analyse de la traçabilité entre la base de test, les objets de test et les cas de test aidera à sélectionner les données de test pour atteindre la couverture supposée de l'objet de test."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 205,
+          "enonce": "Lequel des éléments suivants explique LE MIEUX un avantage de l'indépendance des tests ?",
+          "choices": [
+            "Le recours à une équipe de test indépendante permet à la direction du projet d'attribuer à l'équipe de test la responsabilité de la qualité du produit final.",
+            "Si l'on peut se permettre d'avoir une équipe de test externe à l'organisation, il y a de nets avantages à ce que cette équipe externe ne soit pas aussi facilement influencée par les préoccupations de la gestion de projet en matière de livraison et par la nécessité de respecter des délais de livraison stricts.",
+            "Une équipe de test indépendante peut travailler séparément des développeurs, ne doit pas être distraite par les modifications des exigences du projet et peut limiter la communication avec les développeurs à la déclaration des défauts via le système de gestion des défauts.",
+            "Lorsque les spécifications contiennent des ambiguïtés et des incohérences, des hypothèses sont émises quant à leur interprétation, et un testeur indépendant peut être utile pour remettre en question ces hypothèses et l'interprétation faite par le développeur."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 206,
+          "enonce": "Lesquels des éléments suivants sont des avantages de DevOps ?\ni. Lancement plus rapide des produits et accélération de la mise sur le marché\nii. Augmentation du besoin de tests manuels répétitifs\niii. Disponibilité constante de logiciels exécutables\niv. Réduction du nombre de tests de régression associés au remaniement du code\nv. La mise en place du cadre d'automatisation des tests est peu coûteuse puisque tout est automatisé.",
+          "choices": [
+            "i, ii, iv sont des avantages ;",
+            "iii, v sont des avantages ;",
+            "i, iii sont des avantages ;",
+            "ii, iv, v sont des avantages ;"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 207,
+          "enonce": "Vous travaillez comme testeur dans le cadre d'un projet d'application mobile de commande de nourriture pour l'un de vos clients. Le client vous a envoyé une liste d'exigences. L'une d'entre elles, hautement prioritaire, est la suivante :\n\"La commande doit être traitée en moins de 10 secondes dans 95% des cas\".\nVous avez créé un ensemble de cas de test dans lesquels un certain nombre de commandes aléatoires ont été effectuées. Le temps de traitement a été mesuré et les résultats des tests ont été comparés aux exigences.\nQuel type de test avez-vous effectué ?",
+          "choices": [
+            "Fonctionnel, parce que les cas de test couvrent les besoins métier de l'utilisateur pour le système.",
+            "Non fonctionnel, car ils mesurent la performance du système.",
+            "Fonctionnel, parce que les cas de test interagissent avec l'interface utilisateur",
+            "Structurel, car nous devons connaître la structure interne du programme pour mesurer le temps de traitement des commandes."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 208,
+          "enonce": "La stratégie de test de votre organisation suggère que lorsque le retrait d’un système est prévu, la migration des données est testée. Dans le cadre de quel type de test ce test est-il LE PLUS susceptible d'être effectué ?",
+          "choices": [
+            "Tests de maintenance.",
+            "Tests de régression.",
+            "Test de composants.",
+            "Tests d'intégration."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 209,
+          "enonce": "Voici une liste des produits de travail réalisés dans le cadre du cycle de développement (SDLC)\ni. Exigences commerciales.\nii. Le Calendrier.\niii. Budget du test.\niv. Code exécutable tiers.\nv. User Stories et leurs critères d'acceptation.\nLesquels peuvent être revus ?",
+          "choices": [
+            "i et iv peuvent être révisés ;",
+            "i, ii, iii et iv peuvent être révisés ;",
+            "i, ii, iii et v peuvent être révisés ;",
+            "iii, iv, v peuvent être révisés ;"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 210,
+          "enonce": "Décidez laquelle des affirmations suivantes (i-v) est vraie pour les tests statiques.\ni. Les comportements externes anormaux sont plus faciles à identifier avec ce test.\nii. Les divergences par rapport à une norme de codage sont plus faciles à déceler avec ce test.\niii. Il identifie des défaillances causées par des défauts lors de l'exécution du logiciel.\niv. L'objectif de ce test est d'identifier les défauts le plus tôt possible.\nv. Un manque de couverture des exigences de sécurité critiques est plus facile à trouver et à corriger.",
+          "choices": [
+            "i, iv, v sont vrais pour les tests statiques ;",
+            "i, iii, iv sont vrais pour les tests statiques ;",
+            "ii, iii sont vrais pour les tests statiques ;",
+            "ii, iv, v sont vrais pour les tests statiques ;"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 211,
+          "enonce": "Laquelle des affirmations suivantes concernant les revues formelles est VRAIE ?",
+          "choices": [
+            "Certaines revues ne nécessitent pas plus d'un rôle.",
+            "Le processus de revue comporte plusieurs activités.",
+            "La documentation à revoir n'est pas distribuée avant la réunion de revue, à l'exception du produit d’activités pour des types de revues spécifiques.",
+            "Les défauts trouvés lors de la revue ne sont pas signalés car ils ne sont pas détectés par les tests dynamiques."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 212,
+          "enonce": "Quelle tâche la direction peut-elle assumer lors d'une revue formelle ?",
+          "choices": [
+            "Assumer la responsabilité globale de la revue.",
+            "Décider de ce qui doit être revu.",
+            "Assurer le bon déroulement des réunions de revue et jouer le rôle de médiateur si nécessaire.",
+            "Enregistrer les informations relatives à la revue, telles que les décisions de revue."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 213,
+          "enonce": "Un système de stockage de vin utilise un dispositif de contrôle qui mesure la température de la cellule de vin T (mesurée en °C, arrondie au degré le plus proche) et alerte l'utilisateur si elle s'écarte de la valeur optimale de 12, selon les règles suivantes :\n• si T = 12, le système indique \"température optimale\".\n• si T < 12, le système dit \"la température est trop basse\".\n• si T > 12, le système dit \"la température est trop élevée\".\nVous souhaitez utiliser l'analyse des valeurs limites en 3 points pour vérifier le comportement du dispositif de contrôle. Une entrée de test est une température en °C fournie par l'appareil.\nQuel est l'ensemble MINIMAL d'entrées de test qui permet d'obtenir 100 % de la couverture souhaitée ?",
+          "choices": [
+            "11, 12, 13",
+            "10, 12, 14",
+            "10, 11, 12, 13, 14",
+            "10, 11, 13, 14"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 214,
+          "enonce": "Laquelle des affirmations suivantes concernant le test des branches est CORRECTE ?",
+          "choices": [
+            "Si un programme ne comporte que des branches inconditionnelles, il est possible d'obtenir une couverture des branches de 100 % sans exécuter aucun cas de test.",
+            "Si les cas de test exercent toutes les branches inconditionnelles du code, la couverture des branches est de 100 %.",
+            "Si la couverture des instructions est de 100 %, la couverture des branches est également de 100 %.",
+            "Si la couverture des branches est de 100 %, tous les résultats de décision de chaque décision dans le code sont exercés."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 215,
+          "enonce": "Vous testez une application mobile qui permet aux clients d'accéder à leurs comptes bancaires et de les gérer. Vous exécutez une suite de tests qui consiste à évaluer chaque écran, et chaque champ de chaque écran, par rapport à une liste générale des meilleures pratiques en matière d'interface utilisateur, dérivée d'un ouvrage populaire sur le sujet, qui maximise l’attractivité, la facilité d'utilisation et l'accessibilité pour de telles applications. Parmi les options suivantes, laquelle catégorise LE MIEUX la technique de test que vous utilisez ?",
+          "choices": [
+            "Boîte noire",
+            "Exploratoire",
+            "Basé sur une checklist",
+            "Estimation d'erreur"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 216,
+          "enonce": "Lequel des éléments suivants décrit le mieux l'approche collaborative de la rédaction de User Stories ?",
+          "choices": [
+            "Les User Stories sont créées par les testeurs et les développeurs, puis acceptées par les représentants métier.",
+            "Les User Stories sont créées par les représentants métier, les développeurs et les testeurs.",
+            "Les User Stories sont créées par les représentants métier et vérifiées par les développeurs et les testeurs.",
+            "Les User Stories sont créées de manière à ce qu'elles soient indépendantes, négociables, apportant de la valeur, estimables, petites et testables."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 217,
+          "enonce": "Considérez la partie suivante d'un plan de test.\nLes tests seront effectués à l'aide de tests de composants et de tests d'intégration de composants. La réglementation exige de démontrer que la couverture des branches est de 100 % pour chaque composant classé comme critique.\nÀ quelle partie du plan de test cette partie appartient-elle ?",
+          "choices": [
+            "Communication",
+            "Registre des risques",
+            "Contexte des tests",
+            "Approche de test"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 218,
+          "enonce": "Laquelle des affirmations suivantes est VRAIE concernant la pyramide de tests ?",
+          "choices": [
+            "Elle met l'accent sur le fait d'avoir beaucoup plus de tests aux niveaux inférieurs",
+            "Elle suggère que chaque test de bas niveau vérifie une grande partie de la fonctionnalité",
+            "Elle décrit la distribution des types de tests à travers le cycle de vie du développement logiciel (SDLC)",
+            "Elle n'a aucun impact sur la construction des tests automatisés."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 219,
+          "enonce": "Lors de l'analyse des risques, l'équipe a envisagé le risque suivant : \"Le système autorise une remise trop élevée pour un client\". L'équipe a estimé que l'impact du risque était très élevé.\nQue peut-on dire de la probabilité du risque ?",
+          "choices": [
+            "Il est également très élevé. L'impact d'un risque élevé implique toujours une probabilité de risque élevée.",
+            "Elle est très faible. L'impact d'un risque élevé implique toujours une faible probabilité de risque.",
+            "On ne peut rien dire de la probabilité du risque. L'impact du risque et la probabilité du risque sont indépendants.",
+            "La probabilité du risque n'est pas importante avec un impact aussi élevé. Il n'est pas nécessaire de la définir."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 220,
+          "enonce": "La liste suivante contient les risques qui ont été identifiés pour un nouveau produit logiciel à développer :\ni. La direction transfère deux testeurs expérimentés vers un autre projet.\nii. Le système n'est pas conforme aux normes de sécurité fonctionnelle.\niii. Le temps de réponse du système dépasse les exigences de l'utilisateur.\niv. Les parties prenantes ont des attentes erronées.\nv. Les personnes handicapées rencontrent des problèmes lors de l'utilisation du système.\nLesquels constituent des risques projet ?",
+          "choices": [
+            "i, iv sont des risques projet ;",
+            "iv, v sont des risques projet ;",
+            "i, iii sont des risques projet ;",
+            "ii, v sont des risques projet ;"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 221,
+          "enonce": "Lequel des exemples suivants illustre la manière dont l'analyse des risques produit influe sur l'exhaustivité et l'étendue des tests ?",
+          "choices": [
+            "Le test manager surveille et rapporte quotidiennement le niveau de tous les risques connus afin que les parties prenantes puissent prendre une décision éclairée sur la date de livraison.",
+            "L'un des risques identifiés étant le \"manque de support des bases de données open-source\", l'équipe a décidé d'intégrer le système à une base de données open-source.",
+            "Au cours de l'analyse quantitative des risques, l'équipe a estimé le niveau total de tous les risques identifiés et l'a présenté comme le risque résiduel total avant les tests.",
+            "L'évaluation des risques a révélé un niveau très élevé de risques pour la performance, et il a donc été décidé de procéder à des tests détaillés d'efficacité des performances dès le début du cycle de vie de développement logiciel."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 222,
+          "enonce": "Parmi les informations suivantes contenues dans un rapport d'avancement des tests, laquelle est la MOINS utile pour les représentants métiers ?",
+          "choices": [
+            "Obstacles au test.",
+            "Couverture des branches atteinte.",
+            "Progression du test.",
+            "Nouveaux risques dans le cycle de test."
+          ],
+          "correctIndex": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Chapitre 3",
+      "questions": [
+        {
+          "questionId": 301,
+          "enonce": "Vous avez été chargé d'analyser et de corriger les causes de défaillances d'un nouveau système qui doit être mis sur le marché.\nQuelle activité exercez-vous ?",
+          "choices": [
+            "Débogage.",
+            "Test logiciel.",
+            "Élucidation des exigences.",
+            "Gestion des défauts."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 302,
+          "enonce": "Dans de nombreux organismes de développement de logiciels, le service de test est appelé service d'assurance qualité. Cette phrase est-elle correcte ou non et pourquoi ?",
+          "choices": [
+            "C'est exact. Les termes \"test\" et \"assurance qualité\" signifient exactement la même chose.",
+            "C'est exact. Ces noms peuvent être utilisés de manière interchangeable car les tests et l'assurance qualité concentrent leurs activités sur les mêmes questions de qualité.",
+            "Ce n'est pas correct. Le test est quelque chose de plus ; le test comprend toutes les activités relatives à la qualité. L'AQ se concentre sur les processus liés à la qualité.",
+            "Ce n'est pas correct. L'AQ est axée sur les processus liés à la qualité, tandis que les tests visent à démontrer qu'un composant ou un système est adapté à l'usage auquel il est destiné et à détecter les défauts."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 303,
+          "enonce": "La sonnerie d'un téléphone dans un bureau voisin distrait un programmeur, ce qui l'amène à mal programmer la logique qui vérifie la limite supérieure d'une variable d'entrée. Plus tard, lors des tests système, un testeur remarque que ce champ de saisie accepte des valeurs d'entrée non valides.\nLequel des éléments suivants décrit correctement une borne supérieure mal codée ?",
+          "choices": [
+            "La cause racine.",
+            "Une défaillance.",
+            "Une erreur.",
+            "Un défaut."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 304,
+          "enonce": "Lequel des exemples suivants est le MEILLEUR exemple de la façon dont la traçabilité soutient les tests ?",
+          "choices": [
+            "L'analyse d'impact d'un changement fournit des informations sur l'achèvement des tests.",
+            "L'analyse de la traçabilité entre les cas de test et les résultats des tests fournira des informations sur le niveau estimé de risque résiduel.",
+            "L'analyse de l'impact d'un changement permet de sélectionner les bons cas de test pour les tests de régression.",
+            "L'analyse de la traçabilité entre la base de test, les objets de test et les cas de test aidera à sélectionner les données de test pour atteindre la couverture supposée de l'objet de test."
+          ],
+          "correctIndex": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Chapitre 4 (Questions #A5 et suivantes)",
+      "questions": [
+        {
+          "questionId": 401,
+          "enonce": "Lequel des exemples suivants est le MEILLEUR exemple de la façon dont la traçabilité soutient les tests ? ",
+          "choices": [
+            "L'analyse d'impact d'un changement fournit des informations sur l'achèvement des tests.",
+            "L'analyse de la traçabilité entre les cas de test et les résultats des tests fournira des informations sur le niveau estimé de risque résiduel.",
+            "L'analyse de l'impact d'un changement permet de sélectionner les bons cas de test pour les tests de régression.",
+            "L'analyse de la traçabilité entre la base de test, les objets de test et les cas de test aidera à sélectionner les données de test pour atteindre la couverture supposée de l'objet de test."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 402,
+          "enonce": "Lequel des éléments suivants explique LE MIEUX un avantage de l'indépendance des tests ? ",
+          "choices": [
+            "Le recours à une équipe de test indépendante permet à la direction du projet d'attribuer à l'équipe de test la responsabilité de la qualité du produit final.",
+            "Si l'on peut se permettre d'avoir une équipe de test externe à l'organisation, il y a de nets avantages à ce que cette équipe externe ne soit pas aussi facilement influencée par les préoccupations de la gestion de projet en matière de livraison et par la nécessité de respecter des délais de livraison stricts.",
+            "Une équipe de test indépendante peut travailler séparément des développeurs, ne doit pas être distraite par les modifications des exigences du projet et peut limiter la communication avec les développeurs à la déclaration des défauts via le système de gestion des défauts.",
+            "Lorsque les spécifications contiennent des ambiguïtés et des incohérences, des hypothèses sont émises quant à leur interprétation, et un testeur indépendant peut être utile pour remettre en question ces hypothèses et l'interprétation faite par le développeur."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 403,
+          "enonce": "Lesquels des éléments suivants sont des avantages de DevOps ? \ni. Lancement plus rapide des produits et accélération de la mise sur le marché\nii. Augmentation du besoin de tests manuels répétitifs\niii. Disponibilité constante de logiciels exécutables\niv. Réduction du nombre de tests de régression associés au remaniement du code\nv. La mise en place du cadre d'automatisation des tests est peu coûteuse puisque tout est automatisé.",
+          "choices": [
+            "i, ii, iv sont des avantages ;",
+            "iii, v sont des avantages ;",
+            "i, iii sont des avantages ;",
+            "ii, iv, v sont des avantages ;"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 404,
+          "enonce": "Vous travaillez comme testeur dans le cadre d'un projet d'application mobile de commande de nourriture pour l'un de vos clients. Le client vous a envoyé une liste d'exigences, dont l'une, hautement prioritaire, est : \"La commande doit être traitée en moins de 10 secondes dans 95% des cas\". Vous avez créé un ensemble de cas de test dans lesquels un certain nombre de commandes aléatoires ont été effectuées. Le temps de traitement a été mesuré et les résultats des tests ont été comparés aux exigences. Quel type de test avez-vous effectué ? ",
+          "choices": [
+            "Fonctionnel, parce que les cas de test couvrent les besoins métier de l'utilisateur pour le système.",
+            "Non fonctionnel, car ils mesurent la performance du système.",
+            "Fonctionnel, parce que les cas de test interagissent avec l'interface utilisateur",
+            "Structurel, car nous devons connaître la structure interne du programme pour mesurer le temps de traitement des commandes."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 405,
+          "enonce": "La stratégie de test de votre organisation suggère que lorsque le retrait d’un système est prévu, la migration des données est testée. Dans le cadre de quel type de test ce test est-il LE PLUS susceptible d'être effectué ? ",
+          "choices": [
+            "Tests de maintenance.",
+            "Tests de régression.",
+            "Test de composants.",
+            "Tests d'intégration."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 406,
+          "enonce": "Voici une liste des produits de travail réalisés dans le cadre du cycle de développement (SDLC) :\ni. Exigences commerciales.\nii. Le Calendrier.\niii. Budget du test.\niv. Code exécutable tiers.\nv. User Stories et leurs critères d'acceptation.\nLesquels peuvent être revus ? ",
+          "choices": [
+            "i et iv peuvent être révisés ;",
+            "i, ii, iii et iv peuvent être révisés ;",
+            "i, ii, iii et v peuvent être révisés ;",
+            "iii, iv, v peuvent être révisés ;"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 407,
+          "enonce": "Décidez laquelle des affirmations suivantes (i-v) est vraie pour les tests statiques. \ni. Les comportements externes anormaux sont plus faciles à identifier avec ce test.\nii. Les divergences par rapport à une norme de codage sont plus faciles à déceler avec ce test.\niii. Il identifie des défaillances causées par des défauts lors de l'exécution du logiciel.\niv. L'objectif de ce test est d'identifier les défauts le plus tôt possible.\nv. Un manque de couverture des exigences de sécurité critiques est plus facile à trouver et à corriger.",
+          "choices": [
+            "i, iv, v sont vrais pour les tests statiques ;",
+            "i, iii, iv sont vrais pour les tests statiques ;",
+            "ii, iii sont vrais pour les tests statiques ;",
+            "ii, iv, v sont vrais pour les tests statiques ;"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 408,
+          "enonce": "Laquelle des affirmations suivantes concernant les revues formelles est VRAIE ? ",
+          "choices": [
+            "Certaines revues ne nécessitent pas plus d'un rôle.",
+            "Le processus de revue comporte plusieurs activités.",
+            "La documentation à revoir n'est pas distribuée avant la réunion de revue, à l'exception du produit d’activités pour des types de revues spécifiques.",
+            "Les défauts trouvés lors de la revue ne sont pas signalés car ils ne sont pas détectés par les tests dynamiques."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 409,
+          "enonce": "Quelle tâche la direction peut-elle assumer lors d'une revue formelle ? ",
+          "choices": [
+            "Assumer la responsabilité globale de la revue.",
+            "Décider de ce qui doit être revu.",
+            "Assurer le bon déroulement des réunions de revue et jouer le rôle de médiateur si nécessaire.",
+            "Enregistrer les informations relatives à la revue, telles que les décisions de revue."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 410,
+          "enonce": "Un système de stockage de vin utilise un dispositif de contrôle qui mesure la température. ... \nVous souhaitez utiliser l'analyse des valeurs limites en 3 points pour vérifier le comportement du dispositif de contrôle. ...\nQuel est l'ensemble MINIMAL d'entrées de test qui permet d'obtenir 100 % de la couverture souhaitée ?",
+          "choices": [
+            "11, 12, 13",
+            "10, 12, 14",
+            "10, 11, 12, 13, 14",
+            "10, 11, 13, 14"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 411,
+          "enonce": "Laquelle des affirmations suivantes concernant le test des branches est CORRECTE ? ",
+          "choices": [
+            "Si un programme ne comporte que des branches inconditionnelles, il est possible d'obtenir une couverture des branches de 100 % sans exécuter aucun cas de test.",
+            "Si les cas de test exercent toutes les branches inconditionnelles du code, la couverture des branches est de 100 %.",
+            "Si la couverture des instructions est de 100 %, la couverture des branches est également de 100 %.",
+            "Si la couverture des branches est de 100 %, tous les résultats de décision de chaque décision dans le code sont exercés."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 412,
+          "enonce": "Vous testez une application mobile qui permet aux clients d'accéder à leurs comptes bancaires... \nParmi les options suivantes, laquelle catégorise LE MIEUX la technique de test que vous utilisez ?",
+          "choices": [
+            "Boîte noire",
+            "Exploratoire",
+            "Basé sur une checklist",
+            "Estimation d'erreur"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 413,
+          "enonce": "Lequel des éléments suivants décrit le mieux l'approche collaborative de la rédaction de User Stories ? ",
+          "choices": [
+            "Les User Stories sont créées par les testeurs et les développeurs, puis acceptées par les représentants métier.",
+            "Les User Stories sont créées par les représentants métier, les développeurs et les testeurs.",
+            "Les User Stories sont créées par les représentants métier et vérifiées par les développeurs et les testeurs.",
+            "Les User Stories sont créées de manière à ce qu'elles soient indépendantes, négociables, apportant de la valeur, estimables, petites et testables."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "questionId": 414,
+          "enonce": "Considérez la partie suivante d'un plan de test... \nÀ quelle partie du plan de test cette partie appartient-elle ?",
+          "choices": [
+            "Communication",
+            "Registre des risques",
+            "Contexte des tests",
+            "Approche de test"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 415,
+          "enonce": "Lors de l'analyse des risques, l'équipe a envisagé le risque suivant... \nQue peut-on dire de la probabilité du risque ?",
+          "choices": [
+            "Il est également très élevé. L'impact d'un risque élevé implique toujours une probabilité de risque élevée.",
+            "Elle est très faible. L'impact d'un risque élevé implique toujours une faible probabilité de risque.",
+            "On ne peut rien dire de la probabilité du risque. L'impact du risque et la probabilité du risque sont indépendants.",
+            "La probabilité du risque n'est pas importante avec un impact aussi élevé. Il n'est pas nécessaire de la définir."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "questionId": 416,
+          "enonce": "La liste suivante contient les risques qui ont été identifiés... \nLesquels constituent des risques projet ?",
+          "choices": [
+            "i, iv sont des risques projet ;",
+            "iv, v sont des risques projet ;",
+            "i, iii sont des risques projet ;",
+            "ii, v sont des risques projet ;"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "questionId": 417,
+          "enonce": "Lequel des exemples suivants illustre la manière dont l'analyse des risques produit influe sur l'exhaustivité et l'étendue des tests ? ",
+          "choices": [
+            "Le test manager surveille et rapporte quotidiennement le niveau de tous les risques connus afin que les parties prenantes puissent prendre une décision éclairée sur la date de livraison.",
+            "L'un des risques identifiés étant le \"manque de support des bases de données open-source\", l'équipe a décidé d'intégrer le système à une base de données open-source.",
+            "Au cours de l'analyse quantitative des risques, l'équipe a estimé le niveau total de tous les risques identifiés et l'a présenté comme le risque résiduel total avant les tests.",
+            "L'évaluation des risques a révélé un niveau très élevé de risques pour la performance, et il a donc été décidé de procéder à des tests détaillés d'efficacité des performances dès le début du cycle de vie de développement logiciel."
+          ],
+          "correctIndex": 3
+        },
+        {
+          "questionId": 418,
+          "enonce": "Parmi les informations suivantes contenues dans un rapport d'avancement des tests, laquelle est la MOINS utile pour les représentants métiers ? ",
+          "choices": [
+            "Obstacles au test.",
+            "Couverture des branches atteinte.",
+            "Progression du test.",
+            "Nouveaux risques dans le cycle de test."
+          ],
+          "correctIndex": 1
+        }
+      ]
+    }
+  ]
+}
