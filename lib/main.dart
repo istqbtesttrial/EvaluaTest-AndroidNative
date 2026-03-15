@@ -190,7 +190,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
   }
 
   void _startExam() {
-    final questions = widget.data.catalog.buildExamQuestions(40);
+    final questions = widget.data.catalog.buildExamQuestions();
     final session = ExamSession(
       startedAt: DateTime.now(),
       questions: questions,
@@ -208,7 +208,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
       if (!mounted) return;
       if (_remaining.inSeconds <= 1) {
         timer.cancel();
-        _submitExam();
+        _submitExam(showTimeoutAlert: true);
       } else {
         setState(() => _remaining -= const Duration(seconds: 1));
       }
@@ -230,16 +230,55 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     );
   }
 
-  Future<void> _submitExam() async {
+  Future<void> _submitExam({
+    bool requireConfirm = false,
+    bool showTimeoutAlert = false,
+  }) async {
     final session = _session;
     if (session == null) return;
+
+    final unansweredCount = session.unansweredCount;
+    if (requireConfirm && unansweredCount > 0) {
+      final proceed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Soumettre l’examen ?'),
+          content: Text(
+            'Il reste $unansweredCount question${unansweredCount > 1 ? 's' : ''} non répondue${unansweredCount > 1 ? 's' : ''}. Continuer quand même ?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Annuler'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Soumettre'),
+            ),
+          ],
+        ),
+      );
+      if (proceed != true) return;
+    }
+
     _timer?.cancel();
     session.completedAt = DateTime.now();
+
+    if (showTimeoutAlert && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Temps écoulé ! L’examen se termine automatiquement.'),
+        ),
+      );
+    }
+
     final entry = SessionRecord(
       timestamp: DateTime.now(),
       score: session.score,
       totalQuestions: session.questions.length,
+      percent: session.percent,
       durationSeconds: session.timeSpent.inSeconds,
+      unansweredCount: session.unansweredCount,
     );
     _stats = _stats.add(entry);
     await _stats.save(widget.data.prefs);
@@ -275,7 +314,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
           pageNotifier: _pageNotifier,
           onAnswer: _answerQuestion,
           onGoToPage: _goToPage,
-          onSubmit: _submitExam,
+          onSubmit: () => _submitExam(requireConfirm: true),
         );
       case AppStage.results:
         return ResultsScreen(
@@ -592,22 +631,6 @@ class DashboardScreen extends StatelessWidget {
           ...catalog.chapters.map((c) => ChapterPreviewCard(chapter: c)),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: 72,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            BottomNavChip(
-              icon: Icons.home_rounded,
-              label: 'Accueil',
-              active: true,
-            ),
-            BottomNavChip(icon: Icons.quiz_outlined, label: 'Examens'),
-            BottomNavChip(icon: Icons.insights_outlined, label: 'Stats'),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -832,7 +855,7 @@ class ExamScreen extends StatelessWidget {
   }
 }
 
-class ResultsScreen extends StatelessWidget {
+class ResultsScreen extends StatefulWidget {
   const ResultsScreen({
     super.key,
     required this.session,
@@ -847,8 +870,31 @@ class ResultsScreen extends StatelessWidget {
   final VoidCallback onBackToDashboard;
 
   @override
+  State<ResultsScreen> createState() => _ResultsScreenState();
+}
+
+class _ResultsScreenState extends State<ResultsScreen> {
+  ResultFilter _filter = ResultFilter.all;
+
+  @override
   Widget build(BuildContext context) {
-    final percent = ((session.score / session.questions.length) * 100).round();
+    final session = widget.session;
+    final passed = session.score >= 26;
+    final filteredIndexes = <int>[];
+
+    for (var i = 0; i < session.questions.length; i++) {
+      final answer = session.answers[i];
+      final isUnanswered = answer == null;
+      final isCorrect = answer == session.questions[i].correctIndex;
+      final include = switch (_filter) {
+        ResultFilter.all => true,
+        ResultFilter.correct => isCorrect,
+        ResultFilter.incorrect => !isCorrect && !isUnanswered,
+        ResultFilter.unanswered => isUnanswered,
+      };
+      if (include) filteredIndexes.add(i);
+    }
+
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
@@ -869,21 +915,30 @@ class ResultsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const PremiumPill(label: 'Résultats'),
+                PremiumPill(label: passed ? 'Réussi ✅' : 'Échec ❌'),
                 const SizedBox(height: 14),
                 Text(
-                  '$percent%',
+                  '${session.score}/${session.questions.length} (${session.percent.toStringAsFixed(2)}%)',
                   style: const TextStyle(
-                    fontSize: 46,
+                    fontSize: 34,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: -1,
+                    letterSpacing: -0.8,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '${session.score}/${session.questions.length} bonnes réponses',
+                  passed
+                      ? 'Félicitations, vous avez réussi l’examen !'
+                      : 'Désolé, vous avez échoué l’examen.',
                   style: const TextStyle(color: Color(0xFF6A6A6A)),
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  'Temps utilisé : ${session.timeUsedLabel} (${session.timeUsedPercentLabel} du temps).',
+                  style: const TextStyle(color: Color(0xFF6A6A6A)),
+                ),
+                const SizedBox(height: 10),
+                Text(session.insight, style: const TextStyle(height: 1.4)),
               ],
             ),
           ),
@@ -892,96 +947,166 @@ class ResultsScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: TinyMetric(
+                  title: 'Bonnes',
+                  value: '${session.correctCount}',
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TinyMetric(
+                  title: 'Incorrectes',
+                  value: '${session.incorrectCount}',
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TinyMetric(
+                  title: 'Non répondues',
+                  value: '${session.unansweredCount}',
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: TinyMetric(
                   title: 'Meilleur score',
-                  value: stats.bestScoreLabel,
+                  value: widget.stats.bestScoreLabel,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: TinyMetric(
                   title: 'Dernier score',
-                  value: stats.lastScoreLabel,
+                  value: widget.stats.lastScoreLabel,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: TinyMetric(
-                  title: 'Temps',
-                  value: formatDuration(session.timeSpent),
-                ),
+                child: TinyMetric(title: 'Temps', value: session.timeUsedLabel),
               ),
             ],
           ),
           const SizedBox(height: 18),
           const SectionTitle(
             title: 'Correction',
-            subtitle: 'Lecture claire, compacte, utile.',
+            subtitle: 'Même logique métier que la première app, avec filtres.',
           ),
           const SizedBox(height: 12),
-          ...List.generate(session.questions.length, (index) {
-            final q = session.questions[index];
-            final answer = session.answers[index];
-            final ok = answer == q.correctIndex;
-            return Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFFEBEBEB)),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _FilterChip(
+                label: 'Toutes',
+                active: _filter == ResultFilter.all,
+                onTap: () => setState(() => _filter = ResultFilter.all),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      PremiumPill(label: 'Q${index + 1}'),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          q.chapterTitle,
-                          style: const TextStyle(
-                            color: Color(0xFF6A6A6A),
-                            fontWeight: FontWeight.w600,
+              _FilterChip(
+                label: 'Correctes',
+                active: _filter == ResultFilter.correct,
+                onTap: () => setState(() => _filter = ResultFilter.correct),
+              ),
+              _FilterChip(
+                label: 'Incorrectes',
+                active: _filter == ResultFilter.incorrect,
+                onTap: () => setState(() => _filter = ResultFilter.incorrect),
+              ),
+              _FilterChip(
+                label: 'Non répondues',
+                active: _filter == ResultFilter.unanswered,
+                onTap: () => setState(() => _filter = ResultFilter.unanswered),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          if (filteredIndexes.isEmpty)
+            const SoftCard(child: Text('Aucune question dans ce filtre.'))
+          else
+            ...filteredIndexes.map((index) {
+              final q = session.questions[index];
+              final answer = session.answers[index];
+              final isUnanswered = answer == null;
+              final isCorrect = answer == q.correctIndex;
+              final statusText = isCorrect
+                  ? '✔ Bonne réponse'
+                  : isUnanswered
+                  ? '⏳ Non répondue'
+                  : '✖ À revoir';
+              final insight = isCorrect
+                  ? 'Bonne logique : retiens bien le raisonnement qui mène à cette réponse.'
+                  : isUnanswered
+                  ? 'Cette question a été laissée vide. Surveille surtout ton rythme.'
+                  : 'À retravailler : compare ta réponse à la bonne et identifie ce qui t’a induit en erreur.';
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: const Color(0xFFEBEBEB)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        PremiumPill(label: 'Q${index + 1}'),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            q.chapterTitle,
+                            style: const TextStyle(
+                              color: Color(0xFF6A6A6A),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      Icon(
-                        ok ? Icons.check_circle : Icons.cancel,
-                        color: ok
-                            ? const Color(0xFF1D4ED8)
-                            : const Color(0xFF2563EB),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    q.enonce,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      height: 1.4,
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Ta réponse : ${answer == null ? 'Non répondue' : q.choices[answer]}',
-                    style: const TextStyle(color: Color(0xFF6A6A6A)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Bonne réponse : ${q.choices[q.correctIndex]}',
-                    style: const TextStyle(
-                      color: Color(0xFF1D4ED8),
-                      fontWeight: FontWeight.w700,
+                    const SizedBox(height: 12),
+                    Text(
+                      q.enonce,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        height: 1.4,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Votre réponse : ${answer == null ? 'Aucune sélectionnée' : q.choices[answer]}',
+                      style: const TextStyle(color: Color(0xFF6A6A6A)),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Réponse correcte : ${q.choices[q.correctIndex]}',
+                      style: const TextStyle(
+                        color: Color(0xFF1D4ED8),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      statusText,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      insight,
+                      style: const TextStyle(
+                        color: Color(0xFF6A6A6A),
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
           const SizedBox(height: 8),
           FilledButton(
-            onPressed: onRestart,
+            onPressed: widget.onRestart,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF3B82F6),
               minimumSize: const Size.fromHeight(54),
@@ -993,13 +1118,52 @@ class ResultsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: onBackToDashboard,
+            onPressed: widget.onBackToDashboard,
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(54),
             ),
             child: const Text('Retour au dashboard'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+enum ResultFilter { all, correct, incorrect, unanswered }
+
+class _FilterChip extends StatelessWidget {
+  const _FilterChip({
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(999),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: active ? const Color(0xFFEFF6FF) : Colors.white,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: active ? const Color(0xFF3B82F6) : const Color(0xFFEBEBEB),
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: active ? const Color(0xFF1D4ED8) : Colors.black87,
+          ),
+        ),
       ),
     );
   }
@@ -1283,7 +1447,7 @@ class HistoryCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${record.friendlyDate} • ${formatDuration(Duration(seconds: record.durationSeconds))}',
+                  '${record.friendlyDate} • ${shortDuration(record.durationSeconds)} · ${record.unansweredCount} non-répondues',
                   style: const TextStyle(color: Color(0xFF6A6A6A)),
                 ),
               ],
@@ -1507,10 +1671,18 @@ class QuestionCatalog {
     for (final chapter in chapters) ...chapter.questions,
   ];
 
-  List<QuestionItem> buildExamQuestions(int count) {
-    final all = [...allQuestions];
-    all.shuffle(Random(42));
-    return all.take(min(count, all.length)).toList();
+  List<QuestionItem> buildExamQuestions() {
+    const distribution = {1: 8, 2: 6, 3: 4, 4: 11, 5: 9, 6: 2};
+    final random = Random(42);
+    final selected = <QuestionItem>[];
+
+    for (final chapter in chapters) {
+      final count = distribution[chapter.id] ?? 0;
+      final pool = [...chapter.questions]..shuffle(random);
+      selected.addAll(pool.take(min(count, pool.length)));
+    }
+
+    return selected;
   }
 
   static Future<QuestionCatalog> load() async {
@@ -1599,6 +1771,7 @@ class ExamSession {
   final List<int?> answers;
 
   int get answeredCount => answers.whereType<int>().length;
+  int get unansweredCount => questions.length - answeredCount;
   int get score {
     var total = 0;
     for (var i = 0; i < questions.length; i++) {
@@ -1607,8 +1780,24 @@ class ExamSession {
     return total;
   }
 
+  int get correctCount => score;
+  int get incorrectCount => questions.length - correctCount - unansweredCount;
+  double get percent =>
+      questions.isEmpty ? 0 : (score / questions.length) * 100;
   Duration get timeSpent =>
       (completedAt ?? DateTime.now()).difference(startedAt);
+  String get timeUsedLabel => shortDuration(timeSpent.inSeconds);
+  String get timeUsedPercentLabel =>
+      '${((timeSpent.inSeconds / 4500) * 100).clamp(0, 100).toStringAsFixed(2)}%';
+  String get insight {
+    if (incorrectCount == 0 && unansweredCount == 0) {
+      return 'Excellent travail. Toutes les questions ont reçu une réponse correcte.';
+    }
+    if (unansweredCount > 0) {
+      return 'Point d’attention : $unansweredCount question${unansweredCount > 1 ? 's' : ''} n’ont pas reçu de réponse. Revois surtout ta gestion du temps avant la prochaine session.';
+    }
+    return 'Conseil : concentre-toi d’abord sur les $incorrectCount question${incorrectCount > 1 ? 's' : ''} incorrectes ci-dessous, puis relis les bonnes réponses pour consolider la logique attendue.';
+  }
 }
 
 class StatsStore {
@@ -1659,25 +1848,33 @@ class SessionRecord {
     required this.timestamp,
     required this.score,
     required this.totalQuestions,
+    required this.percent,
     required this.durationSeconds,
+    required this.unansweredCount,
   });
   final DateTime timestamp;
   final int score;
   final int totalQuestions;
+  final double percent;
   final int durationSeconds;
+  final int unansweredCount;
 
   factory SessionRecord.fromJson(Map<String, dynamic> json) => SessionRecord(
     timestamp: DateTime.parse(json['timestamp'] as String),
     score: json['score'] as int,
     totalQuestions: json['totalQuestions'] as int,
+    percent: (json['percent'] as num?)?.toDouble() ?? 0,
     durationSeconds: json['durationSeconds'] as int,
+    unansweredCount: json['unansweredCount'] as int? ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
     'timestamp': timestamp.toIso8601String(),
     'score': score,
     'totalQuestions': totalQuestions,
+    'percent': percent,
     'durationSeconds': durationSeconds,
+    'unansweredCount': unansweredCount,
   };
 
   String get friendlyDate {
@@ -1693,4 +1890,11 @@ String formatDuration(Duration duration) {
   final minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
   final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
   return '$hours:$minutes:$seconds';
+}
+
+String shortDuration(int seconds) {
+  if (seconds <= 0) return '-';
+  final minutes = seconds ~/ 60;
+  final remainingSeconds = seconds % 60;
+  return '${minutes}m${remainingSeconds.toString().padLeft(2, '0')}s';
 }
