@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,36 +16,38 @@ class EvaluaTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const baseColor = Color(0xFF2563EB);
+    const seed = Color(0xFF2563EB);
 
     return MaterialApp(
-      title: 'EvaluaTest Native',
       debugShowCheckedModeBanner: false,
+      title: 'EvaluaTest Native',
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: baseColor,
-          brightness: Brightness.light,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: seed),
         scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        textTheme: const TextTheme(
+          headlineMedium: TextStyle(fontWeight: FontWeight.w800),
+          headlineSmall: TextStyle(fontWeight: FontWeight.w800),
+          titleLarge: TextStyle(fontWeight: FontWeight.w700),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 18,
+            vertical: 18,
+          ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.4),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: seed, width: 1.5),
           ),
         ),
       ),
@@ -60,47 +64,53 @@ class AppBootstrapper extends StatefulWidget {
 }
 
 class _AppBootstrapperState extends State<AppBootstrapper> {
-  late Future<QuestionCatalog> _catalogFuture;
+  late Future<BootstrapData> _future;
 
   @override
   void initState() {
     super.initState();
-    _catalogFuture = QuestionCatalog.load();
+    _future = _load();
+  }
+
+  Future<BootstrapData> _load() async {
+    final catalog = await QuestionCatalog.load();
+    final prefs = await SharedPreferences.getInstance();
+    final history = StatsStore.fromPrefs(prefs);
+    return BootstrapData(catalog: catalog, prefs: prefs, history: history);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuestionCatalog>(
-      future: _catalogFuture,
+    return FutureBuilder<BootstrapData>(
+      future: _future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
+        if (!snapshot.hasData) {
           return const SplashLoadingScreen();
         }
-
-        if (snapshot.hasError || !snapshot.hasData) {
-          return Scaffold(
-            body: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  'Erreur de chargement des questions : ${snapshot.error}',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          );
-        }
-
-        return EvaluaTestHome(catalog: snapshot.data!);
+        return EvaluaTestHome(data: snapshot.data!);
       },
     );
   }
 }
 
-class EvaluaTestHome extends StatefulWidget {
-  const EvaluaTestHome({super.key, required this.catalog});
+class BootstrapData {
+  const BootstrapData({
+    required this.catalog,
+    required this.prefs,
+    required this.history,
+  });
 
   final QuestionCatalog catalog;
+  final SharedPreferences prefs;
+  final StatsStore history;
+}
+
+enum AppStage { login, dashboard, exam, results }
+
+class EvaluaTestHome extends StatefulWidget {
+  const EvaluaTestHome({super.key, required this.data});
+
+  final BootstrapData data;
 
   @override
   State<EvaluaTestHome> createState() => _EvaluaTestHomeState();
@@ -110,36 +120,55 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _pageController = PageController();
-  final _scrollController = ScrollController();
+  final _pageNotifier = ValueNotifier<int>(0);
 
   AppStage _stage = AppStage.login;
   String? _loginError;
   bool _rememberMe = true;
   String _displayName = 'Élève';
-
   ExamSession? _session;
   Duration _remaining = const Duration(minutes: 75);
   Timer? _timer;
+  late StatsStore _stats;
+
+  @override
+  void initState() {
+    super.initState();
+    _stats = widget.data.history;
+    _rememberMe = widget.data.prefs.getBool('remember_me') ?? true;
+    final savedName = widget.data.prefs.getString('display_name');
+    if (savedName != null && savedName.isNotEmpty) {
+      _displayName = savedName;
+      _usernameController.text = savedName;
+      if (_rememberMe) {
+        _stage = AppStage.dashboard;
+      }
+    }
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _usernameController.dispose();
     _passwordController.dispose();
     _pageController.dispose();
-    _scrollController.dispose();
-    _timer?.cancel();
+    _pageNotifier.dispose();
     super.dispose();
   }
 
-  void _login() {
+  Future<void> _login() async {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
-
     if (username.isEmpty || password.isEmpty) {
-      setState(() {
-        _loginError = 'Entre ton login et ton mot de passe.';
-      });
+      setState(() => _loginError = 'Entre ton login et ton mot de passe.');
       return;
+    }
+
+    await widget.data.prefs.setBool('remember_me', _rememberMe);
+    if (_rememberMe) {
+      await widget.data.prefs.setString('display_name', username);
+    } else {
+      await widget.data.prefs.remove('display_name');
     }
 
     setState(() {
@@ -149,8 +178,9 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
     });
   }
 
-  void _logout() {
+  Future<void> _logout() async {
     _timer?.cancel();
+    await widget.data.prefs.remove('display_name');
     setState(() {
       _stage = AppStage.login;
       _session = null;
@@ -161,15 +191,16 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
   }
 
   void _startExam() {
-    final questions = widget.catalog.allQuestions.take(40).toList();
+    final questions = widget.data.catalog.buildExamQuestions(40);
     final session = ExamSession(
       startedAt: DateTime.now(),
       questions: questions,
       answers: List<int?>.filled(questions.length, null),
     );
 
-    _timer?.cancel();
+    _pageNotifier.value = 0;
     _pageController.jumpToPage(0);
+    _timer?.cancel();
 
     setState(() {
       _session = session;
@@ -182,45 +213,43 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
       if (_remaining.inSeconds <= 1) {
         timer.cancel();
         _submitExam();
-        return;
+      } else {
+        setState(() => _remaining -= const Duration(seconds: 1));
       }
-      setState(() {
-        _remaining -= const Duration(seconds: 1);
-      });
     });
   }
 
-  void _answerQuestion(int questionIndex, int choiceIndex) {
+  void _answerQuestion(int index, int choice) {
     final session = _session;
     if (session == null) return;
-
-    setState(() {
-      session.answers[questionIndex] = choiceIndex;
-    });
+    setState(() => session.answers[index] = choice);
   }
 
   void _goToPage(int index) {
+    _pageNotifier.value = index;
     _pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 260),
-      curve: Curves.easeOutCubic,
-    );
-    _scrollController.animateTo(
-      0,
       duration: const Duration(milliseconds: 220),
-      curve: Curves.easeOut,
+      curve: Curves.easeOutCubic,
     );
   }
 
-  void _submitExam() {
+  Future<void> _submitExam() async {
     final session = _session;
     if (session == null) return;
-
     _timer?.cancel();
     session.completedAt = DateTime.now();
-    setState(() {
-      _stage = AppStage.results;
-    });
+
+    final entry = SessionRecord(
+      timestamp: DateTime.now(),
+      score: session.score,
+      totalQuestions: session.questions.length,
+      durationSeconds: session.timeSpent.inSeconds,
+    );
+    _stats = _stats.add(entry);
+    await _stats.save(widget.data.prefs);
+
+    setState(() => _stage = AppStage.results);
   }
 
   @override
@@ -234,12 +263,13 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
           loginError: _loginError,
           onRememberChanged: (value) => setState(() => _rememberMe = value),
           onLogin: _login,
+          stats: _stats,
         );
       case AppStage.dashboard:
         return DashboardScreen(
           displayName: _displayName,
-          catalog: widget.catalog,
-          rememberMe: _rememberMe,
+          catalog: widget.data.catalog,
+          stats: _stats,
           onStartExam: _startExam,
           onLogout: _logout,
         );
@@ -248,7 +278,7 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
           session: _session!,
           remaining: _remaining,
           pageController: _pageController,
-          scrollController: _scrollController,
+          pageNotifier: _pageNotifier,
           onAnswer: _answerQuestion,
           onGoToPage: _goToPage,
           onSubmit: _submitExam,
@@ -256,14 +286,13 @@ class _EvaluaTestHomeState extends State<EvaluaTestHome> {
       case AppStage.results:
         return ResultsScreen(
           session: _session!,
-          onBackToDashboard: () => setState(() => _stage = AppStage.dashboard),
+          stats: _stats,
           onRestart: _startExam,
+          onBackToDashboard: () => setState(() => _stage = AppStage.dashboard),
         );
     }
   }
 }
-
-enum AppStage { login, dashboard, exam, results }
 
 class SplashLoadingScreen extends StatelessWidget {
   const SplashLoadingScreen({super.key});
@@ -284,10 +313,10 @@ class SplashLoadingScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CircularProgressIndicator(color: Colors.white),
-              SizedBox(height: 20),
+              SizedBox(height: 18),
               Text(
                 'Préparation de l’expérience native…',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white),
               ),
             ],
           ),
@@ -306,6 +335,7 @@ class LoginScreen extends StatelessWidget {
     required this.loginError,
     required this.onRememberChanged,
     required this.onLogin,
+    required this.stats,
   });
 
   final TextEditingController usernameController;
@@ -313,7 +343,8 @@ class LoginScreen extends StatelessWidget {
   final bool rememberMe;
   final String? loginError;
   final ValueChanged<bool> onRememberChanged;
-  final VoidCallback onLogin;
+  final Future<void> Function() onLogin;
+  final StatsStore stats;
 
   @override
   Widget build(BuildContext context) {
@@ -321,7 +352,7 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+            colors: [Color(0xFF0F172A), Color(0xFF172554), Color(0xFF2563EB)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -330,59 +361,44 @@ class LoginScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24),
             children: [
-              const SizedBox(height: 36),
+              const SizedBox(height: 12),
               const Text(
                 'EvaluaTest',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Version Android native. Plus propre, plus premium, plus fiable.',
+                'Version Flutter native. Plus premium, plus stable, plus crédible sur téléphone réel.',
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.88),
-                  fontSize: 16,
-                  height: 1.45,
+                  color: Colors.white.withValues(alpha: 0.9),
+                  height: 1.4,
                 ),
               ),
               const SizedBox(height: 28),
-              Container(
-                padding: const EdgeInsets.all(22),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(28),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x330F172A),
-                      blurRadius: 30,
-                      offset: Offset(0, 18),
-                    ),
-                  ],
-                ),
+              GlassCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const PremiumPill(label: 'Espace élèves'),
+                    const PremiumPill(label: 'Connexion premium'),
                     const SizedBox(height: 14),
                     const Text(
                       'Connexion',
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 28,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Un écran simple, rassurant et pensé mobile dès le départ.',
-                      style: TextStyle(color: Color(0xFF475569), height: 1.45),
+                      'Base simple pour l’instant, mais solide et agréable à utiliser.',
                     ),
                     const SizedBox(height: 18),
                     TextField(
                       controller: usernameController,
-                      textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(
                         labelText: 'Login',
                         prefixIcon: Icon(Icons.person_outline),
@@ -401,11 +417,8 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Checkbox(
-                          value: rememberMe,
-                          onChanged: (value) =>
-                              onRememberChanged(value ?? false),
-                        ),
+                        Switch(value: rememberMe, onChanged: onRememberChanged),
+                        const SizedBox(width: 8),
                         const Expanded(child: Text('Rester connecté')),
                       ],
                     ),
@@ -427,17 +440,27 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 18),
                     FilledButton.icon(
                       onPressed: onLogin,
-                      icon: const Icon(Icons.arrow_forward_rounded),
-                      label: const Text('Entrer dans l’espace élève'),
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(58),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
                       ),
+                      icon: const Icon(Icons.arrow_forward_rounded),
+                      label: const Text('Entrer dans l’espace élève'),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  StatChip(label: 'Sessions', value: '${stats.attempts}'),
+                  StatChip(
+                    label: 'Meilleur score',
+                    value: stats.bestScoreLabel,
+                  ),
+                  StatChip(label: 'Temps moyen', value: stats.averageTimeLabel),
+                ],
               ),
             ],
           ),
@@ -452,16 +475,16 @@ class DashboardScreen extends StatelessWidget {
     super.key,
     required this.displayName,
     required this.catalog,
-    required this.rememberMe,
+    required this.stats,
     required this.onStartExam,
     required this.onLogout,
   });
 
   final String displayName;
   final QuestionCatalog catalog;
-  final bool rememberMe;
+  final StatsStore stats;
   final VoidCallback onStartExam;
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -494,16 +517,16 @@ class DashboardScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Bonsoir $displayName',
+                                'Salut $displayName',
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w800,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Prêt pour une session ISTQB propre, lisible et sans friction.',
+                                'Tu as maintenant une base Android native avec historique local et stats persistées.',
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.9),
                                   height: 1.4,
@@ -528,20 +551,25 @@ class DashboardScreen extends StatelessWidget {
                       spacing: 12,
                       runSpacing: 12,
                       children: [
-                        DashboardMetric(
-                          label: 'Questions',
-                          value: '${catalog.totalQuestions}',
-                          icon: Icons.quiz_outlined,
+                        HeroMetric(
+                          label: 'Dernier score',
+                          value: stats.lastScoreLabel,
+                          icon: Icons.flag_outlined,
                         ),
-                        DashboardMetric(
-                          label: 'Chapitres',
-                          value: '${catalog.chapters.length}',
-                          icon: Icons.layers_outlined,
+                        HeroMetric(
+                          label: 'Meilleur score',
+                          value: stats.bestScoreLabel,
+                          icon: Icons.emoji_events_outlined,
                         ),
-                        DashboardMetric(
-                          label: 'Mode',
-                          value: rememberMe ? 'Mémoire ON' : 'Session',
-                          icon: Icons.phone_android_outlined,
+                        HeroMetric(
+                          label: 'Tentatives',
+                          value: '${stats.attempts}',
+                          icon: Icons.history_outlined,
+                        ),
+                        HeroMetric(
+                          label: 'Temps moyen',
+                          value: stats.averageTimeLabel,
+                          icon: Icons.timer_outlined,
                         ),
                       ],
                     ),
@@ -554,50 +582,26 @@ class DashboardScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             sliver: SliverList.list(
               children: [
-                const SectionTitle(
-                  title: 'Session d’examen',
-                  subtitle:
-                      'Une expérience directe : démarrage simple, progression claire, correction propre.',
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: _cardDecoration(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Examen blanc Foundation Level',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        '40 questions • 75 minutes • navigation fluide • rendu mobile-first',
-                        style: TextStyle(
-                          color: Color(0xFF475569),
-                          height: 1.45,
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      FilledButton.icon(
-                        onPressed: onStartExam,
-                        icon: const Icon(Icons.play_arrow_rounded),
-                        label: const Text('Commencer l’examen'),
-                        style: FilledButton.styleFrom(
-                          minimumSize: const Size.fromHeight(56),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                GradientActionCard(onStartExam: onStartExam),
                 const SizedBox(height: 20),
-                const SectionTitle(
-                  title: 'Chapitres disponibles',
+                SectionTitle(
+                  title: 'Historique récent',
+                  subtitle: stats.records.isEmpty
+                      ? 'Aucune session enregistrée pour le moment.'
+                      : 'Tes dernières sessions sont sauvegardées localement.',
+                ),
+                const SizedBox(height: 12),
+                if (stats.records.isEmpty)
+                  const EmptyHistoryCard()
+                else
+                  ...stats.records
+                      .take(5)
+                      .map((record) => HistoryCard(record: record)),
+                const SizedBox(height: 20),
+                SectionTitle(
+                  title: 'Base de contenu',
                   subtitle:
-                      'La base de questions existante est déjà branchée dans la nouvelle app native.',
+                      '${catalog.totalQuestions} questions réparties sur ${catalog.chapters.length} chapitres.',
                 ),
                 const SizedBox(height: 12),
                 ...catalog.chapters.map(
@@ -618,7 +622,7 @@ class ExamScreen extends StatelessWidget {
     required this.session,
     required this.remaining,
     required this.pageController,
-    required this.scrollController,
+    required this.pageNotifier,
     required this.onAnswer,
     required this.onGoToPage,
     required this.onSubmit,
@@ -627,15 +631,13 @@ class ExamScreen extends StatelessWidget {
   final ExamSession session;
   final Duration remaining;
   final PageController pageController;
-  final ScrollController scrollController;
-  final void Function(int questionIndex, int choiceIndex) onAnswer;
-  final void Function(int index) onGoToPage;
-  final VoidCallback onSubmit;
+  final ValueNotifier<int> pageNotifier;
+  final void Function(int, int) onAnswer;
+  final void Function(int) onGoToPage;
+  final Future<void> Function() onSubmit;
 
   @override
   Widget build(BuildContext context) {
-    final progress = session.answeredCount / session.questions.length;
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -675,9 +677,57 @@ class ExamScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(999),
                     child: LinearProgressIndicator(
-                      value: progress,
+                      value: session.answeredCount / session.questions.length,
                       minHeight: 10,
                       backgroundColor: const Color(0xFFE2E8F0),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    height: 42,
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: pageNotifier,
+                      builder: (context, currentPage, _) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final answered = session.answers[index] != null;
+                            final active = currentPage == index;
+                            return InkWell(
+                              onTap: () => onGoToPage(index),
+                              borderRadius: BorderRadius.circular(999),
+                              child: Container(
+                                width: 38,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: active
+                                      ? const Color(0xFF2563EB)
+                                      : answered
+                                      ? const Color(0xFFDBEAFE)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(999),
+                                  border: Border.all(
+                                    color: active
+                                        ? const Color(0xFF2563EB)
+                                        : const Color(0xFFE2E8F0),
+                                  ),
+                                ),
+                                child: Text(
+                                  '${index + 1}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: active
+                                        ? Colors.white
+                                        : const Color(0xFF0F172A),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (_, _) => const SizedBox(width: 8),
+                          itemCount: session.questions.length,
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -686,97 +736,92 @@ class ExamScreen extends StatelessWidget {
             Expanded(
               child: PageView.builder(
                 controller: pageController,
+                onPageChanged: (value) => pageNotifier.value = value,
                 itemCount: session.questions.length,
                 itemBuilder: (context, index) {
                   final question = session.questions[index];
                   final selected = session.answers[index];
-                  final isLast = index == session.questions.length - 1;
-
-                  return SingleChildScrollView(
-                    controller: scrollController,
+                  final last = index == session.questions.length - 1;
+                  return ListView(
                     padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                    children: [
+                      Row(
+                        children: [
+                          PremiumPill(label: 'Question ${index + 1}'),
+                          const Spacer(),
+                          Text(
+                            question.chapterTitle,
+                            style: const TextStyle(
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      GlassCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PremiumPill(label: 'Question ${index + 1}'),
-                            const Spacer(),
                             Text(
-                              question.chapterTitle,
+                              question.enonce,
                               style: const TextStyle(
-                                color: Color(0xFF64748B),
-                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                height: 1.45,
                               ),
                             ),
+                            const SizedBox(height: 22),
+                            ...List.generate(question.choices.length, (
+                              choiceIndex,
+                            ) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: ChoiceTile(
+                                  label: optionLetter(choiceIndex),
+                                  text: question.choices[choiceIndex],
+                                  selected: selected == choiceIndex,
+                                  onTap: () => onAnswer(index, choiceIndex),
+                                ),
+                              );
+                            }),
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.all(22),
-                          decoration: _cardDecoration(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                question.enonce,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.45,
-                                ),
-                              ),
-                              const SizedBox(height: 22),
-                              ...List.generate(question.choices.length, (
-                                choiceIndex,
-                              ) {
-                                final isSelected = selected == choiceIndex;
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: ChoiceTile(
-                                    label: optionLetter(choiceIndex),
-                                    text: question.choices[choiceIndex],
-                                    selected: isSelected,
-                                    onTap: () => onAnswer(index, choiceIndex),
-                                  ),
-                                );
-                              }),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 18),
-                        Row(
-                          children: [
-                            if (index > 0)
-                              Expanded(
-                                child: OutlinedButton(
-                                  onPressed: () => onGoToPage(index - 1),
-                                  style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size.fromHeight(52),
-                                  ),
-                                  child: const Text('Précédent'),
-                                ),
-                              ),
-                            if (index > 0) const SizedBox(width: 12),
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        children: [
+                          if (index > 0)
                             Expanded(
-                              child: FilledButton(
-                                onPressed: isLast
-                                    ? onSubmit
-                                    : () => onGoToPage(index + 1),
-                                style: FilledButton.styleFrom(
+                              child: OutlinedButton(
+                                onPressed: () => onGoToPage(index - 1),
+                                style: OutlinedButton.styleFrom(
                                   minimumSize: const Size.fromHeight(52),
                                 ),
-                                child: Text(
-                                  isLast ? 'Valider l’examen' : 'Suivant',
-                                ),
+                                child: const Text('Précédent'),
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 14),
-                        if (isLast) SubmitSummaryCard(session: session),
+                          if (index > 0) const SizedBox(width: 12),
+                          Expanded(
+                            child: FilledButton(
+                              onPressed: last
+                                  ? onSubmit
+                                  : () => onGoToPage(index + 1),
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size.fromHeight(52),
+                              ),
+                              child: Text(
+                                last ? 'Valider l’examen' : 'Suivant',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (last) ...[
+                        const SizedBox(height: 16),
+                        SubmitSummaryCard(session: session),
                       ],
-                    ),
+                    ],
                   );
                 },
               ),
@@ -792,19 +837,21 @@ class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
     super.key,
     required this.session,
-    required this.onBackToDashboard,
+    required this.stats,
     required this.onRestart,
+    required this.onBackToDashboard,
   });
 
   final ExamSession session;
-  final VoidCallback onBackToDashboard;
+  final StatsStore stats;
   final VoidCallback onRestart;
+  final VoidCallback onBackToDashboard;
 
   @override
   Widget build(BuildContext context) {
     final score = session.score;
-    final percent = ((score / session.questions.length) * 100).round();
-
+    final total = session.questions.length;
+    final percent = ((score / total) * 100).round();
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -815,8 +862,6 @@ class ResultsScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
@@ -829,13 +874,13 @@ class ResultsScreen extends StatelessWidget {
                     '$percent%',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 42,
+                      fontSize: 44,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '$score / ${session.questions.length} bonnes réponses',
+                    '$score / $total bonnes réponses',
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.92),
                       fontSize: 16,
@@ -844,22 +889,22 @@ class ResultsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             Wrap(
               spacing: 12,
               runSpacing: 12,
               children: [
-                DashboardMetric(
-                  label: 'Bonnes',
-                  value: '$score',
-                  icon: Icons.check_circle_outline,
+                HeroMetric(
+                  label: 'Meilleur score',
+                  value: stats.bestScoreLabel,
+                  icon: Icons.workspace_premium_outlined,
                 ),
-                DashboardMetric(
-                  label: 'Répondues',
-                  value: '${session.answeredCount}',
-                  icon: Icons.edit_note_outlined,
+                HeroMetric(
+                  label: 'Dernier score',
+                  value: stats.lastScoreLabel,
+                  icon: Icons.history_toggle_off,
                 ),
-                DashboardMetric(
+                HeroMetric(
                   label: 'Temps utilisé',
                   value: formatDuration(session.timeSpent),
                   icon: Icons.timer_outlined,
@@ -869,19 +914,17 @@ class ResultsScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const SectionTitle(
               title: 'Correction rapide',
-              subtitle:
-                  'Lecture claire question par question pour un vrai ressenti premium.',
+              subtitle: 'Lecture propre et immédiate question par question.',
             ),
             const SizedBox(height: 12),
-            ...List.generate(session.questions.length, (index) {
-              final question = session.questions[index];
+            ...List.generate(total, (index) {
+              final q = session.questions[index];
               final answer = session.answers[index];
-              final isCorrect = answer == question.correctIndex;
-
+              final ok = answer == q.correctIndex;
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(18),
-                decoration: _cardDecoration(),
+                decoration: softCard,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -891,7 +934,7 @@ class ResultsScreen extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            question.chapterTitle,
+                            q.chapterTitle,
                             style: const TextStyle(
                               color: Color(0xFF64748B),
                               fontWeight: FontWeight.w600,
@@ -899,8 +942,8 @@ class ResultsScreen extends StatelessWidget {
                           ),
                         ),
                         Icon(
-                          isCorrect ? Icons.check_circle : Icons.cancel,
-                          color: isCorrect
+                          ok ? Icons.check_circle : Icons.cancel,
+                          color: ok
                               ? const Color(0xFF16A34A)
                               : const Color(0xFFDC2626),
                         ),
@@ -908,7 +951,7 @@ class ResultsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      question.enonce,
+                      q.enonce,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         height: 1.4,
@@ -916,19 +959,15 @@ class ResultsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Ta réponse : ${answer == null ? 'Non répondue' : question.choices[answer]}',
-                      style: const TextStyle(
-                        color: Color(0xFF475569),
-                        height: 1.4,
-                      ),
+                      'Ta réponse : ${answer == null ? 'Non répondue' : q.choices[answer]}',
+                      style: const TextStyle(color: Color(0xFF475569)),
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Bonne réponse : ${question.choices[question.correctIndex]}',
+                      'Bonne réponse : ${q.choices[q.correctIndex]}',
                       style: const TextStyle(
                         color: Color(0xFF16A34A),
                         fontWeight: FontWeight.w700,
-                        height: 1.4,
                       ),
                     ),
                   ],
@@ -938,11 +977,11 @@ class ResultsScreen extends StatelessWidget {
             const SizedBox(height: 8),
             FilledButton.icon(
               onPressed: onRestart,
-              icon: const Icon(Icons.replay_rounded),
-              label: const Text('Relancer un examen'),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(54),
               ),
+              icon: const Icon(Icons.replay_rounded),
+              label: const Text('Relancer un examen'),
             ),
             const SizedBox(height: 10),
             OutlinedButton(
@@ -959,9 +998,82 @@ class ResultsScreen extends StatelessWidget {
   }
 }
 
+class GradientActionCard extends StatelessWidget {
+  const GradientActionCard({super.key, required this.onStartExam});
+  final VoidCallback onStartExam;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF1E293B), Color(0xFF2563EB)],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(28)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Examen blanc Foundation Level',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '40 questions • 75 minutes • navigation fluide • historique local sauvegardé',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.9),
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 18),
+          FilledButton.icon(
+            onPressed: onStartExam,
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: const Color(0xFF0F172A),
+              minimumSize: const Size.fromHeight(56),
+            ),
+            icon: const Icon(Icons.play_arrow_rounded),
+            label: const Text('Commencer l’examen'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GlassCard extends StatelessWidget {
+  const GlassCard({super.key, required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(28),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x220F172A),
+            blurRadius: 30,
+            offset: Offset(0, 18),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
 class PremiumPill extends StatelessWidget {
   const PremiumPill({super.key, required this.label});
-
   final String label;
 
   @override
@@ -983,14 +1095,13 @@ class PremiumPill extends StatelessWidget {
   }
 }
 
-class DashboardMetric extends StatelessWidget {
-  const DashboardMetric({
+class HeroMetric extends StatelessWidget {
+  const HeroMetric({
     super.key,
     required this.label,
     required this.value,
     required this.icon,
   });
-
   final String label;
   final String value;
   final IconData icon;
@@ -1021,9 +1132,111 @@ class DashboardMetric extends StatelessWidget {
   }
 }
 
+class StatChip extends StatelessWidget {
+  const StatChip({super.key, required this.label, required this.value});
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white24),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(color: Colors.white.withValues(alpha: 0.82)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EmptyHistoryCard extends StatelessWidget {
+  const EmptyHistoryCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: softCard,
+      child: const Text(
+        'Dès que tu termines un premier examen, le dashboard affichera dernier score, meilleur score, temps moyen et historique récent.',
+      ),
+    );
+  }
+}
+
+class HistoryCard extends StatelessWidget {
+  const HistoryCard({super.key, required this.record});
+  final SessionRecord record;
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = ((record.score / record.totalQuestions) * 100).round();
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(18),
+      decoration: softCard,
+      child: Row(
+        children: [
+          Container(
+            width: 54,
+            height: 54,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: const Color(0xFFDBEAFE),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Text(
+              '$percent%',
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1D4ED8),
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${record.score}/${record.totalQuestions} bonnes réponses',
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${record.friendlyDate} • ${formatDuration(Duration(seconds: record.durationSeconds))}',
+                  style: const TextStyle(color: Color(0xFF475569)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class SectionTitle extends StatelessWidget {
   const SectionTitle({super.key, required this.title, required this.subtitle});
-
   final String title;
   final String subtitle;
 
@@ -1048,7 +1261,6 @@ class SectionTitle extends StatelessWidget {
 
 class ChapterPreviewCard extends StatelessWidget {
   const ChapterPreviewCard({super.key, required this.chapter});
-
   final ChapterInfo chapter;
 
   @override
@@ -1056,7 +1268,7 @@ class ChapterPreviewCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: softCard,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1099,7 +1311,6 @@ class ChoiceTile extends StatelessWidget {
     required this.selected,
     required this.onTap,
   });
-
   final String label;
   final String text;
   final bool selected;
@@ -1109,14 +1320,14 @@ class ChoiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: selected ? const Color(0xFFEFF6FF) : Colors.white,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(20),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: selected
                   ? const Color(0xFF2563EB)
@@ -1157,7 +1368,6 @@ class ChoiceTile extends StatelessWidget {
 
 class TimerChip extends StatelessWidget {
   const TimerChip({super.key, required this.value});
-
   final String value;
 
   @override
@@ -1188,16 +1398,16 @@ class TimerChip extends StatelessWidget {
 
 class SubmitSummaryCard extends StatelessWidget {
   const SubmitSummaryCard({super.key, required this.session});
-
   final ExamSession session;
 
   @override
   Widget build(BuildContext context) {
+    final unanswered = session.questions.length - session.answeredCount;
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0F172A),
-        borderRadius: BorderRadius.circular(22),
+      decoration: const BoxDecoration(
+        color: Color(0xFF0F172A),
+        borderRadius: BorderRadius.all(Radius.circular(24)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1212,11 +1422,8 @@ class SubmitSummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Répondues : ${session.answeredCount} • Non répondues : ${session.questions.length - session.answeredCount}',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.88),
-              height: 1.4,
-            ),
+            'Répondues : ${session.answeredCount} • Non répondues : $unanswered',
+            style: TextStyle(color: Colors.white.withValues(alpha: 0.88)),
           ),
         ],
       ),
@@ -1226,15 +1433,18 @@ class SubmitSummaryCard extends StatelessWidget {
 
 class QuestionCatalog {
   QuestionCatalog({required this.chapters});
-
   final List<ChapterInfo> chapters;
 
-  int get totalQuestions =>
-      chapters.fold(0, (sum, chapter) => sum + chapter.questions.length);
-
+  int get totalQuestions => chapters.fold(0, (sum, c) => sum + c.questionCount);
   List<QuestionItem> get allQuestions => [
     for (final chapter in chapters) ...chapter.questions,
   ];
+
+  List<QuestionItem> buildExamQuestions(int count) {
+    final all = [...allQuestions];
+    all.shuffle(Random(42));
+    return all.take(min(count, all.length)).toList();
+  }
 
   static Future<QuestionCatalog> load() async {
     const files = [
@@ -1245,9 +1455,7 @@ class QuestionCatalog {
       'assets/questions/chapt5.json',
       'assets/questions/chapt6.json',
     ];
-
     final chapters = <ChapterInfo>[];
-
     for (final file in files) {
       final raw = await rootBundle.loadString(file);
       final decoded = jsonDecode(raw) as Map<String, dynamic>;
@@ -1268,7 +1476,6 @@ class QuestionCatalog {
                 ),
               )
               .toList();
-
       chapters.add(
         ChapterInfo(
           id: chapterId,
@@ -1278,7 +1485,6 @@ class QuestionCatalog {
         ),
       );
     }
-
     return QuestionCatalog(chapters: chapters);
   }
 }
@@ -1290,12 +1496,10 @@ class ChapterInfo {
     required this.questions,
     required this.sampleQuestion,
   });
-
   final int id;
   final String title;
   final List<QuestionItem> questions;
   final String sampleQuestion;
-
   int get questionCount => questions.length;
 }
 
@@ -1308,7 +1512,6 @@ class QuestionItem {
     required this.choices,
     required this.correctIndex,
   });
-
   final String id;
   final int chapterId;
   final String chapterTitle;
@@ -1323,26 +1526,97 @@ class ExamSession {
     required this.questions,
     required this.answers,
   });
-
   final DateTime startedAt;
   DateTime? completedAt;
   final List<QuestionItem> questions;
   final List<int?> answers;
 
   int get answeredCount => answers.whereType<int>().length;
-
   int get score {
     var total = 0;
     for (var i = 0; i < questions.length; i++) {
-      if (answers[i] == questions[i].correctIndex) {
-        total++;
-      }
+      if (answers[i] == questions[i].correctIndex) total++;
     }
     return total;
   }
 
   Duration get timeSpent =>
       (completedAt ?? DateTime.now()).difference(startedAt);
+}
+
+class StatsStore {
+  StatsStore(this.records);
+  final List<SessionRecord> records;
+
+  factory StatsStore.empty() => StatsStore(const []);
+
+  factory StatsStore.fromPrefs(SharedPreferences prefs) {
+    final raw = prefs.getString('session_history');
+    if (raw == null || raw.isEmpty) return StatsStore.empty();
+    final decoded = (jsonDecode(raw) as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    return StatsStore(decoded.map(SessionRecord.fromJson).toList());
+  }
+
+  StatsStore add(SessionRecord record) => StatsStore([record, ...records]);
+
+  Future<void> save(SharedPreferences prefs) async {
+    final encoded = jsonEncode(
+      records.take(20).map((e) => e.toJson()).toList(),
+    );
+    await prefs.setString('session_history', encoded);
+  }
+
+  int get attempts => records.length;
+  SessionRecord? get lastRecord => records.isEmpty ? null : records.first;
+  int get bestScore =>
+      records.isEmpty ? 0 : records.map((e) => e.score).reduce(max);
+  int get totalQuestionsBaseline =>
+      records.isEmpty ? 40 : records.first.totalQuestions;
+  String get lastScoreLabel => lastRecord == null
+      ? '-'
+      : '${lastRecord!.score}/${lastRecord!.totalQuestions}';
+  String get bestScoreLabel =>
+      records.isEmpty ? '-' : '$bestScore/$totalQuestionsBaseline';
+  String get averageTimeLabel {
+    if (records.isEmpty) return '-';
+    final avg =
+        records.fold<int>(0, (sum, e) => sum + e.durationSeconds) ~/
+        records.length;
+    return formatDuration(Duration(seconds: avg));
+  }
+}
+
+class SessionRecord {
+  SessionRecord({
+    required this.timestamp,
+    required this.score,
+    required this.totalQuestions,
+    required this.durationSeconds,
+  });
+  final DateTime timestamp;
+  final int score;
+  final int totalQuestions;
+  final int durationSeconds;
+
+  factory SessionRecord.fromJson(Map<String, dynamic> json) => SessionRecord(
+    timestamp: DateTime.parse(json['timestamp'] as String),
+    score: json['score'] as int,
+    totalQuestions: json['totalQuestions'] as int,
+    durationSeconds: json['durationSeconds'] as int,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'timestamp': timestamp.toIso8601String(),
+    'score': score,
+    'totalQuestions': totalQuestions,
+    'durationSeconds': durationSeconds,
+  };
+
+  String get friendlyDate {
+    final d = timestamp;
+    return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')} ${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+  }
 }
 
 String optionLetter(int index) => String.fromCharCode(65 + index);
@@ -1354,7 +1628,7 @@ String formatDuration(Duration duration) {
   return '$hours:$minutes:$seconds';
 }
 
-BoxDecoration _cardDecoration() => BoxDecoration(
+final BoxDecoration softCard = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.circular(24),
   boxShadow: const [

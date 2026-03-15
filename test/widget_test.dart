@@ -12,7 +12,8 @@ void main() {
           rememberMe: true,
           loginError: null,
           onRememberChanged: (_) {},
-          onLogin: () {},
+          onLogin: () async {},
+          stats: StatsStore.empty(),
         ),
       ),
     );
