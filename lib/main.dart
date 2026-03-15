@@ -16,7 +16,7 @@ class EvaluaTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const seed = Color(0xFFFF385C);
+    const seed = Color(0xFF3B82F6);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -299,9 +299,9 @@ class SplashLoadingScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(Icons.home_work_outlined, size: 44, color: Color(0xFFFF385C)),
+            Icon(Icons.home_work_outlined, size: 44, color: Color(0xFF3B82F6)),
             SizedBox(height: 16),
-            CircularProgressIndicator(color: Color(0xFFFF385C)),
+            CircularProgressIndicator(color: Color(0xFF3B82F6)),
             SizedBox(height: 16),
             Text('Préparation de l’expérience…'),
           ],
@@ -406,12 +406,12 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF1F2),
+                        color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
                         loginError!,
-                        style: const TextStyle(color: Color(0xFFB42318)),
+                        style: const TextStyle(color: Color(0xFF1D4ED8)),
                       ),
                     ),
                   ],
@@ -419,7 +419,7 @@ class LoginScreen extends StatelessWidget {
                   FilledButton(
                     onPressed: onLogin,
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF385C),
+                      backgroundColor: const Color(0xFF3B82F6),
                       minimumSize: const Size.fromHeight(56),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
@@ -488,8 +488,8 @@ class DashboardScreen extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 22,
-                backgroundColor: Color(0xFFFFF1F2),
-                child: Icon(Icons.school_outlined, color: Color(0xFFFF385C)),
+                backgroundColor: Color(0xFFEFF6FF),
+                child: Icon(Icons.school_outlined, color: Color(0xFF3B82F6)),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -675,7 +675,7 @@ class ExamScreen extends StatelessWidget {
                       minHeight: 9,
                       backgroundColor: const Color(0xFFEBEBEB),
                       valueColor: const AlwaysStoppedAnimation(
-                        Color(0xFFFF385C),
+                        Color(0xFF3B82F6),
                       ),
                     ),
                   ),
@@ -699,14 +699,14 @@ class ExamScreen extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: active
-                                      ? const Color(0xFFFF385C)
+                                      ? const Color(0xFF3B82F6)
                                       : answered
-                                      ? const Color(0xFFFFF1F2)
+                                      ? const Color(0xFFEFF6FF)
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(999),
                                   border: Border.all(
                                     color: active
-                                        ? const Color(0xFFFF385C)
+                                        ? const Color(0xFF3B82F6)
                                         : const Color(0xFFEBEBEB),
                                   ),
                                 ),
@@ -803,7 +803,7 @@ class ExamScreen extends StatelessWidget {
                                   ? onSubmit
                                   : () => onGoToPage(index + 1),
                               style: FilledButton.styleFrom(
-                                backgroundColor: const Color(0xFFFF385C),
+                                backgroundColor: const Color(0xFF3B82F6),
                                 minimumSize: const Size.fromHeight(52),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18),
@@ -949,8 +949,8 @@ class ResultsScreen extends StatelessWidget {
                       Icon(
                         ok ? Icons.check_circle : Icons.cancel,
                         color: ok
-                            ? const Color(0xFF1A7F37)
-                            : const Color(0xFFD92D20),
+                            ? const Color(0xFF1D4ED8)
+                            : const Color(0xFF2563EB),
                       ),
                     ],
                   ),
@@ -971,7 +971,7 @@ class ResultsScreen extends StatelessWidget {
                   Text(
                     'Bonne réponse : ${q.choices[q.correctIndex]}',
                     style: const TextStyle(
-                      color: Color(0xFF1A7F37),
+                      color: Color(0xFF1D4ED8),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -983,7 +983,7 @@ class ResultsScreen extends StatelessWidget {
           FilledButton(
             onPressed: onRestart,
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFFF385C),
+              backgroundColor: const Color(0xFF3B82F6),
               minimumSize: const Size.fromHeight(54),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
@@ -1042,10 +1042,10 @@ class SearchPill extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: const BoxDecoration(
-              color: Color(0xFFFFF1F2),
+              color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: const Color(0xFFFF385C)),
+            child: Icon(icon, color: const Color(0xFF3B82F6)),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1070,7 +1070,7 @@ class SearchPill extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: const BoxDecoration(
-              color: Color(0xFFFF385C),
+              color: Color(0xFF3B82F6),
               shape: BoxShape.circle,
             ),
             child: Text(
@@ -1166,7 +1166,7 @@ class DashboardCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: const Color(0xFFFF385C)),
+          Icon(icon, color: const Color(0xFF3B82F6)),
           const Spacer(),
           Text(
             value,
@@ -1197,7 +1197,7 @@ class BottomNavChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? const Color(0xFFFF385C) : const Color(0xFF6A6A6A);
+    final color = active ? const Color(0xFF3B82F6) : const Color(0xFF6A6A6A);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -1225,13 +1225,13 @@ class PremiumPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF1F2),
+        color: const Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
         label,
         style: const TextStyle(
-          color: Color(0xFFFF385C),
+          color: Color(0xFF3B82F6),
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -1261,13 +1261,13 @@ class HistoryCard extends StatelessWidget {
             height: 52,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-              color: Color(0xFFFFF1F2),
+              color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
             child: Text(
               '$percent%',
               style: const TextStyle(
-                color: Color(0xFFFF385C),
+                color: Color(0xFF3B82F6),
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -1388,7 +1388,7 @@ class ChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? const Color(0xFFFFF1F2) : Colors.white,
+      color: selected ? const Color(0xFFEFF6FF) : Colors.white,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
@@ -1399,7 +1399,7 @@ class ChoiceTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: selected
-                  ? const Color(0xFFFF385C)
+                  ? const Color(0xFF3B82F6)
                   : const Color(0xFFEBEBEB),
               width: selected ? 1.5 : 1,
             ),
@@ -1413,7 +1413,7 @@ class ChoiceTile extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: selected
-                      ? const Color(0xFFFF385C)
+                      ? const Color(0xFF3B82F6)
                       : const Color(0xFFF7F7F7),
                   shape: BoxShape.circle,
                 ),
@@ -1451,7 +1451,7 @@ class TimerChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.timer_outlined, color: Color(0xFFFF385C), size: 18),
+          const Icon(Icons.timer_outlined, color: Color(0xFF3B82F6), size: 18),
           const SizedBox(width: 8),
           Text(
             value,
